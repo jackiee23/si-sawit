@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -23,6 +24,12 @@ class DatabaseSeeder extends Seeder
         \App\Models\Sale::factory(10)->create();
         \App\Models\Fuel::factory(10)->create();
         \App\Models\Repair::factory(10)->create();
+
+        User::create([
+            'name' => 'Jack Ramadhan',
+            'email' =>'admin@gmail.com',
+            'password' => bcrypt('12345')
+        ]);
 
     }
 }
