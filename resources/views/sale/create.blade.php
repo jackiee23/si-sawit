@@ -54,6 +54,21 @@
                         <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
+                        <label for="car_id" class="form-label">Nama Mobil</label>
+                        <select class="form-select form-control selectpicker" data-live-search="true" name="car_id" id="car_id">
+                            <option value="" selected>Pilih nama mobil</option>
+                            @foreach ($car as $car)
+                            <option value="{{$car->id}}" {{old('car_id') == $car->id ? 'selected' : ''}} >{{$car->nama}}</option>
+                            @endforeach
+                        </select>
+                        @error('car_id')
+                            <div class="invalid-feedback">
+                                Tidak boleh di kosongkan.
+                            </div>
+                        @enderror
+                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
+                    </div>
+                    <div class="mb-3">
                         <label for="harga_pabrik" class="form-label">Harga Pabrik</label>
                         <input type="text" class="form-control @error('harga_pabrik') is-invalid @enderror" id="harga"
                             name="harga_pabrik" value="{{ old('harga_pabrik') }} " >
