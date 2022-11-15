@@ -16,14 +16,12 @@ class PurchaseFactory extends Factory
     {
         $harga = $this->faker->randomNumber(6);
         $jumlah = $this->faker->randomNumber(3);
-        $total = $jumlah * $harga;
 
         return [
             'farmer_id'=>mt_rand(1,10),
             'tgl_beli'=>$this->faker->date(),
             'jumlah_sawit'=>$jumlah,
             'harga'=>$harga,
-            'harga_total' => $total,
             'worker_id'=>mt_rand(1,10),
             'car_id' => mt_rand(1, 10),
             'trip' => $this->faker->bothify('# Kali'),

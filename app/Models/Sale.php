@@ -14,4 +14,9 @@ class Sale extends Model
     public function worker(){
         return $this->belongsTo(Worker::class);
     }
+
+    public function car()
+    {
+        return $this->belongsTo(Car::class);
+    }
 }

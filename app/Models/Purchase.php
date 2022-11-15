@@ -17,4 +17,9 @@ class Purchase extends Model
     public function farmer(){
         return $this->belongsTo(Farmer::class);
     }
+
+    public function car()
+    {
+        return $this->belongsTo(Car::class);
+    }
 }

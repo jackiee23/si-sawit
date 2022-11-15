@@ -72,7 +72,33 @@
                             <option value="{{$worker->id}}" {{old('worker_id') == $worker->id ? 'selected' : ''}} >{{$worker->nama}}</option>
                             @endforeach
                         </select>
-                        @error('worker')
+                        @error('worker_id')
+                            <div class="invalid-feedback">
+                                Tidak boleh di kosongkan.
+                            </div>
+                        @enderror
+                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
+                    </div>
+                    <div class="mb-3">
+                        <label for="car_id" class="form-label">Nama Kendaraan</label>
+                        <select class="form-select form-control selectpicker" data-live-search="true" name="car_id" id="car_id">
+                            <option value="{{$purchase->car_id}} " selected>{{$purchase->car->nama_kendaraan}} </option>
+                            @foreach ($car as $car)
+                            <option value="{{$car->id}}" {{old('car_id') == $car->id ? 'selected' : ''}} >{{$car->nama_kendaraan}}</option>
+                            @endforeach
+                        </select>
+                        @error('car_id')
+                            <div class="invalid-feedback">
+                                Tidak boleh di kosongkan.
+                            </div>
+                        @enderror
+                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
+                    </div>
+                    <div class="mb-3">
+                        <label for="trip" class="form-label">Jumlah Trip</label>
+                        <input type="text" class="form-control @error('trip') is-invalid @enderror" id="trip"
+                            name="trip" value="{{ old('trip', $purchase->trip) }} ">
+                        @error('trip')
                             <div class="invalid-feedback">
                                 Tidak boleh di kosongkan.
                             </div>

@@ -35,7 +35,7 @@
                             <option value="{{$worker->id}}" {{old('worker_id') == $worker->id ? 'selected' : ''}} >{{$worker->nama}}</option>
                             @endforeach
                         </select>
-                        @error('worker')
+                        @error('worker_id')
                             <div class="invalid-feedback">
                                 Tidak boleh di kosongkan.
                             </div>
@@ -46,7 +46,7 @@
                         <label for="jumlah" class="form-label">Jumlah Sawit</label>
                         <input type="text" class="form-control @error('jumlah') is-invalid @enderror"
                             id="jumlah" name="jumlah" value="{{ old('jumlah', $sale->jumlah) }} "
-                            placeholder="Masukkan Jumlah Sawit">
+                            >
                         @error('jumlah')
                             <div class="invalid-feedback">
                                 Tidak boleh di kosongkan.
@@ -57,7 +57,7 @@
                     <div class="mb-3">
                         <label for="harga_pabrik" class="form-label">Harga Pabrik</label>
                         <input type="text" class="form-control @error('harga_pabrik') is-invalid @enderror" id="harga"
-                            name="harga_pabrik" value="{{ old('harga_pabrik', $sale->harga_pabrik) }} " placeholder="Masukkan Harga Pabrik">
+                            name="harga_pabrik" value="{{ old('harga_pabrik', $sale->harga_pabrik) }} " >
                         @error('harga_pabrik')
                             <div class="invalid-feedback">
                                 Tidak boleh di kosongkan.
@@ -65,7 +65,32 @@
                         @enderror
                         <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
-
+                    <div class="mb-3">
+                        <label for="car_id" class="form-label">Nama Kendaraan</label>
+                        <select class="form-select form-control selectpicker" data-live-search="true" name="car_id" id="car_id">
+                            <option value="{{$sale->car_id}} " selected>{{$sale->car->nama_kendaraan}}</option>
+                            @foreach ($car as $car)
+                            <option value="{{$car->id}}" {{old('car_id') == $car->id ? 'selected' : ''}} >{{$car->nama_kendaraan}}</option>
+                            @endforeach
+                        </select>
+                        @error('car_id')
+                            <div class="invalid-feedback">
+                                Tidak boleh di kosongkan.
+                            </div>
+                        @enderror
+                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
+                    </div>
+                    <div class="mb-3">
+                        <label for="pabrik" class="form-label">Nama Pabrik</label>
+                        <input type="text" class="form-control @error('pabrik') is-invalid @enderror" id="pabrik"
+                            name="pabrik" value="{{ old('pabrik', $sale->pabrik) }} " >
+                        @error('pabrik')
+                            <div class="invalid-feedback">
+                                Tidak boleh di kosongkan.
+                            </div>
+                        @enderror
+                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
+                    </div>
                     <div class="mb-3">
                         <label for="keterangan" class="form-label">Keterangan</label>
                         <input type="text" class="form-control @error('keterangan') is-invalid @enderror" id="keterangan"

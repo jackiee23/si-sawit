@@ -29,6 +29,8 @@
                                 <th>Harga Pabrik</th>
                                 <th>Omset Penjualan</th>
                                 <th>Nama Pekerja</th>
+                                <th>Nama Kendaraan</th>
+                                <th>Nama Pabrik</th>
                                 <th>Keterangan</th>
                                 <th>Opsi</th>
                             </tr>
@@ -40,8 +42,10 @@
                                 <td> {{$sale->tgl_jual}} </td>
                                 <td> {{$sale->jumlah}} </td>
                                 <td> Rp.{{number_format($sale->harga_pabrik,2,',','.')}} </td>
-                                <td> Rp.{{number_format($sale->jumlah*$sale->harga_pabrik,2,',','.')}} </td>
+                                <td> Rp.{{number_format($sale->harga_total,2,',','.')}} </td>
                                 <td> {{$sale->worker->nama}} </td>
+                                <td> {{$sale->car->nama_kendaraan}} </td>
+                                <td> {{$sale->pabrik}} </td>
                                 <td> {{$sale->keterangan}} </td>
                                 <td class="text-center">
                                     <a href="/sale/{{$sale->id}}/edit/"><i class="fas fa-edit text-success"></i></a>

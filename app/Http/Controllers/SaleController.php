@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Car;
 use App\Models\Sale;
 use App\Models\Worker;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class SaleController extends Controller
 
         return view('sale.index', [
             'title' => 'Penjualan',
-            'sale' => $sale
+            'sale' => $sale,
         ]);
     }
 
@@ -31,10 +32,12 @@ class SaleController extends Controller
     public function create()
     {
         $worker = Worker::all();
+        $car = Car::all();
 
         return view('sale.create', [
             'title' => 'Penjualan',
-            'worker' => $worker
+            'worker' => $worker,
+            'car' => $car,
         ]);
     }
 
@@ -51,10 +54,21 @@ class SaleController extends Controller
             'jumlah' => 'required',
             'harga_pabrik' => 'required',
             'worker_id' => 'required',
+            'car_id' => 'required',
+            'pabrik' => 'required',
             'keterangan' => 'required'
         ]);
 
-        Sale::create($request->all());
+        Sale::create([
+                    'tgl_jual' => $request->tgl_jual,
+                    'jumlah' => $request->jumlah,
+                    'harga_pabrik' => $request->harga_pabrik,
+                    'harga_total' => $request->harga_pabrik*$request->jumlah,
+                    'worker_id' => $request->worker_id,
+                    'car_id' => $request->car_id,
+                    'pabrik' => $request->pabrik,
+                    'keterangan' => $request->keterangan
+        ]);
         return redirect('/sale')->with('status', 'New data has been added');
     }
 
@@ -78,11 +92,13 @@ class SaleController extends Controller
     public function edit(Sale $sale)
     {
         $worker = Worker::all();
+        $car = Car::all();
 
         return view('sale.edit', [
             'title' => 'Penjualan',
             'sale' => $sale,
-            'worker' => $worker
+            'worker' => $worker,
+            'car' => $car
         ]);
     }
 
@@ -100,6 +116,8 @@ class SaleController extends Controller
             'jumlah' => 'required',
             'harga_pabrik' => 'required',
             'worker_id' => 'required',
+            'car_id' => 'required',
+            'pabrik' => 'required',
             'keterangan' => 'required'
         ]);
 
@@ -108,7 +126,10 @@ class SaleController extends Controller
                     'tgl_jual' => $request->tgl_jual,
                     'jumlah' => $request->jumlah,
                     'harga_pabrik' => $request->harga_pabrik,
+                    'harga_total' => $request->harga_pabrik*$request->jumlah,
                     'worker_id' => $request->worker_id,
+                    'car_id' => $request->car_id,
+                    'pabrik' => $request->pabrik,
                     'keterangan' => $request->keterangan
                 ]);
 

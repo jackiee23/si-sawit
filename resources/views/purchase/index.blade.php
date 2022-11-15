@@ -29,6 +29,8 @@
                                 <th>Jumlah Sawit(Kg)</th>
                                 <th>Harga</th>
                                 <th>Nama Pekerja</th>
+                                <th>Nama Kendaraan</th>
+                                <th>Jumlah Trip</th>
                                 <th>Keterangan</th>
                                 <th>Opsi</th>
                             </tr>
@@ -42,6 +44,8 @@
                                 <td> {{$purchase->jumlah_sawit}} </td>
                                 <td> Rp.{{number_format($purchase->harga,2,',','.')}} </td>
                                 <td> {{$purchase->worker->nama}}</td>
+                                <td> {{$purchase->car->nama_kendaraan}}</td>
+                                <td> {{$purchase->trip}}</td>
                                 <td> {{$purchase->keterangan}} </td>
                                 <td class="text-center">
                                     <a href="/purchase/{{$purchase->id}}/edit/"><i class="fas fa-edit text-success"></i></a>

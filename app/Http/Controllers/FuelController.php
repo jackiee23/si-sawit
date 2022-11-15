@@ -53,7 +53,14 @@ class FuelController extends Controller
             'keterangan' => 'required'
         ]);
 
-        Fuel::create($request->all());
+        Fuel::create([
+            'tgl_pengisian' => $request->tgl_pengisian,
+            'car_id' => $request->car_id,
+            'jumlah_liter' => $request->jumlah_liter,
+            'harga' => $request->harga,
+            'harga_total' => $request->harga * $request->jumlah_liter,
+            'keterangan' => $request->keterangan
+        ]);
         return redirect('/fuel')->with('status', 'New data has been added.');
     }
 
@@ -107,6 +114,7 @@ class FuelController extends Controller
             'car_id' => $request->car_id,
             'jumlah_liter' => $request->jumlah_liter,
             'harga' => $request->harga,
+            'harga_total' => $request->harga * $request->jumlah_liter,
             'keterangan' => $request->keterangan
                 ]);
 

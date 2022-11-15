@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Farmer;
 use App\Models\Purchase;
 use App\Models\Worker;
+use App\Models\Car;
 use Illuminate\Http\Request;
 
 class PurchaseController extends Controller
@@ -33,11 +34,13 @@ class PurchaseController extends Controller
     {
         $farmer = Farmer::all();
         $worker = Worker::all();
+        $car = Car::all();
 
         return view('purchase.create', [
             'title'=>'Pembelian',
             'farmers'=>$farmer,
-            'workers'=>$worker
+            'workers'=>$worker,
+            'car' => $car
         ]);
     }
 
@@ -55,6 +58,8 @@ class PurchaseController extends Controller
             'jumlah_sawit' => 'required',
             'harga' => 'required',
             'worker_id' => 'required',
+            'car_id' => 'required',
+            'trip' => 'required',
             'keterangan' => 'required'
         ]);
 
@@ -83,12 +88,15 @@ class PurchaseController extends Controller
     {
         $farmer = Farmer::all();
         $worker = Worker::all();
+        $car = Car::all();
 
         return view('purchase.edit', [
             'title' => 'Pembelian',
             'purchase' => $purchase,
             'farmers' => $farmer,
-            'workers'=> $worker
+            'workers'=> $worker,
+            'car' => $car
+
         ]);
     }
 
@@ -107,6 +115,8 @@ class PurchaseController extends Controller
             'jumlah_sawit' => 'required',
             'harga' => 'required',
             'worker_id' => 'required',
+            'car_id' => 'required',
+            'trip' => 'required',
             'keterangan' => 'required'
         ]);
 
@@ -117,6 +127,8 @@ class PurchaseController extends Controller
             'jumlah_sawit' => $request->jumlah_sawit,
             'harga' => $request->harga,
             'worker_id' => $request->worker_id,
+            'car_id' => $request->car_id,
+            'trip' => $request->trip,
             'keterangan' => $request->keterangan
                 ]);
 

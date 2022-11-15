@@ -80,6 +80,32 @@
                         <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
+                        <label for="car_id" class="form-label">Nama Kendaraan</label>
+                        <select class="form-select form-control selectpicker" data-live-search="true" name="car_id" id="car_id">
+                            <option value="" selected>Pilih nama kendaraan</option>
+                            @foreach ($car as $car)
+                            <option value="{{$car->id}}" {{old('car_id') == $car->id ? 'selected' : ''}} >{{$car->nama_kendaraan}}</option>
+                            @endforeach
+                        </select>
+                        @error('car_id')
+                            <div class="invalid-feedback">
+                                Tidak boleh di kosongkan.
+                            </div>
+                        @enderror
+                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
+                    </div>
+                    <div class="mb-3">
+                        <label for="trip" class="form-label">Jumlah Trip</label>
+                        <input type="text" class="form-control @error('trip') is-invalid @enderror" id="trip"
+                            name="trip" value="{{ old('trip') }} ">
+                        @error('trip')
+                            <div class="invalid-feedback">
+                                Tidak boleh di kosongkan.
+                            </div>
+                        @enderror
+                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
+                    </div>
+                    <div class="mb-3">
                         <label for="keterangan" class="form-label">Keterangan</label>
                         <input type="text" class="form-control @error('keterangan') is-invalid @enderror" id="keterangan"
                             name="keterangan" value="{{ old('keterangan') }} " >

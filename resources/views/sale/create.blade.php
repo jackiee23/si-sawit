@@ -34,7 +34,7 @@
                             <option value="{{$worker->id}}" {{old('worker_id') == $worker->id ? 'selected' : ''}} >{{$worker->nama}}</option>
                             @endforeach
                         </select>
-                        @error('worker')
+                        @error('worker_id')
                             <div class="invalid-feedback">
                                 Tidak boleh di kosongkan.
                             </div>
@@ -58,7 +58,7 @@
                         <select class="form-select form-control selectpicker" data-live-search="true" name="car_id" id="car_id">
                             <option value="" selected>Pilih nama mobil</option>
                             @foreach ($car as $car)
-                            <option value="{{$car->id}}" {{old('car_id') == $car->id ? 'selected' : ''}} >{{$car->nama}}</option>
+                            <option value="{{$car->id}}" {{old('car_id') == $car->id ? 'selected' : ''}} >{{$car->nama_kendaraan}}</option>
                             @endforeach
                         </select>
                         @error('car_id')
@@ -79,7 +79,17 @@
                         @enderror
                         <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
-
+                    <div class="mb-3">
+                        <label for="pabrik" class="form-label">Nama Pabrik</label>
+                        <input type="text" class="form-control @error('pabrik') is-invalid @enderror" id="pabrik"
+                            name="pabrik" value="{{ old('pabrik') }} " >
+                        @error('pabrik')
+                            <div class="invalid-feedback">
+                                Tidak boleh di kosongkan.
+                            </div>
+                        @enderror
+                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
+                    </div>
                     <div class="mb-3">
                         <label for="keterangan" class="form-label">Keterangan</label>
                         <input type="text" class="form-control @error('keterangan') is-invalid @enderror" id="keterangan"

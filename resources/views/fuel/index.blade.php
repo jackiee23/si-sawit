@@ -41,7 +41,7 @@
                                 <td> {{$fuel->car->merek}} </td>
                                 <td> {{$fuel->jumlah_liter}} </td>
                                 <td> Rp.{{number_format($fuel->harga,2,',','.')}}</td>
-                                <td> Rp.{{number_format($fuel->harga*$fuel->jumlah_liter,2,',','.')}}</td>
+                                <td> Rp.{{number_format($fuel->harga_total,2,',','.')}}</td>
                                 <td> {{$fuel->keterangan}} </td>
                                 <td class="text-center">
                                     <a href="/fuel/{{$fuel->id}}/edit/"><i class="fas fa-edit text-success"></i></a>
