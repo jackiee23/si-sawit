@@ -18,7 +18,7 @@ class SaleController extends Controller
     {
         $sale = Sale::all();
 
-        return view('sale.index', [
+        return view('dashboard.sale.index', [
             'title' => 'Penjualan',
             'sale' => $sale,
         ]);
@@ -34,7 +34,7 @@ class SaleController extends Controller
         $worker = Worker::all();
         $car = Car::all();
 
-        return view('sale.create', [
+        return view('dashboard.sale.create', [
             'title' => 'Penjualan',
             'worker' => $worker,
             'car' => $car,
@@ -94,7 +94,7 @@ class SaleController extends Controller
         $worker = Worker::all();
         $car = Car::all();
 
-        return view('sale.edit', [
+        return view('dashboard.sale.edit', [
             'title' => 'Penjualan',
             'sale' => $sale,
             'worker' => $worker,

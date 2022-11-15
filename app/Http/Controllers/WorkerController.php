@@ -16,7 +16,7 @@ class WorkerController extends Controller
     {
         $worker = Worker::all();
 
-        return view('worker.index', [
+        return view('dashboard.worker.index', [
             'worker' => $worker,
             'title' => 'Pekerja'
         ]);
@@ -29,7 +29,7 @@ class WorkerController extends Controller
      */
     public function create()
     {
-        return view('worker.create', [
+        return view('dashboard.worker.create', [
             'title' => 'Pekerja'
         ]);
     }
@@ -73,7 +73,7 @@ class WorkerController extends Controller
      */
     public function edit(Worker $worker)
     {
-        return view('worker.edit', [
+        return view('dashboard.worker.edit', [
             'worker' => $worker,
             'title' => 'Pekerja'
         ]);

@@ -15,7 +15,7 @@ class FarmerController extends Controller
     public function index()
     {
         $farmer = Farmer::all();
-        return view('farmer.index', [
+        return view('dashboard.farmer.index', [
             "petani" => $farmer,
             "title" => "Petani"
         ]);
@@ -28,7 +28,7 @@ class FarmerController extends Controller
      */
     public function create()
     {
-        return view('farmer.create', [
+        return view('dashboard.farmer.create', [
             "title" => "Petani"
         ]);
     }
@@ -74,7 +74,7 @@ class FarmerController extends Controller
     public function edit(Farmer $farmer)
     {
         // return $farmer;
-            return view('farmer.edit',compact('farmer'), [
+            return view('dashboard.farmer.edit',compact('farmer'), [
             "title" => "Petani",
         ]);
     }

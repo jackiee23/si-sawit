@@ -19,7 +19,7 @@ class PurchaseController extends Controller
     {
         $purchase = Purchase::all();
 
-        return view('purchase.index', [
+        return view('dashboard.purchase.index', [
             'title'=>'Pembelian',
             'purchase'=>$purchase,
         ]);
@@ -36,7 +36,7 @@ class PurchaseController extends Controller
         $worker = Worker::all();
         $car = Car::all();
 
-        return view('purchase.create', [
+        return view('dashboard.purchase.create', [
             'title'=>'Pembelian',
             'farmers'=>$farmer,
             'workers'=>$worker,
@@ -90,7 +90,7 @@ class PurchaseController extends Controller
         $worker = Worker::all();
         $car = Car::all();
 
-        return view('purchase.edit', [
+        return view('dashboard.purchase.edit', [
             'title' => 'Pembelian',
             'purchase' => $purchase,
             'farmers' => $farmer,

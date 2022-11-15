@@ -17,7 +17,7 @@ class AdminController extends Controller
     public function index()
     {
         $admin = admin::all();
-        return view('admin.index', [
+        return view('dashboard.admin.index', [
             'title' => 'Admin',
             'admin' => $admin,
         ]);
@@ -30,7 +30,7 @@ class AdminController extends Controller
      */
     public function create()
     {
-        return view('admin.create', [
+        return view('dashboard.admin.create', [
             'title' => 'Admin'
         ]);
     }
@@ -73,7 +73,7 @@ class AdminController extends Controller
      */
     public function edit(Admin $admin)
     {
-        return view('admin.edit', [
+        return view('dashboard.admin.edit', [
             'title' => 'Admin',
             'admin' => $admin
         ]);

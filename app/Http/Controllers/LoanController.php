@@ -16,7 +16,7 @@ class LoanController extends Controller
     {
         $loan = Loan::all();
 
-        return view('loan.index', [
+        return view('dashboard.loan.index', [
             'loan' => $loan,
             'title' => 'Pinjaman'
         ]);
@@ -29,7 +29,7 @@ class LoanController extends Controller
      */
     public function create()
     {
-        return view('loan.create', [
+        return view('dashboard.loan.create', [
             'title' => 'Pinjaman'
         ]);
     }
@@ -73,7 +73,7 @@ class LoanController extends Controller
      */
     public function edit(Loan $loan)
     {
-        return view('loan.edit',[
+        return view('dashboard.loan.edit',[
             'loan'=>$loan,
             'title' => 'Pinjaman'
         ]);

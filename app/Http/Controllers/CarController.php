@@ -16,7 +16,7 @@ class CarController extends Controller
     {
         $car = Car::all();
 
-        return view('car.index',[
+        return view('dashboard.car.index',[
             'car' => $car,
             'title' => 'Kendaraan'
         ]);
@@ -29,7 +29,7 @@ class CarController extends Controller
      */
     public function create()
     {
-        return view('car.create', [
+        return view('dashboard.car.create', [
             'title' => 'Kendaraan'
         ]);
     }
@@ -72,7 +72,7 @@ class CarController extends Controller
      */
     public function edit(Car $car)
     {
-        return view('car.edit', [
+        return view('dashboard.car.edit', [
             'car' => $car,
             'title' => 'Kendaraan'
         ]);

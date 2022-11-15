@@ -18,7 +18,7 @@ class RepairController extends Controller
     public function index()
     {
         $repair = Repair::all();
-        return view('repair.index', [
+        return view('dashboard.repair.index', [
             'title' => 'Perbaikan',
             'repair' => $repair
         ]);
@@ -33,7 +33,7 @@ class RepairController extends Controller
     {
         $car = Car::all();
 
-        return view('repair.create', [
+        return view('dashboard.repair.create', [
             'title' => 'Perbaikan',
             'car' => $car
         ]);
@@ -79,7 +79,7 @@ class RepairController extends Controller
     public function edit(Repair $repair)
     {
         $car = Car::all();
-        return view('repair.edit', [
+        return view('dashboard.repair.edit', [
             'title' => 'Perbaikan',
             'car' => $car,
             'repair' => $repair

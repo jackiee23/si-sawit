@@ -17,7 +17,7 @@ class FuelController extends Controller
     {
         $fuel = Fuel::all();
 
-        return view('fuel.index', [
+        return view('dashboard.fuel.index', [
             'title' => 'Bahan Bakar',
             'fuel' => $fuel
         ]);
@@ -31,7 +31,7 @@ class FuelController extends Controller
     public function create()
     {
         $car = Car::all();
-        return view('fuel.create', [
+        return view('dashboard.fuel.create', [
             'title' => 'Bahan Bakar',
             'car' => $car
         ]);
@@ -84,7 +84,7 @@ class FuelController extends Controller
     public function edit(Fuel $fuel)
     {
         $car = Car::all();
-        return view('fuel.edit', [
+        return view('dashboard.fuel.edit', [
             'title' => 'Bahan Bakar',
             'fuel' => $fuel,
             'car' => $car
