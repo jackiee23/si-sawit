@@ -7,6 +7,7 @@ use App\Http\Controllers\LoanController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FarmerController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\RepairController;
 use App\Http\Controllers\WorkerController;
 use App\Http\Controllers\PurchaseController;
@@ -22,11 +23,7 @@ use App\Http\Controllers\PurchaseController;
 |
 */
 
-Route::get('/', function () {
-    return view('dashboard',[
-        "title" => "Dashboard"
-    ]);
-});
+Route::get('/', [PageController::class, 'index']);
 
 //farmers
 // Route::get('/petani', [FarmerController::class, 'index']);
