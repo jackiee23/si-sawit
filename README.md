@@ -1,5 +1,4 @@
-<p align="center"><a href="#" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
-
+<p align="center"><a href="#" target="_blank"><img src="https://user-images.githubusercontent.com/72617038/201920210-b9526346-f6f3-4828-92d9-fbc01c972da4.png" width="200"></a></p>
 
 ## TENTANG SI-SAWIT
 
