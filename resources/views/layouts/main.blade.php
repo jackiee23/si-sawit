@@ -25,14 +25,22 @@
 
     @yield('container')
 
+    <!-- Sweet Alert -->
+    <script src="{{asset('sweetalert/sweetalert2.all.min.js')}}"></script>
+    <script src="{{asset('sweetalert/myscript.js')}}"></script>
+
     <!-- Bootstrap core JavaScript-->
     <script src="{{asset('template/vendor/jquery/jquery.min.js')}}"></script>
     {{-- <script src="{{asset('template/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script> --}}
+
 
     <!-- Core plugin JavaScript-->
     {{-- <script src="{{asset('template/vendor/jquery-easing/jquery.easing.min.js')}}"></script> --}}
 
     <script src="{{asset('login/js/popper.js')}}"></script>
     <script src="{{asset('login/js/main.js')}}"></script>
+
+
+
 </body>
 </html>

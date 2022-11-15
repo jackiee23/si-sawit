@@ -4,9 +4,15 @@
     <div class="container-fluid">
         <section class="ftco-section">
             <div class="container">
+                @if (session('status'))
+                    <div class="flash-data" data-flashdata="{{ session('status') }} "></div>
+                    {{-- <div class="alert alert-success">
+                    {{ session('status') }} --}}
+                    </div>
+                @endif
                 <div class="row justify-content-center">
                     <div class="col-md-6 text-center mb-5">
-                        <h1 class="heading-section">{{$ucapan}}</h1>
+                        <h1 class="heading-section">{{ $ucapan }}</h1>
                     </div>
                 </div>
                 <div class="row justify-content-center">
@@ -16,11 +22,12 @@
                             <form action="/" method="post" class="signin-form">
                                 @csrf
                                 <div class="form-group">
-                                    <input type="text" name="email" class="form-control" placeholder="Email adress" required />
+                                    <input type="text" name="email" class="form-control" placeholder="Email adress"
+                                        required />
                                 </div>
                                 <div class="form-group">
-                                    <input id="password-field" name="password" type="password" class="form-control" placeholder="Password"
-                                        required />
+                                    <input id="password-field" name="password" type="password" class="form-control"
+                                        placeholder="Password" required />
                                     <span toggle="#password-field"
                                         class="fa fa-fw fa-eye field-icon toggle-password"></span>
                                 </div>

@@ -41,7 +41,7 @@ class PageController extends Controller
             return redirect()->intended('/dashboard');
         }
 
-        return back()->with('error', 'Login failed!');
+        return back()->with('status', 'Login failed!');
 
     }
 }

@@ -18,6 +18,36 @@ if (flashData) {
     });
 }
 
+const failedData = $(".failed-data").data("failedData");
+if (failedData) {
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+    });
+
+    Toast.fire({
+        icon: "error",
+        title: failedData,
+    });
+}
+
+const successData = $(".success-data").data("success");
+if (successData) {
+    Swal.fire(
+  'Login confirmed!',
+  successData,
+  'success'
+);
+
+}
+
 //tombol-hapus
 // var form = document.getElementById('formHapus')
 
