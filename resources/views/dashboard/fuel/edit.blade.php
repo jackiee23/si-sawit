@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('dashboard.layouts.main')
 
 @section('container')
     <!-- Begin Page Content -->
@@ -13,7 +13,7 @@
                 <button class="btn btn-info">Tambah Data</button>
             </div> --}}
             <div class="card-body">
-                <form method="POST" action="/fuel/{{$fuel->id}} ">
+                <form method="POST" action="/dashboard/fuel/{{$fuel->id}} ">
                     @method('patch')
                     @csrf
                     <div class="mb-3">

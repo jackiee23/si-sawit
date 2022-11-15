@@ -64,7 +64,7 @@ class PurchaseController extends Controller
         ]);
 
         Purchase::create($request->all());
-        return redirect('purchase')->with('status', 'New purchase has been added.');
+        return redirect('/dashboard/purchase')->with('status', 'New purchase has been added.');
     }
 
     /**
@@ -132,7 +132,7 @@ class PurchaseController extends Controller
             'keterangan' => $request->keterangan
                 ]);
 
-        return redirect('/purchase')->with('status', 'Purchased data has been updated.');
+        return redirect('/dashboard/purchase')->with('status', 'Purchased data has been updated.');
     }
 
     /**
@@ -144,6 +144,6 @@ class PurchaseController extends Controller
     public function destroy(Purchase $purchase)
     {
         Purchase::destroy($purchase->id);
-        return redirect('/purchase')->with('status', 'Purchase has been deleted.');
+        return redirect('/dashboard/purchase')->with('status', 'Purchase has been deleted.');
     }
 }

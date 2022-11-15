@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('dashboard.layouts.main')
 
 @section('container')
     <!-- Begin Page Content -->
@@ -16,7 +16,7 @@
             @endif
             <div class="card-header py-3">
                 {{-- <h6 class="m-0 font-weight-bold text-primary">Data admin</h6> --}}
-                <a href="/admin/create" class="btn btn-info">Tambah Data</a>
+                <a href="/dashboard/admin/create" class="btn btn-info">Tambah Data</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -38,8 +38,8 @@
                                 <td> {{$admin->no_wa}} </td>
                                 <td> {{$admin->jenis}} </td>
                                 <td class="text-center">
-                                    <a href="/admin/{{$admin->id}}/edit/"><i class="fas fa-edit text-success"></i></a>
-                                    <form id="formHapus" action="/admin/{{ $admin->id }} " method="post" class="d-inline">
+                                    <a href="/dashboard/admin/{{$admin->id}}/edit/"><i class="fas fa-edit text-success"></i></a>
+                                    <form id="formHapus" action="/dashboard/admin/{{ $admin->id }} " method="post" class="d-inline">
                                         @method('delete')
                                         @csrf
                                         <button class="fas fa-trash text-danger border-0 tombol-hapus"></button>

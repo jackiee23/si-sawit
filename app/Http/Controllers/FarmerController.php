@@ -51,7 +51,7 @@ class FarmerController extends Controller
         ]);
 
         Farmer::create($request->all());
-        return redirect('/farmer')->with('status', 'New farmer has been added.');
+        return redirect('/dashboard/farmer')->with('status', 'New farmer has been added.');
     }
 
     /**
@@ -106,7 +106,7 @@ class FarmerController extends Controller
                     'jarak' => $request->jarak,
                     'umur' => $request->umur,
                 ]);
-        return redirect('/farmer')->with('status', 'Farmer data has been updated.');
+        return redirect('/dashboard/farmer')->with('status', 'Farmer data has been updated.');
     }
 
     /**
@@ -118,6 +118,6 @@ class FarmerController extends Controller
     public function destroy(Farmer $farmer)
     {
         Farmer::destroy($farmer->id);
-        return redirect('/farmer')->with('status', 'Farmer has been deleted!!');
+        return redirect('/dashboard/farmer')->with('status', 'Farmer has been deleted!!');
     }
 }

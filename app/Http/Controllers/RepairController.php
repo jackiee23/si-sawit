@@ -56,7 +56,7 @@ class RepairController extends Controller
         ]);
 
         Repair::create($request->all());
-        return redirect('/repair')->with('status', 'New data has been added.');
+        return redirect('/dashboard/repair')->with('status', 'New data has been added.');
     }
 
     /**
@@ -112,7 +112,7 @@ class RepairController extends Controller
                     'keterangan' => $request->keterangan
                 ]);
 
-                return redirect('/repair')->with('status', 'Data has been updated.');
+                return redirect('/dashboard/repair')->with('status', 'Data has been updated.');
     }
 
     /**
@@ -124,6 +124,6 @@ class RepairController extends Controller
     public function destroy(Repair $repair)
     {
         Repair::destroy($repair->id);
-        return redirect('/repair')->with('status', 'Data has been deleted.');
+        return redirect('/dashboard/repair')->with('status', 'Data has been deleted.');
     }
 }

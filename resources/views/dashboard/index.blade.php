@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('dashboard.layouts.main')
 
 @section('container')
 <!-- Begin Page Content -->
@@ -324,7 +324,7 @@
 </div>
 
     <!-- Page level custom scripts -->
-    
+
     <script src="{{asset('template/js/demo/chart-area-demo.js')}}"></script>
     <script src="{{asset('template/js/demo/chart-pie-demo.js')}}"></script>
 

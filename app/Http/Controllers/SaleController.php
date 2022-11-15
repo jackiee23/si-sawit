@@ -69,7 +69,7 @@ class SaleController extends Controller
                     'pabrik' => $request->pabrik,
                     'keterangan' => $request->keterangan
         ]);
-        return redirect('/sale')->with('status', 'New data has been added');
+        return redirect('/dashboard/sale')->with('status', 'New data has been added');
     }
 
     /**
@@ -133,7 +133,7 @@ class SaleController extends Controller
                     'keterangan' => $request->keterangan
                 ]);
 
-        return redirect('/sale')->with('status', 'Data has been updated.');
+        return redirect('/dashboard/sale')->with('status', 'Data has been updated.');
 
     }
 
@@ -146,6 +146,6 @@ class SaleController extends Controller
     public function destroy(Sale $sale)
     {
         Sale::destroy($sale->id);
-        return redirect('/sale')->with('status', 'Data has been deleted.');
+        return redirect('/dashboard/sale')->with('status', 'Data has been deleted.');
     }
 }

@@ -51,7 +51,7 @@ class LoanController extends Controller
         ]);
 
         Loan::create($request->all());
-        return redirect('/loan')->with('status', 'New loan has been added');
+        return redirect('/dashboard/loan')->with('status', 'New loan has been added');
     }
 
     /**
@@ -104,7 +104,7 @@ class LoanController extends Controller
                     'nilai'=>$request->nilai,
                     'keterangan'=>$request->keterangan
                 ]);
-        return redirect('/loan')->with('status', 'Loan data has been updated.');
+        return redirect('/dashboard/loan')->with('status', 'Loan data has been updated.');
     }
 
     /**
@@ -116,6 +116,6 @@ class LoanController extends Controller
     public function destroy(Loan $loan)
     {
         Loan::destroy($loan->id);
-        return redirect('/loan')->with('status', 'Loan data has been deleted.');
+        return redirect('/dashboard/loan')->with('status', 'Loan data has been deleted.');
     }
 }

@@ -50,7 +50,7 @@ class CarController extends Controller
         ]);
 
         Car::create($request->all());
-        return redirect('/car')->with('status', 'New car has been added');
+        return redirect('/dashboard/car')->with('status', 'New car has been added');
     }
 
     /**
@@ -103,7 +103,7 @@ class CarController extends Controller
             'umur_kendaraan' => $request->umur_kendaraan
         ]);
 
-        return redirect('/car')->with('status', 'Car data has been updated.');
+        return redirect('/dashboard/car')->with('status', 'Car data has been updated.');
     }
 
     /**
@@ -115,6 +115,6 @@ class CarController extends Controller
     public function destroy(Car $car)
     {
         Car::destroy($car->id);
-        return redirect('/car')->with('status', 'Car data has been deleted!');
+        return redirect('/dashboard/car')->with('status', 'Car data has been deleted!');
     }
 }

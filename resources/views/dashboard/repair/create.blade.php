@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('dashboard.layouts.main')
 
 @section('container')
     <!-- Begin Page Content -->
@@ -13,7 +13,7 @@
                 <button class="btn btn-info">Tambah Data</button>
             </div> --}}
             <div class="card-body">
-                <form method="POST" action="/repair">
+                <form method="POST" action="/dashboard/repair">
                     @csrf
                     <div class="mb-3">
                         <label for="tgl_perbaikan" class="form-label">Tanggal Perbaikan</label>

@@ -61,7 +61,7 @@ class FuelController extends Controller
             'harga_total' => $request->harga * $request->jumlah_liter,
             'keterangan' => $request->keterangan
         ]);
-        return redirect('/fuel')->with('status', 'New data has been added.');
+        return redirect('/dashboard/fuel')->with('status', 'New data has been added.');
     }
 
     /**
@@ -118,7 +118,7 @@ class FuelController extends Controller
             'keterangan' => $request->keterangan
                 ]);
 
-        return redirect('/fuel')->with('status', 'Data has been updated.');
+        return redirect('/dashboard/fuel')->with('status', 'Data has been updated.');
     }
 
     /**
@@ -130,6 +130,6 @@ class FuelController extends Controller
     public function destroy(Fuel $fuel)
     {
         Fuel::destroy($fuel->id);
-        return redirect('/fuel')->with('status', 'Data has been deleted.');
+        return redirect('/dashboard/fuel')->with('status', 'Data has been deleted.');
     }
 }

@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('dashboard.layouts.main')
 
 @section('container')
     <!-- Begin Page Content -->
@@ -16,7 +16,7 @@
             @endif
             <div class="card-header py-3">
                 {{-- <h6 class="m-0 font-weight-bold text-primary">Data Petani</h6> --}}
-                <a href="/farmer/create" class="btn btn-info">Tambah Data</a>
+                <a href="/dashboard/farmer/create" class="btn btn-info">Tambah Data</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -44,9 +44,9 @@
                                     <td> {{ $ptn->jarak }} </td>
                                     <td> {{ $ptn->umur }} </td>
                                     <td class="text-center">
-                                        <a href="/farmer/{{ $ptn->id }}/edit/"><i
+                                        <a href="/dashboard/farmer/{{ $ptn->id }}/edit/"><i
                                                 class="fas fa-edit text-success"></i></a>
-                                        <form id="formHapus" action="/farmer/{{ $ptn->id }} " method="post" class="d-inline" >
+                                        <form id="formHapus" action="/dashboard/farmer/{{ $ptn->id }} " method="post" class="d-inline" >
                                             @method('delete')
                                             @csrf
                                             <button type="submit" class="fas fa-trash text-danger border-0 tombol-hapus"></button>

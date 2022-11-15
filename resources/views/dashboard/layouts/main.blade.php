@@ -37,7 +37,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
                 <div class="sidebar-brand-icon text-light rotate-15 ">
                     {{-- <i class="fas fa-laugh-wink"></i> --}}
                     <i class="fas fa-tree"></i>
@@ -50,7 +50,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item {{ ($title === "Dashboard" ? 'active' : '') }} ">
-                <a class="nav-link" href="/">
+                <a class="nav-link" href="/dashboard">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -67,10 +67,10 @@
                 <div id="collapseTwo" class="collapse {{$title === "Petani" || $title === "Kendaraan" || $title === "Pekerja" ||$title === "Admin" ? 'show' : ''}} " aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Dataku :</h6>
-                        <a class="collapse-item {{ ($title === "Admin" ? 'active' : '') }}" href="/admin">Admin</a>
-                        <a class="collapse-item {{ ($title === "Kendaraan" ? 'active' : '') }}" href="/car">Kendaraan</a>
-                        <a class="collapse-item {{ ($title === "Pekerja" ? 'active' : '') }}" href="/worker">Pekerja</a>
-                        <a class="collapse-item {{ ($title === "Petani" ? 'active' : '') }}" href="/farmer">Petani</a>
+                        <a class="collapse-item {{ ($title === "Admin" ? 'active' : '') }}" href="/dashboard/admin">Admin</a>
+                        <a class="collapse-item {{ ($title === "Kendaraan" ? 'active' : '') }}" href="/dashboard/car">Kendaraan</a>
+                        <a class="collapse-item {{ ($title === "Pekerja" ? 'active' : '') }}" href="/dashboard/worker">Pekerja</a>
+                        <a class="collapse-item {{ ($title === "Petani" ? 'active' : '') }}" href="/dashboard/farmer">Petani</a>
                     </div>
                 </div>
             </li>
@@ -79,7 +79,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item {{ ($title === "Laporan" ? 'active' : '') }}">
-                <a class="nav-link" href="/laporan">
+                <a class="nav-link" href="/dashboard/laporan">
                     <i class="fas fa-flag"></i>
                     <span>Laporan</span></a>
             </li>
@@ -96,11 +96,11 @@
                 <div id="collapseThree" class="collapse {{ ($title === "Pembelian" || $title === "Perbaikan" ||$title === "Penjualan" ||$title === "Bahan Bakar" ||$title === "Pinjaman" ? 'show' : '') }}" aria-labelledby="headingThree" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Transaksi :</h6>
-                        <a class="collapse-item {{ ($title === "Pembelian" ? 'active' : '') }}" href="/purchase">Pembelian</a>
-                        <a class="collapse-item {{ ($title === "Penjualan" ? 'active' : '') }}" href="/sale">Penjualan</a>
-                        <a class="collapse-item {{ ($title === "Bahan Bakar" ? 'active' : '') }}" href="/fuel">Bahan Bakar</a>
-                        <a class="collapse-item {{ ($title === "Perbaikan" ? 'active' : '') }}" href="/repair">Perbaikan</a>
-                        <a class="collapse-item {{ ($title === "Pinjaman" ? 'active' : '') }}" href="/loan">Pinjaman</a>
+                        <a class="collapse-item {{ ($title === "Pembelian" ? 'active' : '') }}" href="/dashboard/purchase">Pembelian</a>
+                        <a class="collapse-item {{ ($title === "Penjualan" ? 'active' : '') }}" href="/dashboard/sale">Penjualan</a>
+                        <a class="collapse-item {{ ($title === "Bahan Bakar" ? 'active' : '') }}" href="/dashboard/fuel">Bahan Bakar</a>
+                        <a class="collapse-item {{ ($title === "Perbaikan" ? 'active' : '') }}" href="/dashboard/repair">Perbaikan</a>
+                        <a class="collapse-item {{ ($title === "Pinjaman" ? 'active' : '') }}" href="/dashboard/loan">Pinjaman</a>
                     </div>
                 </div>
             </li>
@@ -109,7 +109,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item {{ ($title === "Ganti-Password" ? 'active' : '') }}">
-                <a class="nav-link" href="/ganti-password">
+                <a class="nav-link" href="/dashboard/ganti-password">
                     <i class="fas fa-unlock"></i>
                     <span>Ganti Password</span></a>
             </li>
@@ -118,7 +118,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="/logout">
+                <a class="nav-link" href="/dashboard/logout">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span></a>
             </li>

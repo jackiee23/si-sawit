@@ -51,7 +51,7 @@ class WorkerController extends Controller
         ]);
 
         Worker::create($request->all());
-        return redirect('/worker')->with('status', 'New worker has been added.');
+        return redirect('/dashboard/worker')->with('status', 'New worker has been added.');
     }
 
     /**
@@ -103,7 +103,7 @@ class WorkerController extends Controller
                     'jenis' => $request->jenis
                 ]);
 
-        return redirect('/worker')->with('status', 'Worker data has been updated.');
+        return redirect('/dashboard/worker')->with('status', 'Worker data has been updated.');
     }
 
     /**
@@ -115,6 +115,6 @@ class WorkerController extends Controller
     public function destroy(Worker $worker)
     {
         Worker::destroy($worker->id);
-        return redirect('/worker')->with('status', 'Worker has been deleted');
+        return redirect('/dashboard/worker')->with('status', 'Worker has been deleted');
     }
 }

@@ -51,7 +51,7 @@ class AdminController extends Controller
 
         Admin::create($request->all());
 
-        return redirect('/admin')->with('status', 'New admin has been added');
+        return redirect('/dashboard/admin')->with('status', 'New admin has been added');
     }
 
     /**
@@ -101,7 +101,7 @@ class AdminController extends Controller
                     'jenis'=>$request->jenis
                 ]);
 
-                return redirect('/admin')->with('status', 'Data admin has been updated.');
+                return redirect('/dashboard/admin')->with('status', 'Data admin has been updated.');
     }
 
     /**
@@ -113,6 +113,6 @@ class AdminController extends Controller
     public function destroy(Admin $admin)
     {
         Admin::destroy($admin->id);
-        return redirect('/admin')->with('status', 'Admin has been deleted!!');
+        return redirect('/dashboard/admin')->with('status', 'Admin has been deleted!!');
     }
 }

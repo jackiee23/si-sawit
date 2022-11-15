@@ -13,12 +13,13 @@
                     <div class="col-md-6 col-lg-4">
                         <div class="login-wrap p-0">
                             <h3 class="mb-4 text-center">Have an account?</h3>
-                            <form action="#" class="signin-form">
+                            <form action="/" method="post" class="signin-form">
+                                @csrf
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Username" required />
+                                    <input type="text" name="email" class="form-control" placeholder="Email adress" required />
                                 </div>
                                 <div class="form-group">
-                                    <input id="password-field" type="password" class="form-control" placeholder="Password"
+                                    <input id="password-field" name="password" type="password" class="form-control" placeholder="Password"
                                         required />
                                     <span toggle="#password-field"
                                         class="fa fa-fw fa-eye field-icon toggle-password"></span>
