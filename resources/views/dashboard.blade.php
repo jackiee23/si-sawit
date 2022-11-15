@@ -322,5 +322,11 @@
     </div>
 
 </div>
+
+    <!-- Page level custom scripts -->
+    
+    <script src="{{asset('template/js/demo/chart-area-demo.js')}}"></script>
+    <script src="{{asset('template/js/demo/chart-pie-demo.js')}}"></script>
+
 <!-- /.container-fluid -->
 @endsection

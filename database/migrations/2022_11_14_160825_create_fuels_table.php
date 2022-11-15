@@ -19,6 +19,7 @@ class CreateFuelsTable extends Migration
             $table->foreignId('car_id');
             $table->char('jumlah_liter');
             $table->char('harga');
+            $table->char('harga_total');
             $table->string('keterangan')->nullable();
             $table->timestamps();
         });

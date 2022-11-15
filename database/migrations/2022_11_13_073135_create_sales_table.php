@@ -18,7 +18,10 @@ class CreateSalesTable extends Migration
             $table->date('tgl_jual');
             $table->char('jumlah');
             $table->char('harga_pabrik');
+            $table->char('harga_total');
             $table->foreignId('worker_id');
+            $table->foreignId('car_id');
+            $table->string('pabrik')->nullable();
             $table->string('keterangan')->nullable();
             $table->timestamps();
         });

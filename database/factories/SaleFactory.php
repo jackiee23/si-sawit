@@ -12,11 +12,18 @@ class SaleFactory extends Factory
      */
     public function definition()
     {
+        $harga = $this->faker->randomNumber(3);
+        $jumlah = $this->faker->randomNumber(3);
+        $total = $harga * $jumlah;
+
         return [
             'tgl_jual' => $this->faker->date(),
-            'jumlah' => $this->faker->randomNumber(3),
-            'harga_pabrik' => $this->faker->randomNumber(3),
+            'jumlah' => $jumlah,
+            'harga_pabrik' => $harga,
+            'harga_total' => $total,
             'worker_id' => mt_rand(1,10),
+            'car_id' => mt_rand(1, 10),
+            'pabrik' => $this->faker->company(),
             'keterangan' => $this->faker->sentence()
         ];
     }
