@@ -55,6 +55,7 @@ class PurchaseController extends Controller
         $request->validate([
             'farmer_id' => 'required',
             'tgl_beli' => 'required',
+            'tgl_panen' => 'required',
             'jumlah_sawit' => 'required',
             'harga' => 'required',
             'worker_id' => 'required',
@@ -63,7 +64,28 @@ class PurchaseController extends Controller
             'keterangan' => 'required'
         ]);
 
-        Purchase::create($request->all());
+        $panen = $request->tgl_panen;
+        $beli = $request->tgl_beli;
+        $interval = date_diff($beli, $panen);
+
+        if($beli != $panen){
+            $telat = $interval->format("Telat %a hari");
+        } else {
+            $telat = "Tepat waktu";
+        }
+
+        Purchase::create([
+            'farmer_id' => $request->farmer_id,
+            'tgl_beli' => $beli,
+            'tgl_panen' => $panen,
+            'selisih' => $telat,
+            'jumlah_sawit' => $request->jumlah_sawit,
+            'harga' => $request->harga,
+            'worker_id' => $request->worker_id,
+            'car_id' => $request->car_id,
+            'trip' => $request->trip,
+            'keterangan' => $request->keterangan
+        ]);
         return redirect('/dashboard/purchase')->with('status', 'New purchase has been added.');
     }
 
@@ -112,6 +134,7 @@ class PurchaseController extends Controller
         $request->validate([
             'farmer_id' => 'required',
             'tgl_beli' => 'required',
+            'tgl_panen' => 'required',
             'jumlah_sawit' => 'required',
             'harga' => 'required',
             'worker_id' => 'required',
@@ -120,10 +143,21 @@ class PurchaseController extends Controller
             'keterangan' => 'required'
         ]);
 
+        $panen = date_create($request->tgl_panen);
+        $beli = date_create($request->tgl_beli);
+        $interval = $panen->diff($beli);
+
+        if ($beli != $panen) {
+            $telat = $interval->format('Telat %a hari');
+        } else {
+            $telat = "Tepat waktu";
+        }
         Purchase::where('id', $purchase->id)
                 ->update([
             'farmer_id' => $request->farmer_id,
-            'tgl_beli' => $request->tgl_beli,
+            'tgl_beli' => $beli,
+            'tgl_panen' => $panen,
+            'selisih' => $telat,
             'jumlah_sawit' => $request->jumlah_sawit,
             'harga' => $request->harga,
             'worker_id' => $request->worker_id,

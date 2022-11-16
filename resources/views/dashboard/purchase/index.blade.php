@@ -25,7 +25,9 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Petani</th>
-                                <th>Tanggal Beli</th>
+                                <th>Tanggal Panen</th>
+                                <th>Tanggal Pengambilan</th>
+                                <th>Ketepatan Waktu</th>
                                 <th>Jumlah Sawit(Kg)</th>
                                 <th>Harga</th>
                                 <th>Nama Pekerja</th>
@@ -40,7 +42,9 @@
                             <tr>
                                 <td> {{$loop->iteration}} </td>
                                 <td> {{$purchase->farmer->nama}} </td>
+                                <td> {{$purchase->tgl_panen}} </td>
                                 <td> {{$purchase->tgl_beli}} </td>
+                                <td> {{$purchase->selisih}} </td>
                                 <td> {{$purchase->jumlah_sawit}} </td>
                                 <td> Rp.{{number_format($purchase->harga,2,',','.')}} </td>
                                 <td> {{$purchase->worker->nama}}</td>

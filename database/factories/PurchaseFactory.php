@@ -20,6 +20,8 @@ class PurchaseFactory extends Factory
         return [
             'farmer_id'=>mt_rand(1,10),
             'tgl_beli'=> $this->faker->dateTimeThisYear(),
+            'tgl_panen' => $this->faker->dateTimeThisYear(),
+            'selisih' => $this->faker->bothify('Telat # Hari # Jam'),
             'jumlah_sawit'=>$jumlah,
             'harga'=>$harga,
             'worker_id'=>mt_rand(1,10),

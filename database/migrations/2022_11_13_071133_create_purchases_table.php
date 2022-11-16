@@ -17,6 +17,8 @@ class CreatePurchasesTable extends Migration
             $table->id();
             $table->foreignId('farmer_id');
             $table->date('tgl_beli');
+            $table->date('tgl_panen');
+            $table->string('selisih');
             $table->char('jumlah_sawit');
             $table->char('harga');
             $table->foreignId('worker_id');

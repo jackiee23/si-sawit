@@ -32,7 +32,18 @@
                         <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
-                        <label for="tgl_beli" class="form-label">Tanggal Pembelian</label>
+                        <label for="tgl_panen" class="form-label">Tanggal Panen</label>
+                        <input type="date" class="form-control @error('tgl_panen') is-invalid @enderror" id="tgl_panen"
+                            name="tgl_panen" value="{{ old('tgl_panen', $purchase->tgl_panen) }}">
+                        @error('tgl_panen')
+                            <div class="invalid-feedback">
+                                Tidak boleh di kosongkan.
+                            </div>
+                        @enderror
+                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
+                    </div>
+                    <div class="mb-3">
+                        <label for="tgl_beli" class="form-label">Tanggal Pengambilan</label>
                         <input type="date" class="form-control @error('tgl_beli') is-invalid @enderror" id="tgl_beli"
                             name="tgl_beli" value="{{ old('tgl_beli', $purchase->tgl_beli) }}">
                         @error('tgl_beli')
