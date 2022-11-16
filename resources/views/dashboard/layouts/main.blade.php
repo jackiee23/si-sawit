@@ -77,14 +77,32 @@
 
             <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Dashboard -->
+            <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item {{ ($title === "Laporan" ? 'active' : '') }}">
-                <a class="nav-link" href="/dashboard/laporan">
+                <a class="nav-link {{ ($title === "Laporan" ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseFour"
+                    aria-expanded="true" aria-controls="collapseFour">
                     <i class="fas fa-flag"></i>
-                    <span>Laporan</span></a>
+                    <span>Laporan</span>
+                </a>
+                <div id="collapseFour" class="collapse {{ ($title === "Laporan" ? 'show' : '') }}" aria-labelledby="headingFour" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Laporan :</h6>
+                        <a class="collapse-item {{ ($title === "Umum" ? 'active' : '') }}" href="/dashboard/laporan-khusus">Laporan Umum</a>
+                        <a class="collapse-item {{ ($title === "Khusus" ? 'active' : '') }}" href="/dashboard/laporan-umum">Laporan Khusus</a>
+                    </div>
+                </div>
             </li>
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            {{-- <li class="nav-item {{ ($title === "Laporan" ? 'active' : '') }}">
+                <a class="nav-link" href="/dashboard/laporan">
+                    <i class="fas fa-flag"></i>
+                    <span>Laporan</span></a>
+            </li> --}}
+            <!-- Divider -->
+            {{-- <hr class="sidebar-divider my-0"> --}}
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item {{ ($title === "Pembelian" ||$title === "Perbaikan" ||$title === "Penjualan" ||$title === "Bahan Bakar" ||$title === "Pinjaman" ? 'active' : '') }}">
