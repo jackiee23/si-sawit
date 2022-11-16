@@ -11,7 +11,6 @@
 
     <title>Login Page</title>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <link href="{{asset('template/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
 
@@ -25,10 +24,6 @@
 
     @yield('container')
 
-    <!-- Sweet Alert -->
-    <script src="{{asset('sweetalert/sweetalert2.all.min.js')}}"></script>
-    <script src="{{asset('sweetalert/myscript.js')}}"></script>
-
     <!-- Bootstrap core JavaScript-->
     <script src="{{asset('template/vendor/jquery/jquery.min.js')}}"></script>
     {{-- <script src="{{asset('template/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script> --}}
@@ -37,10 +32,12 @@
     <!-- Core plugin JavaScript-->
     {{-- <script src="{{asset('template/vendor/jquery-easing/jquery.easing.min.js')}}"></script> --}}
 
-    <script src="{{asset('login/js/popper.js')}}"></script>
+    {{-- <script src="{{asset('login/js/popper.js')}}"></script> --}}
     <script src="{{asset('login/js/main.js')}}"></script>
 
-
+    <!-- Sweet Alert -->
+    <script src="{{asset('sweetalert/sweetalert2.all.min.js')}}"></script>
+    <script src="{{asset('sweetalert/myscript.js')}}"></script>
 
 </body>
 </html>

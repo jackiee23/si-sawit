@@ -16,9 +16,9 @@ if (flashData) {
         icon: "success",
         title: flashData,
     });
-}
+};
 
-const failedData = $(".failed-data").data("failedData");
+const failedData = $(".failed-data").data("failed");
 if (failedData) {
     const Toast = Swal.mixin({
         toast: true,
@@ -36,6 +36,8 @@ if (failedData) {
         icon: "error",
         title: failedData,
     });
+
+    // Swal.fire(failedData, 'Periksa kembali email dan passwordmu', 'error');
 }
 
 const successData = $(".success-data").data("success");
@@ -46,7 +48,7 @@ if (successData) {
   'success'
 );
 
-}
+};
 
 //tombol-hapus
 // var form = document.getElementById('formHapus')

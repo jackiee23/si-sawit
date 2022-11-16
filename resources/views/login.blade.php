@@ -4,11 +4,11 @@
     <div class="container-fluid">
         <section class="ftco-section">
             <div class="container">
-                @if (session('status'))
-                    <div class="flash-data" data-flashdata="{{ session('status') }} "></div>
+                @if (session()->has('status'))
+                    <div class="failed-data" data-failed="{{ session('status') }} "></div>
                     {{-- <div class="alert alert-success">
-                    {{ session('status') }} --}}
-                    </div>
+                    {{ session('status') }}
+                    </div> --}}
                 @endif
                 <div class="row justify-content-center">
                     <div class="col-md-6 text-center mb-5">
@@ -59,11 +59,14 @@
                     </div>
                 </div>
             </div>
+        </section>
     </div>
-    </section>
+
+    <!-- Sweet Alert -->
+    {{-- <script src="{{asset('sweetalert/sweetalert2.all.min.js')}}"></script>
+    <script src="{{asset('sweetalert/myscript.js')}}"></script> --}}
 
     {{-- <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script> --}}
 
-    </div>
 @endsection

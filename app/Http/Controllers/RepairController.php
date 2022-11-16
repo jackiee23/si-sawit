@@ -18,6 +18,7 @@ class RepairController extends Controller
     public function index()
     {
         $repair = Repair::all();
+        
         return view('dashboard.repair.index', [
             'title' => 'Perbaikan',
             'repair' => $repair

@@ -114,14 +114,24 @@
                     <span>Ganti Password</span></a>
             </li>
             <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+            <hr class="sidebar-divider my">
 
-            <!-- Nav Item - Dashboard -->
+            {{-- <!-- Nav Item - Dashboard -->
+            <form action="/logout">
+                @csrf
+                <li class="nav-item">
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <a class="nav-link">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span></a>
+                </button>
+            </li>
+            </form>
             <li class="nav-item">
                 <a class="nav-link" href="/dashboard/logout">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span></a>
-            </li>
+            </li> --}}
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
@@ -206,10 +216,13 @@
                                     Activity Log
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
+                                <form action="/logout">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Logout
+                                    </button>
+                                </form>
                             </div>
                         </li>
 
@@ -247,7 +260,7 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
+{{--
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -266,7 +279,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <!-- Bootstrap core JavaScript-->
     <script src="{{asset('template/vendor/jquery/jquery.min.js')}}"></script>

@@ -26,6 +26,7 @@ use App\Http\Controllers\DashboardController;
 
 Route::get('/', [PageController::class, 'index'])->middleware('guest')->name('login');
 Route::post('/', [PageController::class, 'authenticate']);
+Route::get('/logout', [PageController::class, 'logout']);
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 
