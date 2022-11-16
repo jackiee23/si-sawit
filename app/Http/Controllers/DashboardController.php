@@ -36,6 +36,7 @@ class DashboardController extends Controller
             ->selectRaw("MONTHNAME(tgl_jual) as nama_bulan")
             ->whereYear('tgl_jual', now())
             ->groupByRaw('MONTHNAME(tgl_jual)')
+            -> orderByRaw('tgl_jual ASC')
             ->pluck('nama_bulan');
             // ->get()->all();
         // dd($nama_bulan);
