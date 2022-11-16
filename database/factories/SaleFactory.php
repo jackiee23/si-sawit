@@ -17,7 +17,7 @@ class SaleFactory extends Factory
         $total = $harga * $jumlah;
 
         return [
-            'tgl_jual' => $this->faker->date(),
+            'tgl_jual' => $this->faker->dateTimeThisYear(),
             'jumlah' => $jumlah,
             'harga_pabrik' => $harga,
             'harga_total' => $total,

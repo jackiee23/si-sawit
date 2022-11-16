@@ -17,9 +17,9 @@ class FuelFactory extends Factory
         $harga = $this->faker->randomNumber(4);
         $jumlah = $this->faker->randomNumber(2);
         $total = $harga * $jumlah;
-        
+
         return [
-            'tgl_pengisian' => $this->faker->date(),
+            'tgl_pengisian' => $this->faker->dateTimeThisYear(),
             'car_id' => mt_rand(1,5),
             'jumlah_liter' => $jumlah,
             'harga' => $harga,

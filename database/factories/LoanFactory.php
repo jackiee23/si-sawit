@@ -14,7 +14,7 @@ class LoanFactory extends Factory
     public function definition()
     {
         return [
-            'tgl'=>$this->faker->date(),
+            'tgl'=> $this->faker->dateTimeThisYear(),
             'nama' => $this->faker->name(),
             'jenis_pinjaman' => $this->faker->word(),
             'nilai' => $this->faker->randomNumber(6),

@@ -15,7 +15,7 @@ class RepairFactory extends Factory
     public function definition()
     {
         return [
-            'tgl_perbaikan' => $this->faker->date(),
+            'tgl_perbaikan' => $this->faker->dateTimeThisYear(),
             'car_id' => mt_rand(1, 5),
             'jenis_kerusakan' => $this->faker->sentence(3),
             'jumlah' => $this->faker->randomNumber(5),

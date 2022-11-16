@@ -22,7 +22,7 @@ class CarFactory extends Factory
         return [
             'nama_kendaraan' => $vehicle['model'],
             'merek' => $vehicle['brand'],
-            'tgl_beli' => $this->faker->date(),
+            'tgl_beli' => $this->faker->dateTimeThisYear(),
             'keadaan_beli' => $this->faker->vehicleFuelType,
             'umur_kendaraan' => $this->faker->bothify('## years')
         ];
