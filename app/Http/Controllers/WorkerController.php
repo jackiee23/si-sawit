@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Purchase;
+use App\Models\Sale;
 use App\Models\Worker;
 use Illuminate\Http\Request;
 
@@ -114,7 +116,15 @@ class WorkerController extends Controller
      */
     public function destroy(Worker $worker)
     {
-        Worker::destroy($worker->id);
-        return redirect('/dashboard/worker')->with('status', 'Worker has been deleted');
+        $cek = Sale::where('worker_id', $worker->id);
+        $cek2 = Purchase::where('worker_id', $worker->id);
+
+        if ($cek || $cek2) {
+            return redirect('/dashboard/car')->with('failed', 'Worker data cannot be delete!');
+        } else {
+            Worker::destroy($worker->id);
+            return redirect('/dashboard/worker')->with('status', 'Worker has been deleted');
+        }
+
     }
 }

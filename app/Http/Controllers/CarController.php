@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Car;
+use App\Models\Fuel;
+use App\Models\Purchase;
+use App\Models\Repair;
+use App\Models\Sale;
 use Illuminate\Http\Request;
 
 class CarController extends Controller
@@ -114,7 +118,16 @@ class CarController extends Controller
      */
     public function destroy(Car $car)
     {
-        Car::destroy($car->id);
-        return redirect('/dashboard/car')->with('status', 'Car data has been deleted!');
+        $cek = Fuel::where('car_id', $car->id);
+        $cek2 = Purchase::where('car_id', $car->id);
+        $cek3 = Repair::where('car_id', $car->id);
+        $cek4 = Sale::where('car_id', $car->id);
+
+        if($cek || $cek2 || $cek3 || $cek4){
+            return redirect('/dashboard/car')->with('failed', 'Car data cannot be delete!');
+        } else{
+            Car::destroy($car->id);
+            return redirect('/dashboard/car')->with('status', 'Car data has been deleted!');
+        }
     }
 }

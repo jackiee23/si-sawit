@@ -13,6 +13,9 @@
                 {{-- <div class="alert alert-success">
                     {{ session('status') }}
                 </div> --}}
+                @elseif (session('failed')){
+                    <div class="failed-data" data-failed="{{ session('failed') }} "></div>
+                }
             @endif
             <div class="card-header py-3">
                 {{-- <h6 class="m-0 font-weight-bold text-primary">Data admin</h6> --}}
