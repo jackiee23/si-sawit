@@ -232,9 +232,7 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
-                    @yield('container')
-                </div>
+                @yield('container')
                 <!-- /.container-fluid -->
 
             </div>
@@ -296,8 +294,14 @@
         <script src="{{asset('template/vendor/datatables/jquery.dataTables.min.js')}}"></script>
         <script src="{{asset('template/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
 
+        <script>
+            $(document).ready( function () {
+            $('#dataTable').DataTable();
+            } );
+        </script>
+
         <!-- Page level custom scripts -->
-        <script src="{{asset('template/js/demo/datatables-demo.js')}}"></script>
+        {{-- <script src="{{asset('template/js/demo/datatables-demo.js')}}"></script> --}}
 
         <!-- Sweet Alert -->
         <script src="{{asset('sweetalert/sweetalert2.all.min.js')}}"></script>
