@@ -120,7 +120,7 @@ class WorkerController extends Controller
         $cek2 = Purchase::where('worker_id', $worker->id);
 
         if ($cek || $cek2) {
-            return redirect('/dashboard/car')->with('failed', 'Worker data cannot be delete!');
+            return redirect('/dashboard/worker')->with('failed', 'Worker data cannot be delete!');
         } else {
             Worker::destroy($worker->id);
             return redirect('/dashboard/worker')->with('status', 'Worker has been deleted');
