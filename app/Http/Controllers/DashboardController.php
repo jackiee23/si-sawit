@@ -36,7 +36,7 @@ class DashboardController extends Controller
             ->selectRaw("MONTHNAME(tgl_jual) as nama_bulan")
             ->whereYear('tgl_jual', now())
             ->groupByRaw('MONTHNAME(tgl_jual)')
-            -> orderByRaw('tgl_jual ASC')
+            ->orderByRaw('tgl_jual ASC')
             ->pluck('nama_bulan');
             // ->get()->all();
         // dd($nama_bulan);
@@ -66,6 +66,29 @@ class DashboardController extends Controller
             ->whereYear('tgl_beli', now())
             ->first();
 
+        //total admin
+        $total_admin = DB::table('admins')
+            ->selectRaw("COUNT(id) as total_admin")
+            // ->pluck('total_admin');
+            ->first();
+            // dd($total_admin);
+
+        //total pekerja
+        $total_pekerja = DB::table('workers')
+            ->selectRaw("COUNT(id) as total_pekerja")
+            // ->pluck('total_admin');
+            ->first();
+            // dd($total_pekerja);
+
+        //total admin
+        $total_petani = DB::table('farmers')
+            ->selectRaw("COUNT(id) as total_petani")
+            // ->pluck('total_admin');
+            ->first();
+            // dd($total_petani);
+
+
+
 
         return view('dashboard.index',[
             'title' => 'Dashboard',
@@ -73,7 +96,10 @@ class DashboardController extends Controller
             'total_beli' => $total_beli->total_beli,
             'total_sawit' => $total_sawit->total_sawit,
             'penjualan' => $penjualan,
-            'nama_bulan' => $nama_bulan
+            'nama_bulan' => $nama_bulan,
+            'total_pekerja' => $total_pekerja->total_pekerja,
+            'total_petani' => $total_petani->total_petani,
+            'total_admin' => $total_admin->total_admin
         ]);
     }
 

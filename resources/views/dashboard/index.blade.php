@@ -180,7 +180,7 @@
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Human Resources</h6>
                     <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
@@ -199,17 +199,20 @@
                 <!-- Card Body -->
                 <div class="card-body">
                     <div class="chart-pie pt-4 pb-2">
+                        <span class="mr-2">
+                            <i class="fas fa-circle text-warning"></i> {{$total_admin + $total_pekerja + $total_petani}}
+                        </span>
                         <canvas id="myPieChart"></canvas>
                     </div>
                     <div class="mt-4 text-center small">
                         <span class="mr-2">
-                            <i class="fas fa-circle text-primary"></i> Direct
+                            <i class="fas fa-circle text-primary"></i> Admin
                         </span>
                         <span class="mr-2">
-                            <i class="fas fa-circle text-success"></i> Social
+                            <i class="fas fa-circle text-success"></i> Pekerja
                         </span>
                         <span class="mr-2">
-                            <i class="fas fa-circle text-info"></i> Referral
+                            <i class="fas fa-circle text-info"></i> Petani
                         </span>
                     </div>
                 </div>
@@ -371,9 +374,12 @@
     <script>
             const penghasilan = {{json_encode($penjualan)}}
             const nama_bulan = {!! $nama_bulan !!}
+            const admin = {{$total_admin}}
+            const pekerja = {{$total_pekerja}}
+            const petani = {{$total_petani}}
     </script>
     <script src="{{asset('template/js/demo/chart-area.js')}}"></script>
-    <script src="{{asset('template/js/demo/chart-pie-demo.js')}}"></script>
+    <script src="{{asset('template/js/demo/chart-pie.js')}}"></script>
 
 <!-- /.container-fluid -->
 @endsection
