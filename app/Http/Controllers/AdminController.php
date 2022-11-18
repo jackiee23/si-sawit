@@ -112,7 +112,7 @@ class AdminController extends Controller
      */
     public function destroy(Admin $admin)
     {
-        Admin::destroy($admin->id);
-        return redirect('/dashboard/admin')->with('status', 'Admin has been deleted!!');
+        $post = Admin::destroy($admin->id);
+        return response()->json($post);
     }
 }

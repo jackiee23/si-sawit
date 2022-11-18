@@ -2,7 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
+use Yajra\Datatables\Datatables;
+use App\Models\Car;
+use App\Models\Farmer;
+use App\Models\Fuel;
+use App\Models\Loan;
+use App\Models\Purchase;
+use App\Models\Repair;
 use App\Models\Sale;
+use App\Models\Worker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -101,6 +110,72 @@ class DashboardController extends Controller
             'total_petani' => $total_petani->total_petani,
             'total_admin' => $total_admin->total_admin
         ]);
+    }
+
+    public function cardata()
+    {
+        // return Datatables::of(Car::query())->make(true);
+        $cars = DB::table('cars')
+            ->select(['id', 'nama_kendaraan', 'merek', 'tgl_beli', 'keadaan_beli', 'umur_kendaraan']);
+
+        return Datatables::of($cars)
+            ->addColumn('action', function ($car) {
+                return '<a href="/dashboard/car/'.$car->id.'/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form>';
+            })
+            // ->editColumn('id', 'ID: {{$id}}')
+            // ->setRowId('id')
+            ->addIndexColumn()
+            ->make(true);
+    }
+
+    public function workerdata()
+    {
+        return Datatables::of(Worker::query())->make(true);
+    }
+
+    public function admindata()
+    {
+        $admins = DB::table('admins')
+        ->select(['id', 'nama', 'no_wa', 'jenis']);
+
+        return Datatables::of($admins)
+            ->addColumn('action', function ($admin) {
+                return '<a href="/dashboard/admin/' . $admin->id . '/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form>';
+            })
+            // ->editColumn('id', 'ID: {{$id}}')
+            // ->setRowId('id')
+            ->addIndexColumn()
+            ->make(true);
+    }
+
+    public function farmerdata()
+    {
+        return Datatables::of(Farmer::query())->make(true);
+    }
+
+    public function loandata()
+    {
+        return Datatables::of(Loan::query())->make(true);
+    }
+
+        public function purchasedata()
+    {
+        return Datatables::of(Purchase::query())->make(true);
+    }
+
+    public function saledata()
+    {
+        return Datatables::of(Sale::query())->make(true);
+    }
+
+    public function fueldata()
+    {
+        return Datatables::of(Fuel::query())->make(true);
+    }
+
+    public function repairdata()
+    {
+        return Datatables::of(Repair::query())->make(true);
     }
 
 }

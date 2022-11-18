@@ -10,12 +10,10 @@
         <div class="card shadow mb-4">
             @if (session('status'))
             <div class="flash-data" data-flashdata="{{session('status')}} "></div>
-                {{-- <div class="alert alert-success">
-                    {{ session('status') }}
-                </div> --}}
+
                 @elseif (session('failed')){
                     <div class="failed-data" data-failed="{{ session('failed') }} "></div>
-                }
+
             @endif
             <div class="card-header py-3">
                 {{-- <h6 class="m-0 font-weight-bold text-primary">Data admin</h6> --}}
@@ -35,7 +33,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($worker as $worker )
+                            @foreach ($workers as $worker )
                             <tr>
                                 <td> {{$loop->iteration}} </td>
                                 <td> {{$worker->nama}} </td>
@@ -44,7 +42,7 @@
                                 <td> {{$worker->jenis}} </td>
                                 <td class="text-center">
                                     <a href="/dashboard/worker/{{$worker->id}}/edit/"><i class="fas fa-edit text-success"></i></a>
-                                    <form id="formHapus" action="/dashboard/worker/{{ $worker->id }} " method="post" class="d-inline">
+                                    <form action="/dashboard/worker/{{ $worker->id }} " method="post" class="d-inline">
                                         @method('delete')
                                         @csrf
                                         <button class="fas fa-trash text-danger border-0 tombol-hapus"></button>

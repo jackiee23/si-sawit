@@ -8,6 +8,7 @@ use App\Models\Purchase;
 use App\Models\Repair;
 use App\Models\Sale;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CarController extends Controller
 {
@@ -118,16 +119,32 @@ class CarController extends Controller
      */
     public function destroy(Car $car)
     {
-        $cek = Fuel::where('car_id', $car->id);
-        $cek2 = Purchase::where('car_id', $car->id);
-        $cek3 = Repair::where('car_id', $car->id);
-        $cek4 = Sale::where('car_id', $car->id);
+        $cek = DB::table('fuels')
+        ->where('car_id', $car->id)
+        ->first();
 
-        if($cek || $cek2 || $cek3 || $cek4){
-            return redirect('/dashboard/car')->with('failed', 'Car data cannot be delete!');
-        } else{
-            Car::destroy($car->id);
-            return redirect('/dashboard/car')->with('status', 'Car data has been deleted!');
+        $cek2 = DB::table('repairs')
+        ->where('car_id', $car->id)
+        ->first();
+
+        $cek3 = DB::table('sales')
+        ->where('car_id', $car->id)
+        ->first();
+
+        $cek4 = DB::table('purchases')
+        ->where('car_id', $car->id)
+        ->first();
+
+        // return redirect('/dashboard/car')->with('status', 'Car data has been deleted!');
+
+        if($cek == null && $cek2 == null && $cek3 == null && $cek4 == null){
+            $post = Car::destroy($car->id);
+            return response()->json($post);
         }
+        // else{
+            // dd( $cek);
+            // return response()->json();
+            // return redirect('/dashboard/car')->with('failed', 'Car data cannot be delete!');
+        // }
     }
 }

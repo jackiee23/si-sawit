@@ -6,6 +6,7 @@ use App\Models\Purchase;
 use App\Models\Sale;
 use App\Models\Worker;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WorkerController extends Controller
 {
@@ -19,7 +20,7 @@ class WorkerController extends Controller
         $worker = Worker::all();
 
         return view('dashboard.worker.index', [
-            'worker' => $worker,
+            'workers' => $worker,
             'title' => 'Pekerja'
         ]);
     }
@@ -116,14 +117,21 @@ class WorkerController extends Controller
      */
     public function destroy(Worker $worker)
     {
-        $cek = Sale::where('worker_id', $worker->id);
-        $cek2 = Purchase::where('worker_id', $worker->id);
+        Worker::destroy($worker->id);
+        return redirect('/dashboard/worker')->with('status', 'Worker has been deleted');
+        
+        $cek = DB::table('sales')
+            ->where('worker_id', $worker->id)
+            ->first();
+            // ->get()->toArray();
 
-        if ($cek || $cek2) {
+        $cek2 = DB::table('purchases')
+            ->where('worker_id', $worker->id)
+            ->first();
+
+        if ($cek->id = $worker->id || $cek2->id = $worker->id) {
             return redirect('/dashboard/worker')->with('failed', 'Worker data cannot be delete!');
         } else {
-            Worker::destroy($worker->id);
-            return redirect('/dashboard/worker')->with('status', 'Worker has been deleted');
         }
 
     }

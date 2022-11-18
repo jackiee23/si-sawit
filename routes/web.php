@@ -26,38 +26,53 @@ use App\Http\Controllers\DashboardController;
 
 Route::get('/', [PageController::class, 'index'])->middleware('guest')->name('login');
 Route::post('/', [PageController::class, 'authenticate']);
-Route::get('/logout', [PageController::class, 'logout']);
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+Route::middleware('auth')->group(function(){
 
-//farmers
-// Route::get('/petani', [FarmerController::class, 'index']);
-// Route::get('/petani/create', [FarmerController::class, 'create']);
-// Route::post('/petani', [FarmerController::class, 'store']);
-Route::resource('/dashboard/farmer', FarmerController::class)->middleware('auth');
+    Route::get('/logout', [PageController::class, 'logout']);
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('home');
+
+    //server-side
+    Route::get('/dashboard/fueldata', [DashboardController::class, 'fueldata'])->name('fueldata');
+    Route::get('/dashboard/farmerdata', [DashboardController::class, 'farmerdata'])->name('farmerdata');
+    Route::get('/dashboard/loandata', [DashboardController::class, 'loandata'])->name('loandata');
+    Route::get('/dashboard/purchasedata', [DashboardController::class, 'purchasedata'])->name('purchasedata');
+    Route::get('/dashboard/saledata', [DashboardController::class, 'saledata'])->name('saledata');
+    Route::get('/dashboard/admindata', [DashboardController::class, 'admindata'])->name('admindata');
+    Route::get('/dashboard/repairdata', [DashboardController::class, 'repairdata'])->name('repairdata');
+    Route::get('/dashboard/workerdata', [DashboardController::class, 'workerdata'])->name('workerdata');
+    Route::get('/dashboard/cardata', [DashboardController::class, 'cardata'])->name('cardata');
 
 
-//admin
-Route::resource('/dashboard/admin', AdminController::class)->middleware('auth');
+    //farmers
+    // Route::get('/petani', [FarmerController::class, 'index']);
+    // Route::get('/petani/create', [FarmerController::class, 'create']);
+    // Route::post('/petani', [FarmerController::class, 'store']);
+    Route::resource('/dashboard/farmer', FarmerController::class);
 
-//car
-Route::resource('/dashboard/car', CarController::class)->middleware('auth');
 
-//worker
-Route::resource('/dashboard/worker', WorkerController::class)->middleware('auth');
+    //admin
+    Route::resource('/dashboard/admin', AdminController::class);
 
-//loan
-Route::resource('/dashboard/loan', LoanController::class)->middleware('auth');
+    //car
+    Route::resource('/dashboard/car', CarController::class)->except(['show']);
 
-//pruchase
-Route::resource('/dashboard/purchase', PurchaseController::class)->middleware('auth');
+    //worker
+    Route::resource('/dashboard/worker', WorkerController::class);
 
-//sale
-Route::resource('/dashboard/sale', SaleController::class)->middleware('auth');
+    //loan
+    Route::resource('/dashboard/loan', LoanController::class);
 
-//fuel
-Route::resource('/dashboard/fuel', FuelController::class)->middleware('auth');
+    //pruchase
+    Route::resource('/dashboard/purchase', PurchaseController::class);
 
-//repair
-Route::resource('/dashboard/repair', RepairController::class)->middleware('auth');
+    //sale
+    Route::resource('/dashboard/sale', SaleController::class);
+
+    //fuel
+    Route::resource('/dashboard/fuel', FuelController::class);
+
+    //repair
+    Route::resource('/dashboard/repair', RepairController::class);
+});
 
