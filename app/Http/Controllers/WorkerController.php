@@ -117,9 +117,7 @@ class WorkerController extends Controller
      */
     public function destroy(Worker $worker)
     {
-        Worker::destroy($worker->id);
-        return redirect('/dashboard/worker')->with('status', 'Worker has been deleted');
-        
+
         $cek = DB::table('sales')
             ->where('worker_id', $worker->id)
             ->first();
@@ -129,9 +127,9 @@ class WorkerController extends Controller
             ->where('worker_id', $worker->id)
             ->first();
 
-        if ($cek->id = $worker->id || $cek2->id = $worker->id) {
-            return redirect('/dashboard/worker')->with('failed', 'Worker data cannot be delete!');
-        } else {
+        if ($cek== null && $cek2 == null) {
+            $post = Worker::destroy($worker->id);
+            return response()->json($post);
         }
 
     }

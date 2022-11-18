@@ -115,7 +115,7 @@ class LoanController extends Controller
      */
     public function destroy(Loan $loan)
     {
-        Loan::destroy($loan->id);
-        return redirect('/dashboard/loan')->with('status', 'Loan data has been deleted.');
+        $post = Loan::destroy($loan->id);
+        return response()->json($post);
     }
 }

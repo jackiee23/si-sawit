@@ -129,7 +129,7 @@ class FuelController extends Controller
      */
     public function destroy(Fuel $fuel)
     {
-        Fuel::destroy($fuel->id);
-        return redirect('/dashboard/fuel')->with('status', 'Data has been deleted.');
+        $post = Fuel::destroy($fuel->id);
+        return response()->json($post);
     }
 }

@@ -9,7 +9,7 @@
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             @if (session('status'))
-            <div class="flash-data" data-flashdata="{{session('status')}} "></div>
+                <div class="flash-data" data-flashdata="{{ session('status') }} "></div>
                 {{-- <div class="alert alert-success">
                     {{ session('status') }}
                 </div> --}}
@@ -41,26 +41,45 @@
     <!-- /.container-fluid -->
 
     <script>
-$(document).ready( function () {
+        $(document).ready(function() {
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-} );
+        });
 
-const table = $('#dataTable').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: '{{route('admindata')}}',
-        columns: [
-            { data: 'DT_RowIndex', name: 'id' },
-            { data: 'nama', name: 'nama' },
-            { data: 'no_wa', name: 'no_wa' },
-            { data: 'jenis', name: 'jenis' },
-            {data: 'action', name: 'action', orderable: false, searchable: false}
-        ]
-});
+        const table = $('#dataTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: '{{ route('admindata') }}',
+            columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'id',
+                },
+                {
+                    data: 'nama',
+                    name: 'nama',
+                    sortable: false
+                },
+                {
+                    data: 'no_wa',
+                    name: 'no_wa',
+                    sortable: false
+                },
+                {
+                    data: 'jenis',
+                    name: 'jenis',
+                    sortable: false
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
 
         $('#dataTable tbody').on('click', '.edit', table, function(e) {
             // e.preventDefault();
@@ -104,7 +123,7 @@ const table = $('#dataTable').DataTable({
                             type: "post",
                             dataType: "JSON",
                             data: {
-                                car: data.id,
+                                admin: data.id,
                                 "_method": 'DELETE',
                                 "_token": $('meta[name="csrf-token"]').attr('content'),
                             },
@@ -124,6 +143,5 @@ const table = $('#dataTable').DataTable({
             });
 
         });
-
     </script>
 @endsection

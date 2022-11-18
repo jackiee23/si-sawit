@@ -57,15 +57,17 @@
             ajax: '{{ route('cardata') }}',
             columns: [{
                     data: 'DT_RowIndex',
-                    name: 'id'
+                    name: 'id',
                 },
                 {
                     data: 'nama_kendaraan',
-                    name: 'nama_kendaraan'
+                    name: 'nama_kendaraan',
+                    sortable: false
                 },
                 {
                     data: 'merek',
-                    name: 'merek'
+                    name: 'merek',
+                    sortable: false
                 },
                 {
                     data: 'tgl_beli',
@@ -73,7 +75,8 @@
                 },
                 {
                     data: 'keadaan_beli',
-                    name: 'keadaan_beli'
+                    name: 'keadaan_beli',
+                    sortable: false
                 },
                 {
                     data: 'umur_kendaraan',

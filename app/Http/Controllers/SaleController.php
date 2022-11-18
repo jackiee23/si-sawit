@@ -145,7 +145,7 @@ class SaleController extends Controller
      */
     public function destroy(Sale $sale)
     {
-        Sale::destroy($sale->id);
-        return redirect('/dashboard/sale')->with('status', 'Data has been deleted.');
+        $post = Sale::destroy($sale->id);
+        return response()->json($post);
     }
 }

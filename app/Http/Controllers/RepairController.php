@@ -18,7 +18,7 @@ class RepairController extends Controller
     public function index()
     {
         $repair = Repair::all();
-        
+
         return view('dashboard.repair.index', [
             'title' => 'Perbaikan',
             'repair' => $repair
@@ -124,7 +124,7 @@ class RepairController extends Controller
      */
     public function destroy(Repair $repair)
     {
-        Repair::destroy($repair->id);
-        return redirect('/dashboard/repair')->with('status', 'Data has been deleted.');
+        $post = Repair::destroy($repair->id);
+        return response()->json($post);
     }
 }

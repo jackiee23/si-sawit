@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Farmer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FarmerController extends Controller
 {
@@ -117,7 +118,12 @@ class FarmerController extends Controller
      */
     public function destroy(Farmer $farmer)
     {
-        Farmer::destroy($farmer->id);
-        return redirect('/dashboard/farmer')->with('status', 'Farmer has been deleted!!');
+        $cek = DB::table('purchases')
+        ->where('farmer_id', $farmer->id)
+        ->first();
+        if ($cek == null) {
+            $post = Farmer::destroy($farmer->id);
+            return response()->json($post);
+        }
     }
 }

@@ -14,6 +14,7 @@ use App\Models\Sale;
 use App\Models\Worker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use JetBrains\PhpStorm\Pure;
 
 class DashboardController extends Controller
 {
@@ -59,6 +60,14 @@ class DashboardController extends Controller
         ->pluck('penjualan');
         // dd($penjualan);
 
+        //perbaikan bulan ini
+        $perbaikan = DB::table('repairs')
+        ->selectRaw("CAST(SUM(jumlah)as int) as perbaikan")
+        ->whereYear('tgl_perbaikan', now())
+        ->whereMonth('tgl_perbaikan', now())
+        ->first();
+        // dd($perbaikan);
+
         //pembelian bulan ini
         $total_beli = DB::table('purchases')
             // ->select(DB::raw("SUM(harga_total) as total_harga"))
@@ -102,7 +111,7 @@ class DashboardController extends Controller
         return view('dashboard.index',[
             'title' => 'Dashboard',
             'total_bulanan' => $total_harga->total_harga,
-            'total_beli' => $total_beli->total_beli,
+            'total_beli' => $total_beli-> total_beli + $perbaikan->perbaikan,
             'total_sawit' => $total_sawit->total_sawit,
             'penjualan' => $penjualan,
             'nama_bulan' => $nama_bulan,
@@ -115,12 +124,12 @@ class DashboardController extends Controller
     public function cardata()
     {
         // return Datatables::of(Car::query())->make(true);
-        $cars = DB::table('cars')
-            ->select(['id', 'nama_kendaraan', 'merek', 'tgl_beli', 'keadaan_beli', 'umur_kendaraan']);
+        $cars = DB::table('cars');
+            // ->select(['id', 'nama_kendaraan', 'merek', 'tgl_beli', 'keadaan_beli', 'umur_kendaraan']);
 
         return Datatables::of($cars)
             ->addColumn('action', function ($car) {
-                return '<a href="/dashboard/car/'.$car->id.'/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form>';
+                return '<div class="text-center"><a href="/dashboard/car/'.$car->id.'/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form></div>';
             })
             // ->editColumn('id', 'ID: {{$id}}')
             // ->setRowId('id')
@@ -130,17 +139,27 @@ class DashboardController extends Controller
 
     public function workerdata()
     {
-        return Datatables::of(Worker::query())->make(true);
+        $workers = DB::table('workers');
+        // ->select(['id', 'nama', 'alamat', 'no_wa', 'jenis']);
+
+        return Datatables::of($workers)
+            ->addColumn('action', function ($worker) {
+                return '<div class="text-center"><a href="/dashboard/worker/' . $worker->id . '/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form></div>';
+            })
+            // ->editColumn('id', 'ID: {{$id}}')
+            // ->setRowId('id')
+            ->addIndexColumn()
+            ->make(true);
     }
 
     public function admindata()
     {
-        $admins = DB::table('admins')
-        ->select(['id', 'nama', 'no_wa', 'jenis']);
+        $admins = DB::table('admins');
+        // ->select(['id', 'nama', 'no_wa', 'jenis']);
 
         return Datatables::of($admins)
             ->addColumn('action', function ($admin) {
-                return '<a href="/dashboard/admin/' . $admin->id . '/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form>';
+                return '<div class="text-center"><a href="/dashboard/admin/' . $admin->id . '/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form></div>';
             })
             // ->editColumn('id', 'ID: {{$id}}')
             // ->setRowId('id')
@@ -150,32 +169,117 @@ class DashboardController extends Controller
 
     public function farmerdata()
     {
-        return Datatables::of(Farmer::query())->make(true);
+        $farmers = DB::table('farmers');
+        // ->select(['id', 'nama', 'alamat', 'luas', 'jarak', 'umur', 'no_wa']);
+
+        return Datatables::of($farmers)
+            ->addColumn('action', function ($farmer) {
+                return '<div class="text-center"><a href="/dashboard/farmer/' . $farmer->id . '/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form></div>';
+            })
+            // ->editColumn('id', 'ID: {{$id}}')
+            // ->setRowId('id')
+            ->addIndexColumn()
+            ->make(true);
     }
 
     public function loandata()
     {
-        return Datatables::of(Loan::query())->make(true);
+        $loans = DB::table('loans');
+        // ->select(['id', 'nama', 'tgl', 'nilai', 'jenis_pinjaman', 'keterangan']);
+
+        return Datatables::of($loans)
+            ->addColumn('action', function ($loan) {
+                return '<div class="text-center"><a href="/dashboard/loan/' . $loan->id . '/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form></div>';
+            })
+            ->editColumn('nilai', 'Rp.{{number_format($nilai,2,",",".")}}')
+            // ->setRowId('id')
+            ->addIndexColumn()
+            ->make(true);
     }
 
         public function purchasedata()
     {
-        return Datatables::of(Purchase::query())->make(true);
+        $purchases = Purchase::with('car', 'worker', 'farmer');
+        // ->select(['id', 'tgl_panen', 'farmer.nama', 'selish', 'keterangan','tgl_beli','car->nama_kenradaan','trip','worker.nama']);
+
+        return Datatables::of($purchases)
+            ->addColumn('action', function ($purchase) {
+                return '<div class="text-center"><a href="/dashboard/purchase/' . $purchase->id . '/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form></div>';
+            })
+            ->addColumn('car', function (Purchase $purchase) {
+                return $purchase->car->nama_kendaraan;
+            })
+            ->addColumn('worker', function (Purchase $purchase) {
+                return $purchase->worker->nama;
+            })
+            ->addColumn('farmer', function (Purchase $purchase) {
+                return $purchase->farmer->nama;
+            })
+            // ->editColumn('nilai', 'Rp.{{number_format($nilai,2,",",".")}}')
+            // ->setRowId('id')
+            ->addIndexColumn()
+            ->toJson();
+            // ->make(true);
     }
 
     public function saledata()
     {
-        return Datatables::of(Sale::query())->make(true);
+        $sales = Sale::with('car', 'worker');
+        // ->select(['id', 'tgl_panen', 'farmer.nama', 'selish', 'keterangan','tgl_beli','car->nama_kenradaan','trip','worker.nama']);
+
+        return Datatables::of($sales)
+            ->addColumn('action', function ($sale) {
+                return '<div class="text-center"><a href="/dashboard/sale/' . $sale->id . '/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form></div>';
+            })
+            ->addColumn('car', function (Sale $sale) {
+                return $sale->car->nama_kendaraan;
+            })
+            ->addColumn('worker', function (Sale $sale) {
+                return $sale->worker->nama;
+            })
+            // ->editColumn('nilai', 'Rp.{{number_format($nilai,2,",",".")}}')
+            // ->setRowId('id')
+            ->addIndexColumn()
+            ->toJson();
+            // ->make(true);
     }
 
     public function fueldata()
     {
-        return Datatables::of(Fuel::query())->make(true);
+        $fuels = Fuel::with('car');
+        // ->select(['id', 'tgl_panen', 'farmer.nama', 'selish', 'keterangan','tgl_beli','car->nama_kenradaan','trip','worker.nama']);
+
+        return Datatables::of($fuels)
+            ->addColumn('action', function ($fuel) {
+                return '<div class="text-center"><a href="/dashboard/fuel/' . $fuel->id . '/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form></div>';
+            })
+            ->addColumn('car', function (Fuel $fuel) {
+                return $fuel->car->nama_kendaraan;
+            })
+            // ->editColumn('nilai', 'Rp.{{number_format($nilai,2,",",".")}}')
+            // ->setRowId('id')
+            ->addIndexColumn()
+            ->toJson();
+            // ->make(true);
     }
 
     public function repairdata()
     {
-        return Datatables::of(Repair::query())->make(true);
+        $repairs = Repair::with('car');
+        // ->select(['id', 'tgl_panen', 'farmer.nama', 'selish', 'keterangan','tgl_beli','car->nama_kenradaan','trip','worker.nama']);
+
+        return Datatables::of($repairs)
+            ->addColumn('action', function ($repair) {
+                return '<div class="text-center"><a href="/dashboard/repair/' . $repair->id . '/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form></div>';
+            })
+            ->addColumn('car', function (Repair $repair) {
+                return $repair->car->nama_kendaraan;
+            })
+            // ->editColumn('nilai', 'Rp.{{number_format($nilai,2,",",".")}}')
+            // ->setRowId('id')
+            ->addIndexColumn()
+            ->toJson();
+            // ->make(true);
     }
 
 }

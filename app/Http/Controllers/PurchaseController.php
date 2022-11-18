@@ -177,7 +177,7 @@ class PurchaseController extends Controller
      */
     public function destroy(Purchase $purchase)
     {
-        Purchase::destroy($purchase->id);
-        return redirect('/dashboard/purchase')->with('status', 'Purchase has been deleted.');
+        $post = Purchase::destroy($purchase->id);
+        return response()->json($post);
     }
 }
