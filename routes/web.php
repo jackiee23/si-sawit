@@ -9,6 +9,7 @@ use App\Http\Controllers\SaleController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FarmerController;
 use App\Http\Controllers\RepairController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\WorkerController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\DashboardController;
@@ -31,6 +32,10 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/logout', [PageController::class, 'logout']);
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('home');
+
+    //report
+    Route::get('/dashboard/laporan-umum', [ReportController::class, 'index']);
+    Route::get('/dashboard/laporan-khusus', [ReportController::class, 'laporan-kusus']);
 
     //server-side
     Route::get('/dashboard/fueldata', [DashboardController::class, 'fueldata'])->name('fueldata');

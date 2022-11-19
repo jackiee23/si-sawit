@@ -23,6 +23,8 @@
     <link href="{{asset('template/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
 
     <link rel="stylesheet" href="{{asset('bselect/css/bootstrap-select.css')}}">
+    <link href="{{asset('daterange/daterangepicker.css')}}" rel="stylesheet" />
+
 
         <!-- Page level plugins -->
     <script src="{{asset('template/vendor/chart.js/Chart.min.js')}}"></script>
@@ -32,9 +34,13 @@
     <script src="{{asset('template/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
         <!-- Page level plugins -->
-        <script src="{{asset('template/vendor/datatables/jquery.dataTables.min.js')}}"></script>
-        <script src="{{asset('template/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
-        {{-- <script src="{{asset('template/js/demo/data.js')}}"></script> --}}
+    <script src="{{asset('template/vendor/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('template/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+    {{-- <script src="{{asset('template/js/demo/data.js')}}"></script> --}}
+
+        <!-- daterange filter plugins -->
+    <script src="{{asset('daterange/moment.min.js')}}"></script>
+    <script src="{{asset('daterange/daterangepicker.min.js')}}"></script>
 
 
 </head>
@@ -95,11 +101,11 @@
                     <i class="fas fa-flag"></i>
                     <span>Laporan</span>
                 </a>
-                <div id="collapseFour" class="collapse {{ ($title === "Laporan" ? 'show' : '') }}" aria-labelledby="headingFour" data-parent="#accordionSidebar">
+                <div id="collapseFour" class="collapse {{ ($title === "Laporan Umum" || $title === "Laporan Khusus" ? 'show' : '') }}" aria-labelledby="headingFour" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Laporan :</h6>
-                        <a class="collapse-item {{ ($title === "Umum" ? 'active' : '') }}" href="/dashboard/laporan-khusus">Laporan Umum</a>
-                        <a class="collapse-item {{ ($title === "Khusus" ? 'active' : '') }}" href="/dashboard/laporan-umum">Laporan Khusus</a>
+                        <a class="collapse-item {{ ($title === "Laporan Umum" ? 'active' : '') }}" href="/dashboard/laporan-umum">Laporan Umum</a>
+                        <a class="collapse-item {{ ($title === "Laporan Khusus" ? 'active' : '') }}" href="/dashboard/laporan-kusus">Laporan Khusus</a>
                     </div>
                 </div>
             </li>

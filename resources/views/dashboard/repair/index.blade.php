@@ -9,7 +9,7 @@
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             @if (session('status'))
-            <div class="flash-data" data-flashdata="{{session('status')}} "></div>
+                <div class="flash-data" data-flashdata="{{ session('status') }} "></div>
                 {{-- <div class="alert alert-success">
                     {{ session('status') }}
                 </div> --}}
@@ -19,6 +19,12 @@
                 <a href="/dashboard/repair/create" class="btn btn-info">Tambah Data</a>
             </div>
             <div class="card-body">
+                {{-- <div>
+                    Toggle column: <a class="toggle-v" data-column="0">Name</a> - <a class="toggle-vis"
+                        data-column="1">Position</a> - <a class="toggle-vis" data-column="2">Office</a> - <a
+                        class="toggle-vis" data-column="3">Age</a> - <a class="toggle-vis" data-column="4">Start date</a> -
+                    <a class="toggle-vis" data-column="5">Salary</a>
+                </div> --}}
                 <div class="table-responsive">
                     <table class="table table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
                         <thead>
@@ -33,25 +39,26 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($repair as $repair )
-                            <tr>
-                                <td> {{$loop->iteration}} </td>
-                                <td> {{$repair->tgl_perbaikan}} </td>
-                                <td> {{$repair->car->nama_kendaraan}} </td>
-                                <td> {{$repair->jenis_kerusakan}} </td>
-                                <td> Rp.{{number_format($repair->jumlah,2,',','.')}} </td>
-                                <td> {{$repair->keterangan}} </td>
-                                <td class="text-center">
-                                    <a href="/dashboard/repair/{{$repair->id}}/edit/"><i class="fas fa-edit text-success"></i></a>
-                                    <form id="formHapus" action="/dashboard/repair/{{ $repair->id }} " method="post" class="d-inline">
-                                        @method('delete')
-                                        @csrf
-                                        <button class="fas fa-trash text-danger border-0 tombol-hapus"></button>
-                                    </form>
-                                    {{-- <a href="!"><i class="fas fa-trash text-danger"></i></a> --}}
-                                </td>
-                            </tr>
-                            @endforeach
+                            {{-- @foreach ($repair as $repair)
+                                <tr>
+                                    <td> {{ $loop->iteration }} </td>
+                                    <td> {{ $repair->tgl_perbaikan }} </td>
+                                    <td> {{ $repair->car->nama_kendaraan }} </td>
+                                    <td> {{ $repair->jenis_kerusakan }} </td>
+                                    <td> Rp.{{ number_format($repair->jumlah, 2, ',', '.') }} </td>
+                                    <td> {{ $repair->keterangan }} </td>
+                                    <td class="text-center">
+                                        <a href="/dashboard/repair/{{ $repair->id }}/edit/"><i
+                                                class="fas fa-edit text-success"></i></a>
+                                        <form id="formHapus" action="/dashboard/repair/{{ $repair->id }} " method="post"
+                                            class="d-inline">
+                                            @method('delete')
+                                            @csrf
+                                            <button class="fas fa-trash text-danger border-0 tombol-hapus"></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach --}}
                         </tbody>
                     </table>
                 </div>
@@ -67,10 +74,28 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+
+            // $('a.toggle-vis').on('click', function() {
+                // e.preventDefault();
+                // var tbl = $('#dataTable');
+
+                // Work with column 2
+                // tbl.DataTable().column(2).visible(false);
+                // tbl.DataTable().column(3).visible(false);
+                // tbl.DataTable().column(4).visible(false);
+
+                // Get the column API object
+                // var column = table.column();
+
+                // Toggle the visibility
+                // column.visible(!column.visible());
+            // });
+
         });
 
         const table = $('#dataTable').DataTable({
             processing: true,
+            // searching: false, info: false,
             serverSide: true,
             ajax: '{{ route('repairdata') }}',
             columns: [{
@@ -172,7 +197,7 @@
                                 )
                                 $('#dataTable').DataTable().ajax.reload()
                             },
-                            error : function(data) { //jika error
+                            error: function(data) { //jika error
                                 Swal.fire(
                                     'Error',
                                     'Data cannot deleted!',

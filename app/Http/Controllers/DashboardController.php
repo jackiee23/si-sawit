@@ -197,10 +197,16 @@ class DashboardController extends Controller
             ->make(true);
     }
 
-        public function purchasedata()
+        public function purchasedata(Request $request)
     {
-        $purchases = Purchase::with('car', 'worker', 'farmer');
-        // ->select(['id', 'tgl_panen', 'farmer.nama', 'selish', 'keterangan','tgl_beli','car->nama_kenradaan','trip','worker.nama']);
+        // dd($request->start_date);
+        if($request->start_date && $request->end_date){
+            $purchases = Purchase::with('car','worker','farmer')
+                ->whereBetween('tgl_beli',[$request->start_date, $request->end_date]);
+        } else {
+            $purchases = Purchase::with('car', 'worker', 'farmer');
+            // ->select(['id', 'tgl_panen', 'farmer.nama', 'selish', 'keterangan','tgl_beli','car->nama_kenradaan','trip','worker.nama']);
+        }
 
         return Datatables::of($purchases)
             ->addColumn('action', function ($purchase) {

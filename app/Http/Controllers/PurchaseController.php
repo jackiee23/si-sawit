@@ -17,11 +17,11 @@ class PurchaseController extends Controller
      */
     public function index()
     {
-        $purchase = Purchase::all();
+        // $purchase = Purchase::all();
 
         return view('dashboard.purchase.index', [
             'title'=>'Pembelian',
-            'purchase'=>$purchase,
+            // 'purchase'=>$purchase,
         ]);
     }
 
