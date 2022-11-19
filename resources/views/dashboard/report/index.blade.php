@@ -14,12 +14,12 @@
                     {{ session('status') }}
                 </div> --}}
             @endif
-            <div class="card-header py-3 d-flex justify-content-between">
+            <div class="card-header py-3 d-flex bd-highlight">
                 {{-- <h6 class="m-0 font-weight-bold text-primary">Data admin</h6> --}}
-                <a href="/dashboard/purchase/create" class="btn btn-info">Tambah Data</a>
-                <div class="col col-sm-3 input-daterange">
+                <div class="col col-sm-3 input-daterange bd-highlight">
                     <input type="text" class="form-control" placeholder="Select Date" readonly />
                 </div>
+                <button class="btn btn-primary reset bd-highlight">Reset</button>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -28,16 +28,16 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Petani</th>
-                                <th>Tanggal Panen</th>
+                                {{-- <th>Tanggal Panen</th> --}}
                                 <th>Tanggal Pengambilan</th>
-                                <th>Ketepatan Waktu</th>
+                                {{-- <th>Ketepatan Waktu</th> --}}
                                 <th>Jumlah Sawit(Kg)</th>
                                 <th>Harga</th>
-                                <th>Nama Pekerja</th>
+                                {{-- <th>Nama Pekerja</th> --}}
                                 <th>Nama Kendaraan</th>
                                 <th>Jumlah Trip</th>
-                                <th>Keterangan</th>
-                                <th>Opsi</th>
+                                {{-- <th>Keterangan</th> --}}
+                                {{-- <th>Opsi</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -67,6 +67,7 @@
             const table = $('#dataTable').DataTable({
                 processing: true,
                 serverSide: true,
+                searching: false,
                 ajax: {
                     url: "{{ route('purchasedata') }}",
                     data: {
@@ -84,18 +85,18 @@
                         name: 'farmer.nama',
                         sortable: false
                     },
-                    {
-                        data: 'tgl_panen',
-                        name: 'tgl_panen'
-                    },
+                    // {
+                    //     data: 'tgl_panen',
+                    //     name: 'tgl_panen'
+                    // },
                     {
                         data: 'tgl_beli',
                         name: 'tgl_beli'
                     },
-                    {
-                        data: 'selisih',
-                        name: 'selisih'
-                    },
+                    // {
+                    //     data: 'selisih',
+                    //     name: 'selisih'
+                    // },
                     {
                         data: 'jumlah_sawit',
                         name: 'jumlah_sawit'
@@ -104,11 +105,11 @@
                         data: 'harga',
                         name: 'harga'
                     },
-                    {
-                        data: 'worker',
-                        name: 'worker.nama',
-                        sortable: false
-                    },
+                    // {
+                    //     data: 'worker',
+                    //     name: 'worker.nama',
+                    //     sortable: false
+                    // },
                     {
                         data: 'car',
                         name: 'car.nama_kendaraan',
@@ -117,18 +118,18 @@
                     {
                         data: 'trip',
                         name: 'trip'
-                    },
-                    {
-                        data: 'keterangan',
-                        name: 'keterangan',
-                        sortable: false
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
                     }
+                    // {
+                    //     data: 'keterangan',
+                    //     name: 'keterangan',
+                    //     sortable: false
+                    // }
+                    // {
+                    //     data: 'action',
+                    //     name: 'action',
+                    //     orderable: false,
+                    //     searchable: false
+                    // }
                     //         {
                     // 'orderable': false,
                     // 'searchable': false,
@@ -217,6 +218,10 @@
 
         $('.input-daterange input').on('cancel.daterangepicker', function(ev, picker) {
             $(this).val('');
+        });
+
+        $('.reset').on('click', function() {
+            location.reload();
         });
 
         $('.input-daterange input').daterangepicker({
