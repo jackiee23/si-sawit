@@ -4,7 +4,7 @@
     <!-- Begin Page Content -->
     <div class="container-fluid">
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">Data Pembelian</h1>
+        <h1 class="h3 mb-2 text-gray-800">Data Laporan</h1>
 
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
@@ -15,39 +15,65 @@
                 </div> --}}
             @endif
             <div class="card-header py-3 d-flex justify-content-between">
-                    <div class="mb-3">
-                        <label for="farmer_id" class="form-label">Nama Petani</label>
-                        <select class="form-select form-control selectpicker" data-live-search="true" name="farmer_id" id="farmer_id">
-                            <option value="" selected>Pilih nama petani</option>
-                            @foreach ($farmer as $farmer)
-                            <option value="{{$farmer->id}}" {{old('farmer_id') == $farmer->id ? 'selected' : ''}} >{{$farmer->nama}}</option>
-                            @endforeach
-                        </select>
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
-                    </div>
-                {{-- <h6 class="m-0 font-weight-bold text-primary">Data admin</h6> --}}
-                <div class="col col-sm-3 d-flex">
-                    <input type="text" class="form-control input-daterange d-inline" placeholder="Select Date" readonly />
-                <div class="col col-sm-3 d-inline">
-                    <input type="hidden" value="" name="start_date" id="start_date">
-                    <input type="hidden" value="" name="end_date" id="end_date">
-                    <button class="btn btn-primary reset d-inline">Reset</button>
+                <div class="mb-3 col-3">
+                    <label for="tipe_laporan" class="form-label">Pilih Tipe Laporan</label>
+                    <select class="form-select form-control" name="tipe_laporan" id="tipe_laporan">
+                        <option value="0" selected>Pilih tipe laporan</option>
+                        <option value="1">Laporan Petani</option>
+                        <option value="2">Laporan Pekerja</option>
+                    </select>
+                    <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                 </div>
+                <div class="mb-3 col-3 petani invisible">
+                    <label for="farmer_id" class="form-label">Nama Petani</label>
+                    <select class="form-select form-control selectpicker" data-live-search="true" name="farmer_id"
+                        id="farmer_id">
+                        <option value="" selected>Pilih nama petani</option>
+                        @foreach ($farmer as $farmer)
+                            <option value="{{ $farmer->id }}" {{ old('farmer_id') == $farmer->id ? 'selected' : '' }}>
+                                {{ $farmer->nama }}</option>
+                        @endforeach
+                    </select>
+                    <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
+                </div>
+                <div class="mb-3 col-3 pekerja invisible">
+                    <label for="worker_id" class="form-label">Nama Pekerja</label>
+                    <select class="form-select form-control selectpicker" data-live-search="true" name="worker_id"
+                        id="worker_id">
+                        <option value="" selected>Pilih nama pekerja</option>
+                        @foreach ($worker as $worker)
+                            <option value="{{ $worker->id }}">{{ $worker->nama }}</option>
+                        @endforeach
+                    </select>
+                    <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
+                </div>
+                {{-- <h6 class="m-0 font-weight-bold text-primary">Data admin</h6> --}}
+                <div class="col col-3">
+                    <label for="worker_id" class="form-label">Filter Tanggal</label>
+                    <div class="col d-flex">
+                    <input type="text" class="form-control input-daterange" placeholder="Select Date"
+                        readonly />
+                    <div class="col">
+                        <input type="hidden" value="" name="start_date" id="start_date">
+                        <input type="hidden" value="" name="end_date" id="end_date">
+                        <button class="btn btn-primary reset">Reset</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
+                <div class="table-responsive tabel invisible">
                     <table class="table table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama Petani</th>
-                                {{-- <th>Tanggal Panen</th> --}}
+                                <th>Nama Pekerja</th>
+                                <th>Tanggal Panen</th>
                                 <th>Tanggal Pengambilan</th>
-                                {{-- <th>Ketepatan Waktu</th> --}}
+                                <th>Ketepatan Waktu</th>
                                 <th>Jumlah Sawit(Kg)</th>
                                 <th>Harga</th>
-                                {{-- <th>Nama Pekerja</th> --}}
+                                <th>Nama Petani</th>
                                 <th>Nama Kendaraan</th>
                                 <th>Jumlah Trip</th>
                                 {{-- <th>Keterangan</th> --}}
@@ -66,6 +92,8 @@
     <script>
         $(document).ready(function() {
             fetch_data();
+            // $('#dataTable_filter').hide();
+
 
             $.ajaxSetup({
                 headers: {
@@ -79,9 +107,9 @@
 
         function fetch_data() {
             const table = $('#dataTable').DataTable({
+                searching: false,
                 processing: true,
                 serverSide: true,
-                searching: false,
                 ajax: {
                     url: "{{ route('purchasedata') }}",
                     data: {
@@ -89,7 +117,8 @@
                         start_date: $('#start_date').val(),
                         end_date: $('#end_date').val(),
                         // range: $('.input-daterange').val(),
-                        farmer_id: $('#farmer_id').val()
+                        farmer_id: $('#farmer_id').val(),
+                        worker_id: $('#worker_id').val()
                     },
                 },
                 columns: [{
@@ -97,22 +126,22 @@
                         name: 'id',
                     },
                     {
-                        data: 'farmer',
-                        name: 'farmer.nama',
+                        data: 'worker',
+                        name: 'worker.nama',
                         sortable: false
                     },
-                    // {
-                    //     data: 'tgl_panen',
-                    //     name: 'tgl_panen'
-                    // },
+                    {
+                        data: 'tgl_panen',
+                        name: 'tgl_panen'
+                    },
                     {
                         data: 'tgl_beli',
                         name: 'tgl_beli'
                     },
-                    // {
-                    //     data: 'selisih',
-                    //     name: 'selisih'
-                    // },
+                    {
+                        data: 'selisih',
+                        name: 'selisih'
+                    },
                     {
                         data: 'jumlah_sawit',
                         name: 'jumlah_sawit'
@@ -121,11 +150,11 @@
                         data: 'harga',
                         name: 'harga'
                     },
-                    // {
-                    //     data: 'worker',
-                    //     name: 'worker.nama',
-                    //     sortable: false
-                    // },
+                    {
+                        data: 'farmer',
+                        name: 'farmer.nama',
+                        sortable: false
+                    },
                     {
                         data: 'car',
                         name: 'car.nama_kendaraan',
@@ -157,78 +186,6 @@
                     // }
                 ]
             });
-
-            $('#dataTable tbody').on('click', '.edit', table, function(e) {
-                // e.preventDefault();
-                const data = table.row($(this).parents('tr')).data();
-                $(function() {
-                    console.log(data.id);
-                    // document.getElementById("edit").href="/dashboard/car/"+data.id+"/edit/";
-                    window.open("/dashboard/purchase/" + data.id + "/edit/", "_self");
-                });
-                // const id = console.log(data.id);
-                // location.reload()
-                //alert('Edit user: ' + data.id);
-                //     Swal.fire(
-                //   'Good job!',
-                //   'You clicked the button!',
-                //   'success'
-                // )
-            });
-
-            $('#dataTable tbody').on('click', '.tombol-delete', table, function(e) {
-                const data = table.row($(this).parents('tr')).data();
-
-                e.preventDefault();
-                // console.log(data.id)
-                const rute = $(this).attr('action');
-
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "You will delete this data & won't be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $(function() {
-                            // document.location.href = href
-                            $.ajax({
-                                url: "purchase/" + data.id,
-                                type: "post",
-                                dataType: "JSON",
-                                data: {
-                                    purchase: data.id,
-                                    "_method": 'DELETE',
-                                    "_token": $('meta[name="csrf-token"]').attr('content'),
-                                },
-                                success: function(data) { //jika sukses
-                                    Swal.fire(
-                                        'Success',
-                                        'Data has been deleted!',
-                                        'success'
-                                    )
-                                    $('#dataTable').DataTable().ajax.reload()
-                                },
-                                error: function(data) { //jika error
-                                    Swal.fire(
-                                        'Error',
-                                        'Data cannot deleted!',
-                                        'error'
-                                    )
-                                    $('#dataTable').DataTable().ajax.reload()
-                                }
-                            })
-                            // location.reload();
-                            // document.getElementById("formHapus").submit();
-                        });
-                    }
-                });
-
-            });
-
         };
 
 
@@ -237,7 +194,12 @@
         });
 
         $('.reset').on('click', function() {
-            location.reload();
+            $('.input-daterange').val('');
+            $('#start_date').val('');
+            $('#end_date').val('');
+            $('#dataTable').DataTable().destroy();
+            fetch_data();
+            // location.reload();
         });
 
         $('.input-daterange').on('apply.daterangepicker', function(ev, picker) {
@@ -268,15 +230,76 @@
 
                 // var start = start.format('YYYY-MM-DD');
                 // var end = end.format('YYYY-MM-DD');
+
                 fetch_data();
+                var farmer = $('#farmer_id').val();
+                var worker = $('#worker_id').val();
+                if (worker != '') {
+                    var dt = $('#dataTable').DataTable();
+                    // dt.columns().visible(true);
+                    dt.columns([2, 4, 5, 6]).visible(false);
+                } else if (farmer != '') {
+                    var dt = $('#dataTable').DataTable();
+                    // dt.columns().visible(true);
+                    dt.columns([1, 3, 4]).visible(false);
+                };
 
             });
 
-        $('#farmer_id').change(function(){
+        $('#farmer_id').change(function() {
             // $('.input.daterange').val()
+            $('#worker_id').val('');
             $('#dataTable').DataTable().destroy();
             fetch_data();
+            var dt = $('#dataTable').DataTable();
+            // dt.columns().visible(true);
+            dt.columns([1, 3, 4]).visible(false);
         });
 
+        // $('#farmer_id').change(function() {
+        //     var dt = $('#dataTable').DataTable();
+        //     dt.search(this.value).draw();
+        // });
+
+        $('#worker_id').change(function() {
+            // $('.input.daterange').val()
+            $('#farmer_id').val('');
+            $('#dataTable').DataTable().destroy();
+            fetch_data();
+            var dt = $('#dataTable').DataTable();
+            // dt.columns().visible(true);
+            dt.columns([2, 4, 5, 6]).visible(false);
+        });
+
+        $('#tipe_laporan').change(function() {
+            if ($(this).val() == 1) {
+                $('.pekerja').removeClass("visible");
+                $('.pekerja').addClass("invisible");
+                var dt = $('#dataTable').DataTable();
+                dt.columns().visible(true);
+                $('.petani').removeClass("invisible");
+                $('.petani').addClass("visible");
+                $('.tabel').removeClass("invisible");
+                $('.tabel').addClass("visible");
+                dt.columns([1, 3, 4]).visible(false);
+            } else if ($(this).val() == 2) {
+                $('.petani').removeClass("visible");
+                $('.petani').addClass("invisible");
+                var dt = $('#dataTable').DataTable();
+                dt.columns().visible(true);
+                dt.columns([2, 4, 5, 6]).visible(false);
+                $('.pekerja').removeClass("invisible");
+                $('.pekerja').addClass("visible");
+                $('.tabel').removeClass("invisible");
+                $('.tabel').addClass("visible");
+            } else {
+                $('.petani').removeClass("visible");
+                $('.petani').addClass("invisible");
+                $('.pekerja').removeClass("visible");
+                $('.pekerja').addClass("invisible");
+                $('.tabel').removeClass("visible");
+                $('.tabel').addClass("invisible");
+            }
+        });
     </script>
 @endsection

@@ -204,12 +204,19 @@ class DashboardController extends Controller
             $purchases = Purchase::with('car','worker','farmer')
                 ->whereBetween('tgl_beli',[$request->start_date, $request->end_date])
                 ->where('farmer_id', $request->farmer_id);
+        } else if ($request->start_date && $request->end_date && $request->worker_id) {
+            $purchases = Purchase::with('car', 'worker', 'farmer')
+                ->whereBetween('tgl_beli', [$request->start_date, $request->end_date])
+                ->where('worker_id', $request->worker_id);
         } else if($request->start_date && $request->end_date){
             $purchases = Purchase::with('car', 'worker', 'farmer')
                 ->whereBetween('tgl_beli', [$request->start_date, $request->end_date]);
         } else if($request->farmer_id){
             $purchases = Purchase::with('car', 'worker', 'farmer')
                 ->where('farmer_id', $request->farmer_id);
+        } else if ($request->worker_id) {
+            $purchases = Purchase::with('car', 'worker', 'farmer')
+            ->where('worker_id', $request->worker_id);
         } else {
             $purchases = Purchase::with('car', 'worker', 'farmer');
             // ->select(['id', 'tgl_panen', 'farmer.nama', 'selish', 'keterangan','tgl_beli','car->nama_kenradaan','trip','worker.nama']);
