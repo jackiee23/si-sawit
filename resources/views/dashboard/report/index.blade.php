@@ -14,12 +14,26 @@
                     {{ session('status') }}
                 </div> --}}
             @endif
-            <div class="card-header py-3 d-flex bd-highlight">
+            <div class="card-header py-3 d-flex justify-content-between">
+                    <div class="mb-3">
+                        <label for="farmer_id" class="form-label">Nama Petani</label>
+                        <select class="form-select form-control selectpicker" data-live-search="true" name="farmer_id" id="farmer_id">
+                            <option value="" selected>Pilih nama petani</option>
+                            @foreach ($farmer as $farmer)
+                            <option value="{{$farmer->id}}" {{old('farmer_id') == $farmer->id ? 'selected' : ''}} >{{$farmer->nama}}</option>
+                            @endforeach
+                        </select>
+                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
+                    </div>
                 {{-- <h6 class="m-0 font-weight-bold text-primary">Data admin</h6> --}}
-                <div class="col col-sm-3 input-daterange bd-highlight">
-                    <input type="text" class="form-control" placeholder="Select Date" readonly />
+                <div class="col col-sm-3 d-flex">
+                    <input type="text" class="form-control input-daterange d-inline" placeholder="Select Date" readonly />
+                <div class="col col-sm-3 d-inline">
+                    <input type="hidden" value="" name="start_date" id="start_date">
+                    <input type="hidden" value="" name="end_date" id="end_date">
+                    <button class="btn btn-primary reset d-inline">Reset</button>
                 </div>
-                <button class="btn btn-primary reset bd-highlight">Reset</button>
+                </div>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -63,7 +77,7 @@
 
 
 
-        function fetch_data(start_date = '', end_date = '') {
+        function fetch_data() {
             const table = $('#dataTable').DataTable({
                 processing: true,
                 serverSide: true,
@@ -72,8 +86,10 @@
                     url: "{{ route('purchasedata') }}",
                     data: {
                         action: 'fetch',
-                        start_date: start_date,
-                        end_date: end_date
+                        start_date: $('#start_date').val(),
+                        end_date: $('#end_date').val(),
+                        // range: $('.input-daterange').val(),
+                        farmer_id: $('#farmer_id').val()
                     },
                 },
                 columns: [{
@@ -216,7 +232,7 @@
         };
 
 
-        $('.input-daterange input').on('cancel.daterangepicker', function(ev, picker) {
+        $('.input-daterange').on('cancel.daterangepicker', function(ev, picker) {
             $(this).val('');
         });
 
@@ -224,7 +240,11 @@
             location.reload();
         });
 
-        $('.input-daterange input').daterangepicker({
+        $('.input-daterange').on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+        });
+
+        $('.input-daterange').daterangepicker({
                 autoUpdateInput: false,
                 locale: {
                     cancelLabel: 'Clear'
@@ -243,13 +263,20 @@
             function(start, end) {
 
                 $('#dataTable').DataTable().destroy();
+                $('#start_date').val(start.format('YYYY-MM-DD'));
+                $('#end_date').val(end.format('YYYY-MM-DD'));
 
-                fetch_data(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
+                // var start = start.format('YYYY-MM-DD');
+                // var end = end.format('YYYY-MM-DD');
+                fetch_data();
 
             });
 
-        $('.input-daterange input').on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+        $('#farmer_id').change(function(){
+            // $('.input.daterange').val()
+            $('#dataTable').DataTable().destroy();
+            fetch_data();
         });
+
     </script>
 @endsection

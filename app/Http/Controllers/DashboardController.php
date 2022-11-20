@@ -199,10 +199,17 @@ class DashboardController extends Controller
 
         public function purchasedata(Request $request)
     {
-        // dd($request->start_date);
-        if($request->start_date && $request->end_date){
+        // dd($request->farmer_id);
+        if($request->start_date && $request->end_date && $request->farmer_id){
             $purchases = Purchase::with('car','worker','farmer')
-                ->whereBetween('tgl_beli',[$request->start_date, $request->end_date]);
+                ->whereBetween('tgl_beli',[$request->start_date, $request->end_date])
+                ->where('farmer_id', $request->farmer_id);
+        } else if($request->start_date && $request->end_date){
+            $purchases = Purchase::with('car', 'worker', 'farmer')
+                ->whereBetween('tgl_beli', [$request->start_date, $request->end_date]);
+        } else if($request->farmer_id){
+            $purchases = Purchase::with('car', 'worker', 'farmer')
+                ->where('farmer_id', $request->farmer_id);
         } else {
             $purchases = Purchase::with('car', 'worker', 'farmer');
             // ->select(['id', 'tgl_panen', 'farmer.nama', 'selish', 'keterangan','tgl_beli','car->nama_kenradaan','trip','worker.nama']);
@@ -223,6 +230,7 @@ class DashboardController extends Controller
             })
             // ->editColumn('nilai', 'Rp.{{number_format($nilai,2,",",".")}}')
             // ->setRowId('id')
+            ->editColumn('harga', 'Rp.{{number_format($harga,2,",",".")}}')
             ->addIndexColumn()
             ->toJson();
             // ->make(true);
@@ -246,6 +254,8 @@ class DashboardController extends Controller
             // ->editColumn('nilai', 'Rp.{{number_format($nilai,2,",",".")}}')
             // ->setRowId('id')
             ->addIndexColumn()
+            ->editColumn('harga_pabrik', 'Rp.{{number_format($harga_pabrik,2,",",".")}}')
+            ->editColumn('harga_total', 'Rp.{{number_format($harga_total,2,",",".")}}')
             ->toJson();
             // ->make(true);
     }
@@ -262,7 +272,8 @@ class DashboardController extends Controller
             ->addColumn('car', function (Fuel $fuel) {
                 return $fuel->car->nama_kendaraan;
             })
-            // ->editColumn('nilai', 'Rp.{{number_format($nilai,2,",",".")}}')
+            ->editColumn('harga', 'Rp.{{number_format($harga,2,",",".")}}')
+            ->editColumn('harga_total', 'Rp.{{number_format($harga_total,2,",",".")}}')
             // ->setRowId('id')
             ->addIndexColumn()
             ->toJson();
@@ -281,7 +292,7 @@ class DashboardController extends Controller
             ->addColumn('car', function (Repair $repair) {
                 return $repair->car->nama_kendaraan;
             })
-            // ->editColumn('nilai', 'Rp.{{number_format($nilai,2,",",".")}}')
+            ->editColumn('jumlah', 'Rp.{{number_format($jumlah,2,",",".")}}')
             // ->setRowId('id')
             ->addIndexColumn()
             ->toJson();
