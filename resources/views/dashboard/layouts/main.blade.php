@@ -94,24 +94,6 @@
 
             <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item {{ ($title === "Laporan" ? 'active' : '') }}">
-                <a class="nav-link {{ ($title === "Laporan" ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseFour"
-                    aria-expanded="true" aria-controls="collapseFour">
-                    <i class="fas fa-flag"></i>
-                    <span>Laporan</span>
-                </a>
-                <div id="collapseFour" class="collapse {{ ($title === "Laporan Umum" || $title === "Laporan Khusus" ? 'show' : '') }}" aria-labelledby="headingFour" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Laporan :</h6>
-                        <a class="collapse-item {{ ($title === "Laporan Umum" ? 'active' : '') }}" href="/dashboard/laporan-umum">Laporan Umum</a>
-                        <a class="collapse-item {{ ($title === "Laporan Khusus" ? 'active' : '') }}" href="/dashboard/laporan-kusus">Laporan Khusus</a>
-                    </div>
-                </div>
-            </li>
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
             <!-- Nav Item - Dashboard -->
             {{-- <li class="nav-item {{ ($title === "Laporan" ? 'active' : '') }}">
                 <a class="nav-link" href="/dashboard/laporan">
@@ -141,6 +123,25 @@
             </li>
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item {{ ($title === "Laporan" ? 'active' : '') }}">
+                <a class="nav-link {{ ($title === "Laporan" ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseFour"
+                    aria-expanded="true" aria-controls="collapseFour">
+                    <i class="fas fa-flag"></i>
+                    <span>Laporan</span>
+                </a>
+                <div id="collapseFour" class="collapse {{ ($title === "Laporan Umum" || $title === "Laporan Khusus" ? 'show' : '') }}" aria-labelledby="headingFour" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Laporan :</h6>
+                        <a class="collapse-item {{ ($title === "Laporan Umum" ? 'active' : '') }}" href="/dashboard/laporan-umum">Laporan Umum</a>
+                        <a class="collapse-item {{ ($title === "Laporan Khusus" ? 'active' : '') }}" href="/dashboard/laporan-kusus">Laporan Khusus</a>
+                    </div>
+                </div>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item {{ ($title === "Ganti-Password" ? 'active' : '') }}">

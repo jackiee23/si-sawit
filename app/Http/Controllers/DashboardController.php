@@ -217,6 +217,9 @@ class DashboardController extends Controller
         } else if ($request->worker_id) {
             $purchases = Purchase::with('car', 'worker', 'farmer')
             ->where('worker_id', $request->worker_id);
+            // ->count();
+
+            // dd($purchases);
         } else {
             $purchases = Purchase::with('car', 'worker', 'farmer');
             // ->select(['id', 'tgl_panen', 'farmer.nama', 'selish', 'keterangan','tgl_beli','car->nama_kenradaan','trip','worker.nama']);

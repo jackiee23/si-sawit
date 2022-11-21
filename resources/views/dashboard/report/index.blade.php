@@ -24,7 +24,7 @@
                     </select>
                     <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                 </div>
-                <div class="mb-3 col-3 petani invisible">
+                <div class="mb-3 col-3 petani d-none">
                     <label for="farmer_id" class="form-label">Nama Petani</label>
                     <select class="form-select form-control selectpicker" data-live-search="true" name="farmer_id"
                         id="farmer_id">
@@ -36,7 +36,7 @@
                     </select>
                     <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                 </div>
-                <div class="mb-3 col-3 pekerja invisible">
+                <div class="mb-3 col-3 pekerja d-none">
                     <label for="worker_id" class="form-label">Nama Pekerja</label>
                     <select class="form-select form-control selectpicker" data-live-search="true" name="worker_id"
                         id="worker_id">
@@ -62,7 +62,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="table-responsive tabel invisible">
+                <div class="table-responsive tabel d-none">
                     <table class="table table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
@@ -248,12 +248,12 @@
 
         $('#farmer_id').change(function() {
             // $('.input.daterange').val()
-            $('#worker_id').val('');
+
             $('#dataTable').DataTable().destroy();
             fetch_data();
             var dt = $('#dataTable').DataTable();
             // dt.columns().visible(true);
-            dt.columns([1, 3, 4]).visible(false);
+            dt.columns([1, 3, 7, 4, 8]).visible(false);
         });
 
         // $('#farmer_id').change(function() {
@@ -263,42 +263,37 @@
 
         $('#worker_id').change(function() {
             // $('.input.daterange').val()
-            $('#farmer_id').val('');
+            // $('#farmer_id').prop('selectedIndex',0);
             $('#dataTable').DataTable().destroy();
             fetch_data();
             var dt = $('#dataTable').DataTable();
             // dt.columns().visible(true);
-            dt.columns([2, 4, 5, 6]).visible(false);
+            dt.columns([1,2, 4, 5, 6]).visible(false);
         });
 
         $('#tipe_laporan').change(function() {
             if ($(this).val() == 1) {
-                $('.pekerja').removeClass("visible");
-                $('.pekerja').addClass("invisible");
+                $('.pekerja').addClass("d-none");
                 var dt = $('#dataTable').DataTable();
                 dt.columns().visible(true);
-                $('.petani').removeClass("invisible");
-                $('.petani').addClass("visible");
-                $('.tabel').removeClass("invisible");
-                $('.tabel').addClass("visible");
+                $('.petani').removeClass("d-none");
+                $('#worker_id').val('default');
+                $('#worker_id').selectpicker("refresh");
+                $('.tabel').removeClass("d-none");
                 dt.columns([1, 3, 4]).visible(false);
             } else if ($(this).val() == 2) {
-                $('.petani').removeClass("visible");
-                $('.petani').addClass("invisible");
+                $('.petani').addClass("d-none");
                 var dt = $('#dataTable').DataTable();
                 dt.columns().visible(true);
                 dt.columns([2, 4, 5, 6]).visible(false);
-                $('.pekerja').removeClass("invisible");
-                $('.pekerja').addClass("visible");
-                $('.tabel').removeClass("invisible");
-                $('.tabel').addClass("visible");
+                $('#farmer_id').val('default');
+                $('#farmer_id').selectpicker("refresh");
+                $('.pekerja').removeClass("d-none");
+                $('.tabel').removeClass("d-none");
             } else {
-                $('.petani').removeClass("visible");
-                $('.petani').addClass("invisible");
-                $('.pekerja').removeClass("visible");
-                $('.pekerja').addClass("invisible");
-                $('.tabel').removeClass("visible");
-                $('.tabel').addClass("invisible");
+                $('.petani').addClass("d-none");
+                $('.pekerja').addClass("d-none");
+                $('.tabel').addClass("d-none");
             }
         });
     </script>
