@@ -64,6 +64,7 @@ class PurchaseController extends Controller
             'keterangan' => 'required'
         ]);
 
+        $harga_total = $request->harga*$request->jumlah_sawit;
         $panen = $request->tgl_panen;
         $beli = $request->tgl_beli;
         $interval = date_diff($beli, $panen);
@@ -81,6 +82,7 @@ class PurchaseController extends Controller
             'selisih' => $telat,
             'jumlah_sawit' => $request->jumlah_sawit,
             'harga' => $request->harga,
+            'harga_total' =>$harga_total,
             'worker_id' => $request->worker_id,
             'car_id' => $request->car_id,
             'trip' => $request->trip,
@@ -143,6 +145,7 @@ class PurchaseController extends Controller
             'keterangan' => 'required'
         ]);
 
+        $harga_total = $request->harga * $request->jumlah_sawit;
         $panen = date_create($request->tgl_panen);
         $beli = date_create($request->tgl_beli);
         $interval = $panen->diff($beli);
@@ -160,6 +163,7 @@ class PurchaseController extends Controller
             'selisih' => $telat,
             'jumlah_sawit' => $request->jumlah_sawit,
             'harga' => $request->harga,
+            'harga_total' => $harga_total,
             'worker_id' => $request->worker_id,
             'car_id' => $request->car_id,
             'trip' => $request->trip,

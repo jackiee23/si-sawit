@@ -21,6 +21,7 @@ class CreatePurchasesTable extends Migration
             $table->string('selisih');
             $table->char('jumlah_sawit');
             $table->char('harga');
+            $table->char('harga_total');
             $table->foreignId('worker_id');
             $table->foreignId('car_id');
             $table->char('trip')->nullable();
