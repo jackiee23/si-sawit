@@ -68,12 +68,13 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Pekerja</th>
+                                <th>Nama Petani</th>
                                 <th>Tanggal Panen</th>
                                 <th>Tanggal Pengambilan</th>
                                 <th>Ketepatan Waktu</th>
                                 <th>Jumlah Sawit(Kg)</th>
                                 <th>Harga</th>
-                                <th>Nama Petani</th>
+                                <th>Total Harga</th>
                                 <th>Nama Kendaraan</th>
                                 <th>Jumlah Trip</th>
                                 {{-- <th>Keterangan</th> --}}
@@ -131,6 +132,11 @@
                         sortable: false
                     },
                     {
+                        data: 'farmer',
+                        name: 'farmer.nama',
+                        sortable: false
+                    },
+                    {
                         data: 'tgl_panen',
                         name: 'tgl_panen'
                     },
@@ -151,9 +157,8 @@
                         name: 'harga'
                     },
                     {
-                        data: 'farmer',
-                        name: 'farmer.nama',
-                        sortable: false
+                        data: 'harga_total',
+                        name: 'harga_total'
                     },
                     {
                         data: 'car',
@@ -197,8 +202,17 @@
             $('.input-daterange').val('');
             $('#start_date').val('');
             $('#end_date').val('');
+            if($('#tipe_laporan').val() == 1){
             $('#dataTable').DataTable().destroy();
             fetch_data();
+                var dt = $('#dataTable').DataTable();
+                dt.columns([1, 4, 5, 9]).visible(false);
+            } else if($('#tipe_laporan').val() == 2){
+                $('#dataTable').DataTable().destroy();
+                fetch_data();
+                var dt = $('#dataTable').DataTable();
+                dt.columns([3, 5, 6, 7, 8]).visible(false);
+            }
             // location.reload();
         });
 
@@ -234,14 +248,14 @@
                 fetch_data();
                 var farmer = $('#farmer_id').val();
                 var worker = $('#worker_id').val();
-                if (worker != '') {
+                if ($('#tipe_laporan').val() == 2) {
                     var dt = $('#dataTable').DataTable();
                     // dt.columns().visible(true);
-                    dt.columns([2, 4, 5, 6]).visible(false);
-                } else if (farmer != '') {
+                    dt.columns([3, 5, 6, 7, 8]).visible(false);
+                } else if ($('#tipe_laporan').val() == 1) {
                     var dt = $('#dataTable').DataTable();
                     // dt.columns().visible(true);
-                    dt.columns([1, 3, 4]).visible(false);
+                    dt.columns([1, 4, 5, 9]).visible(false);
                 };
 
             });
@@ -253,7 +267,7 @@
             fetch_data();
             var dt = $('#dataTable').DataTable();
             // dt.columns().visible(true);
-            dt.columns([1, 3, 7, 4, 8]).visible(false);
+            dt.columns([1, 4, 5, 9]).visible(false);
         });
 
         // $('#farmer_id').change(function() {
@@ -268,7 +282,7 @@
             fetch_data();
             var dt = $('#dataTable').DataTable();
             // dt.columns().visible(true);
-            dt.columns([1,2, 4, 5, 6]).visible(false);
+            dt.columns([3, 5, 6, 7, 8]).visible(false);
         });
 
         $('#tipe_laporan').change(function() {
@@ -280,10 +294,19 @@
                 $('#worker_id').val('default');
                 $('#worker_id').selectpicker("refresh");
                 $('.tabel').removeClass("d-none");
-                dt.columns([1, 3, 4]).visible(false);
+                dt.columns([1, 4, 5, 9]).visible(false);
             } else if ($(this).val() == 2) {
                 $('.petani').addClass("d-none");
+                $('#farmer_id').val('default');
+                $('#farmer_id').selectpicker("refresh");
                 var dt = $('#dataTable').DataTable();
+                dt.columns().visible(true);
+                dt.columns([3, 5, 6, 7, 8]).visible(false);
+                $('.pekerja').removeClass("d-none");
+                $('.tabel').removeClass("d-none");
+            }  else if ($(this).val() == 3) {
+                $('.petani').addClass("d-none");
+                var dt = $('#carTable').DataTable();
                 dt.columns().visible(true);
                 dt.columns([2, 4, 5, 6]).visible(false);
                 $('#farmer_id').val('default');

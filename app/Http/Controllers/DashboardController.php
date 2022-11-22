@@ -121,10 +121,38 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function cardata()
+    public function cardata(Request $request)
     {
         // return Datatables::of(Car::query())->make(true);
+        // if ($request->start_date && $request->end_date && $request->car_id) {
+        //     $cars = Car::with('worker')
+        //     ->whereBetween('tgl_beli', [$request->start_date, $request->end_date])
+        //     ->where('farmer_id', $request->farmer_id);
+        // } else if ($request->start_date && $request->end_date && $request->worker_id) {
+        //     $cars = Car::with( 'worker')
+        //     ->whereBetween('tgl_beli', [$request->start_date, $request->end_date])
+        //     ->where('worker_id', $request->worker_id);
+        // } else if ($request->start_date && $request->end_date) {
+        //     $cars = Car::with( 'worker')
+        //     ->whereBetween('tgl_beli', [$request->start_date, $request->end_date]);
+        // } else if ($request->farmer_id) {
+        //     $cars = Car::with( 'worker')
+        //     ->where('farmer_id', $request->farmer_id);
+        // } else if ($request->worker_id) {
+        //     $cars = Car::with('worker')
+        //     ->where('worker_id', $request->worker_id);
+        //     // ->count();
+
+        //     // dd($purchases);
+        // } else {
+        //     $purchases = Purchase::with('car', 'worker', 'farmer');
+        //     // ->select(['id', 'tgl_panen', 'farmer.nama', 'selish', 'keterangan','tgl_beli','car->nama_kenradaan','trip','worker.nama']);
+        // }
+
         $cars = DB::table('cars');
+        // ->join('purchases','car_id', '=', 'purchases.car_id')
+        // ->get();
+        // dd($cars);
             // ->select(['id', 'nama_kendaraan', 'merek', 'tgl_beli', 'keadaan_beli', 'umur_kendaraan']);
 
         return Datatables::of($cars)
@@ -197,7 +225,7 @@ class DashboardController extends Controller
             ->make(true);
     }
 
-        public function purchasedata(Request $request)
+    public function purchasedata(Request $request)
     {
         // dd($request->farmer_id);
         if($request->start_date && $request->end_date && $request->farmer_id){
@@ -241,6 +269,7 @@ class DashboardController extends Controller
             // ->editColumn('nilai', 'Rp.{{number_format($nilai,2,",",".")}}')
             // ->setRowId('id')
             ->editColumn('harga', 'Rp.{{number_format($harga,2,",",".")}}')
+            ->editColumn('harga_total', 'Rp.{{number_format($harga_total,2,",",".")}}')
             ->addIndexColumn()
             ->toJson();
             // ->make(true);

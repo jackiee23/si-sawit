@@ -30,6 +30,7 @@
                                 <th>Ketepatan Waktu</th>
                                 <th>Jumlah Sawit(Kg)</th>
                                 <th>Harga</th>
+                                <th>Total Harga</th>
                                 <th>Nama Pekerja</th>
                                 <th>Nama Kendaraan</th>
                                 <th>Jumlah Trip</th>
@@ -87,6 +88,10 @@
                 {
                     data: 'harga',
                     name: 'harga'
+                },
+                {
+                    data: 'harga_total',
+                    name: 'harga_total'
                 },
                 {
                     data: 'worker',

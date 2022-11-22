@@ -10,7 +10,7 @@ class Farmer extends Model
     use HasFactory;
     protected $fillable=['nama', 'alamat', 'no_wa', 'luas', 'jarak', 'umur'];
 
-    public function purchase(){
+    public function purchases(){
         return $this->hasMany(Purchase::class);
     }
 }

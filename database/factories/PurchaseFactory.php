@@ -14,8 +14,8 @@ class PurchaseFactory extends Factory
      */
     public function definition()
     {
-        $harga = $this->faker->randomNumber(4);
         $jumlah = $this->faker->randomNumber(3);
+        $harga = $this->faker->randomNumber(4);
         $harga_total = $harga * $jumlah;
 
         return [
