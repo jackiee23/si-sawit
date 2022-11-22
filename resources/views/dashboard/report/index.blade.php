@@ -385,7 +385,7 @@
                 $('.tabel').addClass("d-none");
                 $('.bahan-bakar').removeClass("d-none");
             } else {
-                $('.petani').addClass("d-none");
+                $('.bahan-bakar').addClass("d-none");
                 $('.pekerja').addClass("d-none");
                 $('.tabel').addClass("d-none");
             }
