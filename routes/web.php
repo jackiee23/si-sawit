@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function(){
 
     //server-side
     Route::get('/dashboard/fueldata', [DashboardController::class, 'fueldata'])->name('fueldata');
+    Route::get('/dashboard/fuelday', [DashboardController::class, 'fuelday'])->name('fuelday');
     Route::get('/dashboard/farmerdata', [DashboardController::class, 'farmerdata'])->name('farmerdata');
     Route::get('/dashboard/loandata', [DashboardController::class, 'loandata'])->name('loandata');
     Route::get('/dashboard/purchasedata', [DashboardController::class, 'purchasedata'])->name('purchasedata');

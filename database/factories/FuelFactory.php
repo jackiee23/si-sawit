@@ -14,7 +14,7 @@ class FuelFactory extends Factory
      */
     public function definition()
     {
-        $harga = $this->faker->randomNumber(4);
+        $harga = 10000;
         $jumlah = $this->faker->randomNumber(2);
         $total = $harga * $jumlah;
 

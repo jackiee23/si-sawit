@@ -21,6 +21,7 @@
                         <option value="0" selected>Pilih tipe laporan</option>
                         <option value="1">Laporan Petani</option>
                         <option value="2">Laporan Pekerja</option>
+                        <option value="3">Laporan Bahan Bakar</option>
                     </select>
                     <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                 </div>
@@ -86,6 +87,23 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="table-responsive bahan-bakar d-none">
+                    <table class="table table-striped table-hover" id="fuelTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Tanggal Pengisian</th>
+                                <th>Kendaraan</th>
+                                <th>Jumlah Bahan Bakar Harian</th>
+                                <th>Harga</th>
+                                <th>Total Harga</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -105,6 +123,59 @@
         });
 
 
+        const table = $('#fuelTable').DataTable({
+            processing: true,
+            searching: false,
+            serverSide: true,
+            ajax: '{{ route('fuelday') }}',
+            columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'id',
+                },
+                {
+                    data: 'my_date',
+                    name: 'my_date',
+                    sortable: false
+                },
+                {
+                    data: 'car',
+                    name: 'car.nama_kendaraan',
+                    sortable: false
+                },
+                {
+                    data: 'total_liter',
+                    name: 'total_liter'
+                },
+                {
+                    data: 'harga',
+                    name: 'harga'
+                },
+                {
+                    data: 'total_harga',
+                    name: 'total_harga'
+                },
+                // {
+                //     data: 'keterangan',
+                //     name: 'keterangan',
+                //     sortable: false
+                // },
+                // {
+                //     data: 'action',
+                //     name: 'action',
+                //     orderable: false,
+                //     searchable: false
+                // }
+                //         {
+                // 'orderable': false,
+                // 'searchable': false,
+                // 'data': null,
+                // 'render': function (data, type, row, meta) {
+                //     console.log(data);
+                //     return ' <a id="edit" href="" ><i class="edit fas fa-edit text-success"></i></a> <form id="formHapus" action="/dashboard/farmer/" method="post" class="d-inline" > @method('delete') @csrf <button type="submit" class="fas fa-trash text-danger border-0 tombol-hapus"></button> </form>';
+                // }
+                // }
+            ]
+        });
 
         function fetch_data() {
             const table = $('#dataTable').DataTable({
@@ -306,13 +377,13 @@
                 $('.tabel').removeClass("d-none");
             }  else if ($(this).val() == 3) {
                 $('.petani').addClass("d-none");
-                var dt = $('#carTable').DataTable();
-                dt.columns().visible(true);
-                dt.columns([2, 4, 5, 6]).visible(false);
+                $('.pekerja').addClass("d-none");
                 $('#farmer_id').val('default');
                 $('#farmer_id').selectpicker("refresh");
-                $('.pekerja').removeClass("d-none");
-                $('.tabel').removeClass("d-none");
+                $('#worker_id').val('default');
+                $('#worker_id').selectpicker("refresh");
+                $('.tabel').addClass("d-none");
+                $('.bahan-bakar').removeClass("d-none");
             } else {
                 $('.petani').addClass("d-none");
                 $('.pekerja').addClass("d-none");

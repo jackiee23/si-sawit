@@ -18,7 +18,8 @@ use JetBrains\PhpStorm\Pure;
 
 class DashboardController extends Controller
 {
-    public function index(){
+    public function index()
+    {
 
         // $payment = Sale::find(1);
 
@@ -27,11 +28,11 @@ class DashboardController extends Controller
 
         //penjualan bulan ini
         $total_harga = DB::table('sales')
-        // ->select(DB::raw("SUM(harga_total) as total_harga"))
-        ->selectRaw("CAST(SUM(harga_total)as int) as total_harga")
-        ->whereMonth('tgl_jual', now())
-        ->whereYear('tgl_jual', now())
-        ->first();
+            // ->select(DB::raw("SUM(harga_total) as total_harga"))
+            ->selectRaw("CAST(SUM(harga_total)as int) as total_harga")
+            ->whereMonth('tgl_jual', now())
+            ->whereYear('tgl_jual', now())
+            ->first();
         // ->whereMonth('created_at',now())
         // ->pluck('total_harga');
         // dd($month);
@@ -48,24 +49,39 @@ class DashboardController extends Controller
             ->groupByRaw('MONTHNAME(tgl_jual)')
             ->orderByRaw('tgl_jual ASC')
             ->pluck('nama_bulan');
-            // ->get()->all();
+        // ->get()->all();
         // dd($nama_bulan);
+
+        $cars = Car::addSelect([
+            'jumlah_petani' => Purchase::selectRaw('COUNT(*)')->whereColumn('car_id', 'cars.id')->limit(1),
+            // 'bahan_bakar' => Fuel::selectRaw("CAST(SUM(harga_total)as int) as total_harga")->whereColumn('car_id', 'cars.id')->groupByRaw('tgl_pengisian')
+            // ->orderBy('tgl_pembelian','desc')
+            // ->limit(1)
+        ])
+            ->get();
+        // dd($cars);
+
+        $fuels = Fuel::select("id", DB::raw("harga as harga"), DB::raw("(sum(jumlah_liter))as total_liter"), DB::raw("(sum(harga_total))as total_harga"), DB::raw("(DATE_FORMAT(tgl_pengisian, '%d-%m-%Y')) as my_date"), DB::raw("car_id as car"))
+            ->orderBy('tgl_pengisian')
+            ->groupBy('car_id')
+            ->get();
+        // dd($fuels);
 
         //penjualan tahun ini
         $penjualan = DB::table('sales')
-        ->selectRaw("CAST(SUM(harga_total)as int) as penjualan")
-        ->whereYear('tgl_jual', now())
-        ->groupByRaw('Month(tgl_jual)')
-        ->orderByRaw('tgl_jual ASC')
-        ->pluck('penjualan');
+            ->selectRaw("CAST(SUM(harga_total)as int) as penjualan")
+            ->whereYear('tgl_jual', now())
+            ->groupByRaw('Month(tgl_jual)')
+            ->orderByRaw('tgl_jual ASC')
+            ->pluck('penjualan');
         // dd($penjualan);
 
         //perbaikan bulan ini
         $perbaikan = DB::table('repairs')
-        ->selectRaw("CAST(SUM(jumlah)as int) as perbaikan")
-        ->whereYear('tgl_perbaikan', now())
-        ->whereMonth('tgl_perbaikan', now())
-        ->first();
+            ->selectRaw("CAST(SUM(jumlah)as int) as perbaikan")
+            ->whereYear('tgl_perbaikan', now())
+            ->whereMonth('tgl_perbaikan', now())
+            ->first();
         // dd($perbaikan);
 
         //pembelian bulan ini
@@ -89,29 +105,29 @@ class DashboardController extends Controller
             ->selectRaw("COUNT(id) as total_admin")
             // ->pluck('total_admin');
             ->first();
-            // dd($total_admin);
+        // dd($total_admin);
 
         //total pekerja
         $total_pekerja = DB::table('workers')
             ->selectRaw("COUNT(id) as total_pekerja")
             // ->pluck('total_admin');
             ->first();
-            // dd($total_pekerja);
+        // dd($total_pekerja);
 
         //total admin
         $total_petani = DB::table('farmers')
             ->selectRaw("COUNT(id) as total_petani")
             // ->pluck('total_admin');
             ->first();
-            // dd($total_petani);
+        // dd($total_petani);
 
 
 
 
-        return view('dashboard.index',[
+        return view('dashboard.index', [
             'title' => 'Dashboard',
             'total_bulanan' => $total_harga->total_harga,
-            'total_beli' => $total_beli-> total_beli + $perbaikan->perbaikan,
+            'total_beli' => $total_beli->total_beli + $perbaikan->perbaikan,
             'total_sawit' => $total_sawit->total_sawit,
             'penjualan' => $penjualan,
             'nama_bulan' => $nama_bulan,
@@ -119,6 +135,14 @@ class DashboardController extends Controller
             'total_petani' => $total_petani->total_petani,
             'total_admin' => $total_admin->total_admin
         ]);
+    }
+
+    public function carday(Request $request)
+    {
+        $cars = Car::with('purchase', 'fuel', 'repair')
+            ->selectRaw("CAST(SUM(harga)as int) as harga")
+            ->get();
+        dd($cars);
     }
 
     public function cardata(Request $request)
@@ -153,11 +177,11 @@ class DashboardController extends Controller
         // ->join('purchases','car_id', '=', 'purchases.car_id')
         // ->get();
         // dd($cars);
-            // ->select(['id', 'nama_kendaraan', 'merek', 'tgl_beli', 'keadaan_beli', 'umur_kendaraan']);
+        // ->select(['id', 'nama_kendaraan', 'merek', 'tgl_beli', 'keadaan_beli', 'umur_kendaraan']);
 
         return Datatables::of($cars)
             ->addColumn('action', function ($car) {
-                return '<div class="text-center"><a href="/dashboard/car/'.$car->id.'/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form></div>';
+                return '<div class="text-center"><a href="/dashboard/car/' . $car->id . '/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form></div>';
             })
             // ->editColumn('id', 'ID: {{$id}}')
             // ->setRowId('id')
@@ -228,23 +252,23 @@ class DashboardController extends Controller
     public function purchasedata(Request $request)
     {
         // dd($request->farmer_id);
-        if($request->start_date && $request->end_date && $request->farmer_id){
-            $purchases = Purchase::with('car','worker','farmer')
-                ->whereBetween('tgl_beli',[$request->start_date, $request->end_date])
+        if ($request->start_date && $request->end_date && $request->farmer_id) {
+            $purchases = Purchase::with('car', 'worker', 'farmer')
+                ->whereBetween('tgl_beli', [$request->start_date, $request->end_date])
                 ->where('farmer_id', $request->farmer_id);
         } else if ($request->start_date && $request->end_date && $request->worker_id) {
             $purchases = Purchase::with('car', 'worker', 'farmer')
                 ->whereBetween('tgl_beli', [$request->start_date, $request->end_date])
                 ->where('worker_id', $request->worker_id);
-        } else if($request->start_date && $request->end_date){
+        } else if ($request->start_date && $request->end_date) {
             $purchases = Purchase::with('car', 'worker', 'farmer')
                 ->whereBetween('tgl_beli', [$request->start_date, $request->end_date]);
-        } else if($request->farmer_id){
+        } else if ($request->farmer_id) {
             $purchases = Purchase::with('car', 'worker', 'farmer')
                 ->where('farmer_id', $request->farmer_id);
         } else if ($request->worker_id) {
             $purchases = Purchase::with('car', 'worker', 'farmer')
-            ->where('worker_id', $request->worker_id);
+                ->where('worker_id', $request->worker_id);
             // ->count();
 
             // dd($purchases);
@@ -272,14 +296,14 @@ class DashboardController extends Controller
             ->editColumn('harga_total', 'Rp.{{number_format($harga_total,2,",",".")}}')
             ->addIndexColumn()
             ->toJson();
-            // ->make(true);
+        // ->make(true);
     }
 
     public function saledata()
     {
         $sales = Sale::with('car', 'worker');
         // ->select(['id', 'tgl_panen', 'farmer.nama', 'selish', 'keterangan','tgl_beli','car->nama_kenradaan','trip','worker.nama']);
-
+        // dd($sales);
         return Datatables::of($sales)
             ->addColumn('action', function ($sale) {
                 return '<div class="text-center"><a href="/dashboard/sale/' . $sale->id . '/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form></div>';
@@ -296,7 +320,28 @@ class DashboardController extends Controller
             ->editColumn('harga_pabrik', 'Rp.{{number_format($harga_pabrik,2,",",".")}}')
             ->editColumn('harga_total', 'Rp.{{number_format($harga_total,2,",",".")}}')
             ->toJson();
-            // ->make(true);
+        // ->make(true);
+    }
+
+    public function fuelday(){
+        $fuels = Fuel::select("id", DB::raw("harga as harga"), DB::raw("(sum(jumlah_liter))as total_liter"), DB::raw("(sum(harga_total))as total_harga"), DB::raw("(DATE_FORMAT(tgl_pengisian, '%d-%m-%Y')) as my_date"), DB::raw("car_id as car_id"))
+            ->orderBy('tgl_pengisian')
+            ->groupBy('tgl_pengisian')
+            ->groupBy('car_id');
+
+            // ->get();
+            // dd($fuels);
+
+        return Datatables::of($fuels)
+            ->addColumn('car', function (Fuel $fuel) {
+                return $fuel->car->nama_kendaraan;
+            })
+            ->editColumn('harga', 'Rp.{{number_format($harga,2,",",".")}}')
+            ->editColumn('total_harga', 'Rp.{{number_format($total_harga,2,",",".")}}')
+            // ->setRowId('id')
+            ->addIndexColumn()
+            ->toJson();
+        // ->make(true);
     }
 
     public function fueldata()
@@ -316,7 +361,7 @@ class DashboardController extends Controller
             // ->setRowId('id')
             ->addIndexColumn()
             ->toJson();
-            // ->make(true);
+        // ->make(true);
     }
 
     public function repairdata()
@@ -335,7 +380,6 @@ class DashboardController extends Controller
             // ->setRowId('id')
             ->addIndexColumn()
             ->toJson();
-            // ->make(true);
+        // ->make(true);
     }
-
 }
