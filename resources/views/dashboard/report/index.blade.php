@@ -22,6 +22,7 @@
                         <option value="1">Laporan Petani</option>
                         <option value="2">Laporan Pekerja</option>
                         <option value="3">Laporan Bahan Bakar</option>
+                        <option value="4">Laporan Pemasukan</option>
                     </select>
                     <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                 </div>
@@ -52,12 +53,11 @@
                 <div class="col col-3">
                     <label for="worker_id" class="form-label">Filter Tanggal</label>
                     <div class="col d-flex">
-                    <input type="text" class="form-control input-daterange" placeholder="Select Date"
-                        readonly />
-                    <div class="col">
-                        <input type="hidden" value="" name="start_date" id="start_date">
-                        <input type="hidden" value="" name="end_date" id="end_date">
-                        <button class="btn btn-primary reset">Reset</button>
+                        <input type="text" class="form-control input-daterange" placeholder="Select Date" readonly />
+                        <div class="col">
+                            <input type="hidden" value="" name="start_date" id="start_date">
+                            <input type="hidden" value="" name="end_date" id="end_date">
+                            <button class="btn btn-primary reset">Reset</button>
                         </div>
                     </div>
                 </div>
@@ -104,6 +104,23 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="table-responsive pemasukan d-none">
+                    <table class="table table-striped table-hover" id="pemasukanTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Tanggal</th>
+                                <th>Jumlah Sawit(Kg)</th>
+                                <th>Harga Pabrik</th>
+                                <th>Omset Penjualan</th>
+                                {{-- <th>Nama Pabrik</th> --}}
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -111,6 +128,8 @@
     <script>
         $(document).ready(function() {
             fetch_data();
+            reload_data();
+            pemasukan_data();
             // $('#dataTable_filter').hide();
 
 
@@ -122,60 +141,146 @@
 
         });
 
+        function pemasukan_data() {
+            const table = $('#pemasukanTable').DataTable({
+                processing: true,
+                searching: false,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('saledata') }}",
+                    data: {
+                        action: 'fetch',
+                        start_date: $('#start_date').val(),
+                        end_date: $('#end_date').val(),
+                        // range: $('.input-daterange').val(),
+                        // farmer_id: $('#farmer_id').val(),
+                        // worker_id: $('#worker_id').val()
+                    },
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'id',
+                    },
+                    {
+                        data: 'tgl_jual',
+                        name: 'tgl_jual',
+                        sortable: false
+                    },
+                    {
+                        data: 'jumlah',
+                        name: 'jumlah'
+                    },
+                    {
+                        data: 'harga_pabrik',
+                        name: 'harga_pabrik'
+                    },
+                    {
+                        data: 'harga_total',
+                        name: 'harga_total'
+                    },
+                    // {
+                    //     data: 'worker',
+                    //     name: 'worker.nama',
+                    //     sortable: false
+                    // },
+                    // {
+                    //     data: 'car',
+                    //     name: 'car.nama_kendaraan',
+                    //     sortable: false
+                    // },
+                    // {
+                    //     data: 'pabrik',
+                    //     name: 'pabrik'
+                    // },
+                    // {
+                    //     data: 'keterangan',
+                    //     name: 'keterangan',
+                    //     sortable: false
+                    // },
+                    // {
+                    //     data: 'action',
+                    //     name: 'action',
+                    //     orderable: false,
+                    //     searchable: false
+                    // }
+                    //         {
+                    // 'orderable': false,
+                    // 'searchable': false,
+                    // 'data': null,
+                    // 'render': function (data, type, row, meta) {
+                    //     console.log(data);
+                    //     return ' <a id="edit" href="" ><i class="edit fas fa-edit text-success"></i></a> <form id="formHapus" action="/dashboard/farmer/" method="post" class="d-inline" > @method('delete') @csrf <button type="submit" class="fas fa-trash text-danger border-0 tombol-hapus"></button> </form>';
+                    // }
+                    // }
+                ]
+            });
+        };
 
-        const table = $('#fuelTable').DataTable({
-            processing: true,
-            searching: false,
-            serverSide: true,
-            ajax: '{{ route('fuelday') }}',
-            columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'id',
+        function reload_data() {
+            const table = $('#fuelTable').DataTable({
+                processing: true,
+                searching: false,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('fuelday') }}",
+                    data: {
+                        action: 'fetch',
+                        start_date: $('#start_date').val(),
+                        end_date: $('#end_date').val(),
+                        // range: $('.input-daterange').val(),
+                        // farmer_id: $('#farmer_id').val(),
+                        // worker_id: $('#worker_id').val()
+                    },
                 },
-                {
-                    data: 'my_date',
-                    name: 'my_date',
-                    sortable: false
-                },
-                {
-                    data: 'car',
-                    name: 'car.nama_kendaraan',
-                    sortable: false
-                },
-                {
-                    data: 'total_liter',
-                    name: 'total_liter'
-                },
-                {
-                    data: 'harga',
-                    name: 'harga'
-                },
-                {
-                    data: 'total_harga',
-                    name: 'total_harga'
-                },
-                // {
-                //     data: 'keterangan',
-                //     name: 'keterangan',
-                //     sortable: false
-                // },
-                // {
-                //     data: 'action',
-                //     name: 'action',
-                //     orderable: false,
-                //     searchable: false
-                // }
-                //         {
-                // 'orderable': false,
-                // 'searchable': false,
-                // 'data': null,
-                // 'render': function (data, type, row, meta) {
-                //     console.log(data);
-                //     return ' <a id="edit" href="" ><i class="edit fas fa-edit text-success"></i></a> <form id="formHapus" action="/dashboard/farmer/" method="post" class="d-inline" > @method('delete') @csrf <button type="submit" class="fas fa-trash text-danger border-0 tombol-hapus"></button> </form>';
-                // }
-                // }
-            ]
-        });
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'id',
+                    },
+                    {
+                        data: 'my_date',
+                        name: 'my_date',
+                        sortable: false
+                    },
+                    {
+                        data: 'car',
+                        name: 'car.nama_kendaraan',
+                        sortable: false
+                    },
+                    {
+                        data: 'total_liter',
+                        name: 'total_liter'
+                    },
+                    {
+                        data: 'harga',
+                        name: 'harga'
+                    },
+                    {
+                        data: 'total_harga',
+                        name: 'total_harga'
+                    },
+                    // {
+                    //     data: 'keterangan',
+                    //     name: 'keterangan',
+                    //     sortable: false
+                    // },
+                    // {
+                    //     data: 'action',
+                    //     name: 'action',
+                    //     orderable: false,
+                    //     searchable: false
+                    // }
+                    //         {
+                    // 'orderable': false,
+                    // 'searchable': false,
+                    // 'data': null,
+                    // 'render': function (data, type, row, meta) {
+                    //     console.log(data);
+                    //     return ' <a id="edit" href="" ><i class="edit fas fa-edit text-success"></i></a> <form id="formHapus" action="/dashboard/farmer/" method="post" class="d-inline" > @method('delete') @csrf <button type="submit" class="fas fa-trash text-danger border-0 tombol-hapus"></button> </form>';
+                    // }
+                    // }
+                ]
+            });
+        };
 
         function fetch_data() {
             const table = $('#dataTable').DataTable({
@@ -273,16 +378,22 @@
             $('.input-daterange').val('');
             $('#start_date').val('');
             $('#end_date').val('');
-            if($('#tipe_laporan').val() == 1){
-            $('#dataTable').DataTable().destroy();
-            fetch_data();
+            if ($('#tipe_laporan').val() == 1) {
+                $('#dataTable').DataTable().destroy();
+                fetch_data();
                 var dt = $('#dataTable').DataTable();
                 dt.columns([1, 4, 5, 9]).visible(false);
-            } else if($('#tipe_laporan').val() == 2){
+            } else if ($('#tipe_laporan').val() == 2) {
                 $('#dataTable').DataTable().destroy();
                 fetch_data();
                 var dt = $('#dataTable').DataTable();
                 dt.columns([3, 5, 6, 7, 8]).visible(false);
+            } else if ($('#tipe_laporan').val() == 3) {
+                $('#fuelTable').DataTable().destroy();
+                reload_data();
+            } else if($('#tipe_laporan').val() == 4){
+                $('#pemasukanTable').DataTable().destroy();
+                pemasukan_data();
             }
             // location.reload();
         });
@@ -310,6 +421,8 @@
             function(start, end) {
 
                 $('#dataTable').DataTable().destroy();
+                $('#fuelTable').DataTable().destroy();
+                $('#pemasukanTable').DataTable().destroy();
                 $('#start_date').val(start.format('YYYY-MM-DD'));
                 $('#end_date').val(end.format('YYYY-MM-DD'));
 
@@ -327,6 +440,10 @@
                     var dt = $('#dataTable').DataTable();
                     // dt.columns().visible(true);
                     dt.columns([1, 4, 5, 9]).visible(false);
+                } else if ($('#tipe_laporan').val() == 3) {
+                    reload_data();
+                }else if($('#tipe_laporan').val() == 4){
+                    pemasukan_data();
                 };
 
             });
@@ -364,6 +481,8 @@
                 $('.petani').removeClass("d-none");
                 $('#worker_id').val('default');
                 $('#worker_id').selectpicker("refresh");
+                $('.pemasukan').addClass("d-none");
+                $('.bahan-bakar').addClass("d-none");
                 $('.tabel').removeClass("d-none");
                 dt.columns([1, 4, 5, 9]).visible(false);
             } else if ($(this).val() == 2) {
@@ -374,8 +493,10 @@
                 dt.columns().visible(true);
                 dt.columns([3, 5, 6, 7, 8]).visible(false);
                 $('.pekerja').removeClass("d-none");
+                $('.pemasukan').addClass("d-none");
                 $('.tabel').removeClass("d-none");
-            }  else if ($(this).val() == 3) {
+                $('.bahan-bakar').addClass("d-none");
+            } else if ($(this).val() == 3) {
                 $('.petani').addClass("d-none");
                 $('.pekerja').addClass("d-none");
                 $('#farmer_id').val('default');
@@ -383,11 +504,23 @@
                 $('#worker_id').val('default');
                 $('#worker_id').selectpicker("refresh");
                 $('.tabel').addClass("d-none");
+                $('.pemasukan').addClass("d-none");
                 $('.bahan-bakar').removeClass("d-none");
+            } else if ($(this).val() == 4) {
+                $('.petani').addClass("d-none");
+                $('.pekerja').addClass("d-none");
+                $('#farmer_id').val('default');
+                $('#farmer_id').selectpicker("refresh");
+                $('#worker_id').val('default');
+                $('#worker_id').selectpicker("refresh");
+                $('.tabel').addClass("d-none");
+                $('.bahan-bakar').addClass("d-none");
+                $('.pemasukan').removeClass("d-none");
             } else {
                 $('.bahan-bakar').addClass("d-none");
                 $('.pekerja').addClass("d-none");
                 $('.tabel').addClass("d-none");
+                $('.pemasukan').addClass("d-none");
             }
         });
     </script>

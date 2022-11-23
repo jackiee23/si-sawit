@@ -52,20 +52,22 @@ class DashboardController extends Controller
         // ->get()->all();
         // dd($nama_bulan);
 
-        $cars = Car::addSelect([
-            'jumlah_petani' => Purchase::selectRaw('COUNT(*)')->whereColumn('car_id', 'cars.id')->limit(1),
+        //report kendaraan
+        $cars = DB::table('cars')
+        // ->join('fuels', 'cars.id', '=', 'fuels.car_id')
+        ->join('purchases', 'cars.id', '=', 'purchases.car_id')
+        ->join('farmers', 'farmer_id', '=', 'farmers.id')
+        // addSelect([
+            // 'jumlah_petani' => Purchase::selectRaw('COUNT(*)')->whereColumn('car_id', 'cars.id')->limit(1),
             // 'bahan_bakar' => Fuel::selectRaw("CAST(SUM(harga_total)as int) as total_harga")->whereColumn('car_id', 'cars.id')->groupByRaw('tgl_pengisian')
-            // ->orderBy('tgl_pembelian','desc')
             // ->limit(1)
-        ])
+            // ])
+            // ->groupBy('tgl_pengisian')
+            ->groupBy('purchases.tgl_beli')
+            ->orderBy('purchases.tgl_beli')
+            ->groupBy('cars.id')
             ->get();
         // dd($cars);
-
-        $fuels = Fuel::select("id", DB::raw("harga as harga"), DB::raw("(sum(jumlah_liter))as total_liter"), DB::raw("(sum(harga_total))as total_harga"), DB::raw("(DATE_FORMAT(tgl_pengisian, '%d-%m-%Y')) as my_date"), DB::raw("car_id as car"))
-            ->orderBy('tgl_pengisian')
-            ->groupBy('car_id')
-            ->get();
-        // dd($fuels);
 
         //penjualan tahun ini
         $penjualan = DB::table('sales')
@@ -142,7 +144,7 @@ class DashboardController extends Controller
         $cars = Car::with('purchase', 'fuel', 'repair')
             ->selectRaw("CAST(SUM(harga)as int) as harga")
             ->get();
-        dd($cars);
+        // dd($cars);
     }
 
     public function cardata(Request $request)
@@ -299,11 +301,17 @@ class DashboardController extends Controller
         // ->make(true);
     }
 
-    public function saledata()
+    public function saledata(Request $request)
     {
-        $sales = Sale::with('car', 'worker');
-        // ->select(['id', 'tgl_panen', 'farmer.nama', 'selish', 'keterangan','tgl_beli','car->nama_kenradaan','trip','worker.nama']);
-        // dd($sales);
+        if($request->start_date && $request->end_date){
+            $sales = Sale::with('car', 'worker')
+                ->whereBetween('tgl_jual',[$request->start_date, $request->end_date])
+                ->orderBy('tgl_jual', 'desc');
+        } else{
+            $sales = Sale::with('car', 'worker')
+                ->orderBy('tgl_jual', 'desc');
+        }
+
         return Datatables::of($sales)
             ->addColumn('action', function ($sale) {
                 return '<div class="text-center"><a href="/dashboard/sale/' . $sale->id . '/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form></div>';
@@ -323,14 +331,25 @@ class DashboardController extends Controller
         // ->make(true);
     }
 
-    public function fuelday(){
-        $fuels = Fuel::select("id", DB::raw("harga as harga"), DB::raw("(sum(jumlah_liter))as total_liter"), DB::raw("(sum(harga_total))as total_harga"), DB::raw("(DATE_FORMAT(tgl_pengisian, '%d-%m-%Y')) as my_date"), DB::raw("car_id as car_id"))
-            ->orderBy('tgl_pengisian')
-            ->groupBy('tgl_pengisian')
-            ->groupBy('car_id');
+    public function fuelday(Request $request)
+    {
+        if ($request->start_date && $request->end_date) {
+            $fuels = Fuel::with('car')
+                ->select("id", DB::raw("harga as harga"), DB::raw("(sum(jumlah_liter))as total_liter"), DB::raw("(sum(harga_total))as total_harga"), DB::raw("(DATE_FORMAT(tgl_pengisian, '%d-%m-%Y')) as my_date"), DB::raw("car_id as car_id"))
+                ->whereBetween('tgl_pengisian', [$request->start_date, $request->end_date])
+                ->orderBy('tgl_pengisian', 'desc')
+                ->groupBy('tgl_pengisian')
+                ->groupBy('car_id');
+        } else {
+            $fuels = Fuel::with('car')
+                ->select("id", DB::raw("harga as harga"), DB::raw("(sum(jumlah_liter))as total_liter"), DB::raw("(sum(harga_total))as total_harga"), DB::raw("(DATE_FORMAT(tgl_pengisian, '%d-%m-%Y')) as my_date"), DB::raw("car_id as car_id"))
+                ->orderBy('tgl_pengisian', 'desc')
+                ->groupBy('tgl_pengisian')
+                ->groupBy('car_id');
+        }
 
-            // ->get();
-            // dd($fuels);
+        // ->get();
+        // dd($fuels);
 
         return Datatables::of($fuels)
             ->addColumn('car', function (Fuel $fuel) {
