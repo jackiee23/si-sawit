@@ -28,7 +28,7 @@ class PurchaseFactory extends Factory
             'harga_total' => $harga_total,
             'worker_id'=>mt_rand(1,10),
             'car_id' => mt_rand(1, 10),
-            'trip' => $this->faker->bothify('# Kali'),
+            'trip' => $this->faker->randomNumber(1),
             'keterangan'=>$this->faker->sentence()
         ];
     }
