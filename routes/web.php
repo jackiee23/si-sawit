@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/dashboard/repairdata', [DashboardController::class, 'repairdata'])->name('repairdata');
     Route::get('/dashboard/workerdata', [DashboardController::class, 'workerdata'])->name('workerdata');
     Route::get('/dashboard/cardata', [DashboardController::class, 'cardata'])->name('cardata');
+    Route::get('/dashboard/carday', [DashboardController::class, 'carday'])->name('carday');
 
 
     //farmers

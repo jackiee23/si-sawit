@@ -23,6 +23,7 @@
                         <option value="2">Laporan Pekerja</option>
                         <option value="3">Laporan Bahan Bakar</option>
                         <option value="4">Laporan Pemasukan</option>
+                        <option value="5">Laporan Kendaraan</option>
                     </select>
                     <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                 </div>
@@ -45,6 +46,17 @@
                         <option value="" selected>Pilih nama pekerja</option>
                         @foreach ($worker as $worker)
                             <option value="{{ $worker->id }}">{{ $worker->nama }}</option>
+                        @endforeach
+                    </select>
+                    <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
+                </div>
+                <div class="mb-3 col-3 kendaraan d-none">
+                    <label for="car_id" class="form-label">Nama Kendaraan</label>
+                    <select class="form-select form-control selectpicker" data-live-search="true" name="car_id"
+                        id="car_id">
+                        <option value="" selected>Pilih nama kendaraan</option>
+                        @foreach ($car as $car)
+                            <option value="{{ $car->id }}">{{ $car->nama_kendaraan }}</option>
                         @endforeach
                     </select>
                     <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
@@ -121,6 +133,25 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="table-responsive kendaraan d-none">
+                    <table class="table table-striped table-hover" id="carTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Tanggal</th>
+                                <th>Nama Kendaraan</th>
+                                <th>Jumlah Petani</th>
+                                <th>Jarak Tempuh</th>
+                                <th>Bahan Bakar Mobil Harian</th>
+                                <th>Konsumsi Bahan Bakar (M/liter)</th>
+                                <th>Harga Perbaikan Harian</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -130,6 +161,7 @@
             fetch_data();
             reload_data();
             pemasukan_data();
+            kendaraan_data();
             // $('#dataTable_filter').hide();
 
 
@@ -140,6 +172,70 @@
             });
 
         });
+
+        function kendaraan_data() {
+            const table = $('#carTable').DataTable({
+                searching: false,
+                processing: true,
+                serverSide: true,
+                order: [
+                    [1, 'desc']
+                ],
+                ajax: {
+                    url: "{{ route('carday') }}",
+                    data: {
+                        action: 'fetch',
+                        start_date: $('#start_date').val(),
+                        end_date: $('#end_date').val(),
+                        car_id: $('#car_id').val(),
+                        // range: $('.input-daterange').val(),
+                        // worker_id: $('#worker_id').val()
+                    },
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'id',
+                    },
+                    {
+                        data: 'tgl_beli',
+                        name: 'tgl_beli'
+                    },
+                    {
+                        data: 'nama_kendaraan',
+                        name: 'nama_kendaraan',
+                    },
+                    {
+                        data: 'jumlah_petani',
+                        name: 'jumlah_petani',
+                    },
+                    {
+                        data: 'jarak_total',
+                        name: 'jarak_total',
+                    },
+                    {
+                        data: 'jumlah_liter',
+                        name: 'jumlah_liter'
+                    },
+                    {
+                        data: 'konsumsi',
+                        name: 'konsumsi',
+                    },
+                    {
+                        data: 'perbaikan',
+                        name: 'perbaikan',
+                    },
+                    //         {
+                    // 'orderable': false,
+                    // 'searchable': false,
+                    // 'data': null,
+                    // 'render': function (data, type, row, meta) {
+                    //     console.log(data);
+                    //     return ' <a id="edit" href="" ><i class="edit fas fa-edit text-success"></i></a> <form id="formHapus" action="/dashboard/farmer/" method="post" class="d-inline" > @method('delete') @csrf <button type="submit" class="fas fa-trash text-danger border-0 tombol-hapus"></button> </form>';
+                    // }
+                    // }
+                ]
+            });
+        };
 
         function pemasukan_data() {
             const table = $('#pemasukanTable').DataTable({
@@ -391,9 +487,12 @@
             } else if ($('#tipe_laporan').val() == 3) {
                 $('#fuelTable').DataTable().destroy();
                 reload_data();
-            } else if($('#tipe_laporan').val() == 4){
+            } else if ($('#tipe_laporan').val() == 4) {
                 $('#pemasukanTable').DataTable().destroy();
                 pemasukan_data();
+            } else if ($('#tipe_laporan').val() == 5) {
+                $('#carTable').DataTable().destroy();
+                kendaraan_data();
             }
             // location.reload();
         });
@@ -422,6 +521,7 @@
 
                 $('#dataTable').DataTable().destroy();
                 $('#fuelTable').DataTable().destroy();
+                $('#carTable').DataTable().destroy();
                 $('#pemasukanTable').DataTable().destroy();
                 $('#start_date').val(start.format('YYYY-MM-DD'));
                 $('#end_date').val(end.format('YYYY-MM-DD'));
@@ -442,10 +542,11 @@
                     dt.columns([1, 4, 5, 9]).visible(false);
                 } else if ($('#tipe_laporan').val() == 3) {
                     reload_data();
-                }else if($('#tipe_laporan').val() == 4){
+                } else if ($('#tipe_laporan').val() == 4) {
                     pemasukan_data();
+                } else if ($('#tipe_laporan').val() == 5) {
+                    kendaraan_data();
                 };
-
             });
 
         $('#farmer_id').change(function() {
@@ -456,6 +557,13 @@
             var dt = $('#dataTable').DataTable();
             // dt.columns().visible(true);
             dt.columns([1, 4, 5, 9]).visible(false);
+        });
+
+        $('#car_id').change(function() {
+            // $('.input.daterange').val()
+
+            $('#carTable').DataTable().destroy();
+            kendaraan_data();
         });
 
         // $('#farmer_id').change(function() {
@@ -481,24 +589,33 @@
                 $('.petani').removeClass("d-none");
                 $('#worker_id').val('default');
                 $('#worker_id').selectpicker("refresh");
+                $('#car_id').val('default');
+                $('#car_id').selectpicker("refresh");
                 $('.pemasukan').addClass("d-none");
                 $('.bahan-bakar').addClass("d-none");
+                $('.kendaraan').addClass("d-none");
                 $('.tabel').removeClass("d-none");
                 dt.columns([1, 4, 5, 9]).visible(false);
             } else if ($(this).val() == 2) {
                 $('.petani').addClass("d-none");
                 $('#farmer_id').val('default');
                 $('#farmer_id').selectpicker("refresh");
+                $('#car_id').val('default');
+                $('#car_id').selectpicker("refresh");
                 var dt = $('#dataTable').DataTable();
                 dt.columns().visible(true);
                 dt.columns([3, 5, 6, 7, 8]).visible(false);
                 $('.pekerja').removeClass("d-none");
-                $('.pemasukan').addClass("d-none");
                 $('.tabel').removeClass("d-none");
+                $('.pemasukan').addClass("d-none");
+                $('.kendaraan').addClass("d-none");
                 $('.bahan-bakar').addClass("d-none");
             } else if ($(this).val() == 3) {
                 $('.petani').addClass("d-none");
                 $('.pekerja').addClass("d-none");
+                $('.kendaraan').addClass("d-none");
+                $('#car_id').val('default');
+                $('#car_id').selectpicker("refresh");
                 $('#farmer_id').val('default');
                 $('#farmer_id').selectpicker("refresh");
                 $('#worker_id').val('default');
@@ -509,6 +626,9 @@
             } else if ($(this).val() == 4) {
                 $('.petani').addClass("d-none");
                 $('.pekerja').addClass("d-none");
+                $('.kendaraan').addClass("d-none");
+                $('#car_id').val('default');
+                $('#car_id').selectpicker("refresh");
                 $('#farmer_id').val('default');
                 $('#farmer_id').selectpicker("refresh");
                 $('#worker_id').val('default');
@@ -516,11 +636,24 @@
                 $('.tabel').addClass("d-none");
                 $('.bahan-bakar').addClass("d-none");
                 $('.pemasukan').removeClass("d-none");
+            } else if ($(this).val() == 5) {
+                $('.petani').addClass("d-none");
+                $('.pekerja').addClass("d-none");
+                $('.bahan-bakar').addClass("d-none");
+                $('.pemasukan').addClass("d-none");
+                $('#farmer_id').val('default');
+                $('#farmer_id').selectpicker("refresh");
+                $('#worker_id').val('default');
+                $('#worker_id').selectpicker("refresh");
+                $('.tabel').addClass("d-none");
+                $('.kendaraan').removeClass("d-none");
             } else {
                 $('.bahan-bakar').addClass("d-none");
                 $('.pekerja').addClass("d-none");
+                $('.petani').addClass("d-none");
                 $('.tabel').addClass("d-none");
                 $('.pemasukan').addClass("d-none");
+                $('.kendaraan').addClass("d-none");
             }
         });
     </script>
