@@ -65,12 +65,12 @@ class PurchaseController extends Controller
         ]);
 
         $harga_total = $request->harga*$request->jumlah_sawit;
-        $panen = $request->tgl_panen;
-        $beli = $request->tgl_beli;
-        $interval = date_diff($beli, $panen);
+        $panen = date_create($request->tgl_panen);
+        $beli = date_create($request->tgl_beli);
+        $interval = $panen->diff($beli);
 
-        if($beli != $panen){
-            $telat = $interval->format("Telat %a hari");
+        if ($beli != $panen) {
+            $telat = $interval->format('Telat %a hari');
         } else {
             $telat = "Tepat waktu";
         }
