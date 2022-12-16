@@ -52,6 +52,40 @@ class DashboardController extends Controller
         // ->get()->all();
         // dd($nama_bulan);
 
+        //date pembelian
+        $date_beli = DB::table('purchases')
+            ->selectRaw("tgl_beli as tgl_bulan")
+            ->groupByRaw('tgl_beli')
+            ->orderByRaw('tgl_beli ASC')
+            ->pluck('tgl_bulan');
+        // ->get()->all();
+        // dd($date_beli);
+
+        //date penjualan
+        $total_hjual = Sale::select('sales.tgl_jual as tgl_beli', DB::Raw("CAST(SUM(sales.jumlah)as int) as penjualan_sawit"), DB::Raw('cast(sum(purchases.jumlah_sawit)as int) as pembelian_sawit'))
+            ->leftJoin('purchases', 'tgl_beli', '=', 'sales.tgl_jual')
+            // ->addSelect([
+            //     'pembelian_sawit' => Purchase::selectRaw('cast(sum(jumlah_sawit)as int)')
+            //         ->whereColumn('tgl_beli', 'sales.tgl_jual')
+            //         ->groupBy('sales.tgl_jual')
+            //         ->limit(1),
+            // ])
+            ->whereNotIn('sales.tgl_jual', $date_beli)
+            ->groupByRaw('sales.tgl_jual')
+            ->orderByRaw('sales.tgl_jual ASC')
+            ->get();
+        // dd($total_hjual);
+
+        //pembelian hari ini
+        $total_hbeli = Purchase::select('purchases.tgl_beli', DB::Raw("CAST(SUM(purchases.jumlah_sawit)as int) as pembelian_sawit",), DB::Raw('cast(sum(sales.jumlah)as int) as penjualan_sawit'))
+            ->leftJoin('sales', 'tgl_jual', '=', 'purchases.tgl_beli')
+            ->groupBy('tgl_beli')
+            ->get();
+        // dd($total_hbeli);
+
+        $dates = $total_hjual->concat($total_hbeli);
+        // dd($dates);
+
         //penjualan tahun ini
         $penjualan = DB::table('sales')
             ->selectRaw("CAST(SUM(harga_total)as int) as penjualan")
@@ -60,146 +94,6 @@ class DashboardController extends Controller
             ->orderByRaw('tgl_jual ASC')
             ->pluck('penjualan');
         // dd($penjualan);
-
-        //report kendaraan
-        $cars = DB::table('cars')
-            // ->join('fuels', 'cars.id', '=', 'fuels.car_id')
-            ->join('purchases', 'cars.id', '=', 'purchases.car_id')
-            ->join('farmers', 'farmer_id', '=', 'farmers.id')
-            // ->join('fuels', 'purchase.car_id', '=', 'fuels.car_id')
-            ->select( 'cars.id', 'purchases.car_id', 'cars.nama_kendaraan', DB::raw('sum(farmers.jarak*purchases.trip*2)as jarak_total'), 'farmer_id', 'purchases.tgl_beli')
-            ->addSelect([
-                'jumlah_petani' => Purchase::selectRaw('COUNT(*)')
-                    ->whereColumn('car_id', 'cars.id')
-                    ->groupBy('tgl_beli')
-                    ->limit(1),
-                'harga_total' => Fuel::selectRaw('sum(harga_total)')
-                    ->whereColumn('car_id', 'purchases.car_id')
-                    ->whereColumn('tgl_pengisian', 'purchases.tgl_beli')
-                    ->groupBy('purchases.tgl_beli')
-                    ->limit(1),
-                'jumlah_liter' => Fuel::selectRaw('sum(jumlah_liter)')
-                    ->whereColumn('tgl_pengisian', 'purchases.tgl_beli')
-                    ->whereColumn('car_id', 'purchases.car_id')
-                    ->groupBy('purchases.tgl_beli')
-                    ->limit(1),
-                'perbaikan' => Repair::selectRaw('sum(jumlah)')
-                    ->whereColumn('tgl_perbaikan', 'purchases.tgl_beli')
-                    ->whereColumn('car_id', 'purchases.car_id')
-                    ->groupBy('purchases.tgl_beli')
-                    ->limit(1),
-                // 'konsumsi' => Fuel::selectRaw('sum(jumlah_liter/(farmers.jarak*purchases.trip*2))')
-                // ->whereColumn('tgl_pengisian', 'purchases.tgl_beli')
-                // ->whereColumn('car_id', 'purchases.car_id')
-                // ->groupBy('purchases.tgl_beli')
-                // ->limit(1),
-                // 'konsumsi_bahan' =>
-                // 'bahan_bakar' => Fuel::selectRaw("CAST(SUM(harga_total)as int) as total_harga")->whereColumn('car_id', 'cars.id')->groupByRaw('tgl_pengisian')
-                // ->limit(1)
-            ])
-            // ->groupBy('tgl_pengisian')
-            // ->whereColumn(['fuels.car_id', 'purchase.car_id'], ['fuels.tgl_pengisian', 'purchases.tgl_beli'])
-            ->groupBy('purchases.tgl_beli')
-            ->groupBy('cars.id')
-            ->orderBy('purchases.tgl_beli', 'desc')
-            ->get();
-        // dd($cars);
-
-        $fuels = DB::table('cars')
-        // ->join('fuels', 'cars.id', '=', 'fuels.car_id')
-        ->join('purchases', 'cars.id', '=', 'purchases.car_id')
-        ->join('farmers', 'farmer_id', '=', 'farmers.id')
-        // ->join('fuels', 'cars.id', '=', 'fuels.car_id')
-            ->select('cars.id', 'purchases.car_id', 'cars.nama_kendaraan', DB::raw('sum(farmers.jarak*purchases.trip*2)as jarak_total'), 'farmer_id', 'purchases.tgl_beli')
-            ->addSelect([
-                'jumlah_petani' => Purchase::selectRaw('COUNT(*)')
-                ->whereColumn('car_id', 'cars.id')
-                ->groupBy('tgl_beli')
-                    ->limit(1),
-                'harga_total' => Fuel::selectRaw('sum(harga_total)')
-                ->whereColumn('car_id', 'purchases.car_id')
-                ->whereColumn('tgl_pengisian', 'purchases.tgl_beli')
-                ->groupBy('purchases.tgl_beli')
-                    ->limit(1),
-                'jumlah_liter' => Fuel::selectRaw('sum(jumlah_liter)')
-                ->whereColumn('tgl_pengisian', 'purchases.tgl_beli')
-                ->whereColumn('car_id', 'purchases.car_id')
-                ->groupBy('purchases.tgl_beli')
-                    ->limit(1),
-                'perbaikan' => Repair::selectRaw('sum(jumlah)')
-                ->whereColumn('tgl_perbaikan', 'purchases.tgl_beli')
-                ->whereColumn('car_id', 'purchases.car_id')
-                ->groupBy('purchases.tgl_beli')
-                    ->limit(1),
-                // 'konsumsi' => Fuel::selectRaw('sum(jumlah_liter/(farmers.jarak*purchases.trip*2))')
-                // ->whereColumn('tgl_pengisian', 'purchases.tgl_beli')
-                // ->whereColumn('car_id', 'purchases.car_id')
-                // ->groupBy('purchases.tgl_beli')
-                // ->limit(1),
-                // 'konsumsi_bahan' =>
-                // 'bahan_bakar' => Fuel::selectRaw("CAST(SUM(harga_total)as int) as total_harga")->whereColumn('car_id', 'cars.id')->groupByRaw('tgl_pengisian')
-                // ->limit(1)
-            ])
-            // ->groupBy('tgl_pengisian')
-            // ->whereColumn(['fuels.car_id', 'purchase.car_id'], ['fuels.tgl_pengisian', 'purchases.tgl_beli'])
-            ->groupBy('purchases.tgl_beli')
-            ->groupBy('cars.id')
-            ->orderBy('purchases.tgl_beli', 'desc')
-            ->get();
-        // dd($fuels);
-
-        $repairs = DB::table('cars')
-        ->join('fuels', 'cars.id', '=', 'fuels.car_id')
-        ->join('purchases', 'cars.id', '=', 'purchases.car_id')
-        ->join('repairs', 'cars.id', '=', 'repairs.car_id')
-
-            // ->join('farmers', 'farmer_id', '=', 'farmers.id')
-            // ->join('fuels','purchases.car_id','=','fuels.car_id')
-            ->select('cars.id', 'repairs.car_id', 'cars.nama_kendaraan', 'repairs.tgl_perbaikan')
-            ->addSelect([
-            'jumlah_petani' => Purchase::selectRaw('COUNT(*)')
-                ->whereColumn('car_id', 'cars.id')
-                ->whereColumn('tgl_beli', 'repairs.tgl_perbaikan')
-                ->groupBy('repairs.tgl_perbaikan')
-                ->limit(1),
-            'harga_total' => Fuel::selectRaw('sum(harga_total)')
-                ->whereColumn('tgl_pengisian', '!=', 'purchases.tgl_beli')
-                ->whereColumn('tgl_pengisian', 'repairs.tgl_perbaikan')
-                // ->whereColumn('car_id', '!=', 'purchases.car_id')
-                ->groupBy('repairs.tgl_perbaikan')
-                ->limit(1),
-            'jumlah_liter' => Fuel::selectRaw('sum(jumlah_liter)')
-                ->whereColumn('tgl_pengisian', '!=', 'purchases.tgl_beli')
-                ->whereColumn('tgl_pengisian', 'repairs.tgl_perbaikan')
-                ->whereColumn('car_id', 'repairs.car_id')
-                ->groupBy('repairs.tgl_perbaikan')
-                ->limit(1),
-            'perbaikan' => Repair::selectRaw('sum(jumlah)')
-                ->whereColumn('tgl_perbaikan', '!=', 'purchases.tgl_beli')
-                ->whereColumn('tgl_perbaikan', '!=', 'fuels.tgl_pengisian')
-                // ->whereColumn('car_id', '!=', 'purchases.car_id')
-                ->groupBy('repairs.tgl_perbaikan')
-                ->limit(1),
-                // 'konsumsi' => Fuel::selectRaw('sum(jumlah_liter/(farmers.jarak*purchases.trip*2))')
-                // ->whereColumn('tgl_pengisian', 'purchases.tgl_beli')
-                // ->whereColumn('car_id', 'purchases.car_id')
-                // ->groupBy('purchases.tgl_beli')
-                // ->limit(1),
-                // 'konsumsi_bahan' =>
-                // 'bahan_bakar' => Fuel::selectRaw("CAST(SUM(harga_total)as int) as total_harga")->whereColumn('car_id', 'cars.id')->groupByRaw('tgl_pengisian')
-                // ->limit(1)
-            ])
-            // ->groupBy('tgl_pengisian')
-            // ->whereColumn(['fuels.car_id', 'purchase.car_id'], ['fuels.tgl_pengisian', 'purchases.tgl_beli'])
-            ->groupBy('fuels.tgl_pengisian')
-            ->groupBy('cars.id')
-            ->orderBy('fuels.tgl_pengisian', 'desc')
-            // ->union($cars)
-            ->get();
-
-        // dd($cars);
-        // $concat_cars = $cars->concat($fuels);
-        // dd($concat_cars);
 
         //perbaikan bulan ini
         $perbaikan = DB::table('repairs')
@@ -459,7 +353,90 @@ class DashboardController extends Controller
             ->make(true);
     }
 
-    public function cardata(Request $request)
+    public function sawitday(Request $request)
+    {
+        //date pembelian
+        $date_beli = DB::table('purchases')
+        ->selectRaw("tgl_beli as tgl_bulan")
+        ->groupByRaw('tgl_beli')
+        ->orderByRaw('tgl_beli ASC')
+        ->pluck('tgl_bulan');
+        // dd($date_beli);
+
+        if($request->start_date && $request->end_date){
+            //date penjualan
+            $total_hjual = DB::table('sales')
+                ->select('tgl_jual as tgl_beli', DB::Raw("CAST(SUM(jumlah)as int) as penjualan_sawit"))
+                ->addSelect([
+                    'pembelian_sawit' => Purchase::selectRaw('cast(sum(jumlah_sawit)as int)')
+                        ->whereColumn('tgl_beli', 'sales.tgl_jual')
+                        ->groupBy('sales.tgl_jual')
+                        ->limit(1),
+                ])
+                ->whereNotIn('tgl_jual', $date_beli)
+                ->whereBetween('tgl_jual', [$request->start_date, $request->end_date])
+                ->groupByRaw('tgl_jual')
+                ->orderByRaw('tgl_jual ASC')
+                ->get();
+            // dd($date);
+
+            //pembelian hari ini
+            $total_hbeli = DB::table('purchases')
+                ->select('tgl_beli', DB::Raw("CAST(SUM(jumlah_sawit)as int) as pembelian_sawit",))
+                ->addSelect([
+                    'penjualan_sawit' => Sale::selectRaw('cast(sum(jumlah)as int)')
+                        // ->whereColumn('car_id', 'purchases.car_id')
+                        ->whereColumn('tgl_jual', 'purchases.tgl_beli')
+                        ->groupBy('purchases.tgl_beli')
+                        ->limit(1),
+                ])
+                ->whereBetween('tgl_beli', [$request->start_date, $request->end_date])
+                ->groupBy('tgl_beli')
+                ->get();
+        // dd($total_hbeli);
+        } else{
+            //date penjualan
+            $total_hjual = DB::table('sales')
+                ->select('tgl_jual as tgl_beli', DB::Raw("CAST(SUM(jumlah)as int) as penjualan_sawit"))
+                ->addSelect([
+                    'pembelian_sawit' => Purchase::selectRaw('cast(sum(jumlah_sawit)as int)')
+                        ->whereColumn('tgl_beli', 'sales.tgl_jual')
+                        ->groupBy('sales.tgl_jual')
+                        ->limit(1),
+                ])
+                ->whereNotIn('tgl_jual', $date_beli)
+                ->groupByRaw('tgl_jual')
+                ->orderByRaw('tgl_jual ASC')
+                ->get();
+            // dd($date);
+
+            //pembelian hari ini
+            $total_hbeli = DB::table('purchases')
+                ->select('tgl_beli', DB::Raw("CAST(SUM(jumlah_sawit)as int) as pembelian_sawit",))
+                ->addSelect([
+                    'penjualan_sawit' => Sale::selectRaw('cast(sum(jumlah)as int)')
+                        // ->whereColumn('car_id', 'purchases.car_id')
+                        ->whereColumn('tgl_jual', 'purchases.tgl_beli')
+                        ->groupBy('purchases.tgl_beli')
+                        ->limit(1),
+                ])
+                ->groupBy('tgl_beli')
+                ->get();
+        // dd($total_hbeli);
+        }
+
+        $dates = $total_hjual->concat($total_hbeli);
+        // dd($dates);
+
+        return Datatables::of($dates)
+            ->addIndexColumn()
+            ->addColumn('selisih', function ($date) {
+                return $date->pembelian_sawit - $date->penjualan_sawit;
+            })
+            ->make(true);
+    }
+
+    public function cardata()
     {
 
         $cars = DB::table('cars');

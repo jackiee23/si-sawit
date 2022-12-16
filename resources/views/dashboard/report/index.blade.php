@@ -24,6 +24,9 @@
                         <option value="3">Laporan Bahan Bakar</option>
                         <option value="4">Laporan Pemasukan</option>
                         <option value="5">Laporan Kendaraan</option>
+                        <option value="6">Laporan Laba Rugi</option>
+                        <option value="7">Selisih Jumlah Sawit</option>
+
                     </select>
                     <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                 </div>
@@ -152,6 +155,22 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="table-responsive sawit d-none">
+                    <table class="table table-striped table-hover" id="sawitTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Tanggal</th>
+                                <th>Jumlah Sawit(Kg) Harian, Pembelian</th>
+                                <th>Jumlah Sawit(Kg) Harian, Penjualan</th>
+                                <th>Selisih Keduanya</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -162,6 +181,7 @@
             reload_data();
             pemasukan_data();
             kendaraan_data();
+            sawit_data();
             // $('#dataTable_filter').hide();
 
 
@@ -237,6 +257,47 @@
             });
         };
 
+        function sawit_data() {
+            const table = $('#sawitTable').DataTable({
+                processing: true,
+                searching: false,
+                serverSide: true,
+                order: [
+                    [1, 'desc']
+                ],
+                ajax: {
+                    url: "{{ route('sawitday') }}",
+                    data: {
+                        action: 'fetch',
+                        start_date: $('#start_date').val(),
+                        end_date: $('#end_date').val(),
+                    },
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'id',
+                    },
+                    {
+                        data: 'tgl_beli',
+                        name: 'tgl_beli',
+                        // sortable: false
+                    },
+                    {
+                        data: 'pembelian_sawit',
+                        name: 'pembelian_sawit'
+                    },
+                    {
+                        data: 'penjualan_sawit',
+                        name: 'penjualan_sawit'
+                    },
+                    {
+                        data: 'selisih',
+                        name: 'selisih'
+                    },
+                ]
+            });
+        };
+
         function pemasukan_data() {
             const table = $('#pemasukanTable').DataTable({
                 processing: true,
@@ -260,7 +321,7 @@
                     {
                         data: 'tgl_jual',
                         name: 'tgl_jual',
-                        sortable: false
+                        // sortable: false
                     },
                     {
                         data: 'jumlah',
@@ -335,7 +396,7 @@
                     {
                         data: 'my_date',
                         name: 'my_date',
-                        sortable: false
+                        // sortable: false
                     },
                     {
                         data: 'car',
@@ -493,6 +554,9 @@
             } else if ($('#tipe_laporan').val() == 5) {
                 $('#carTable').DataTable().destroy();
                 kendaraan_data();
+            }else if ($('#tipe_laporan').val() == 7) {
+                $('#sawitTable').DataTable().destroy();
+                sawit_data();
             }
             // location.reload();
         });
@@ -523,6 +587,7 @@
                 $('#fuelTable').DataTable().destroy();
                 $('#carTable').DataTable().destroy();
                 $('#pemasukanTable').DataTable().destroy();
+                $('#sawitTable').DataTable().destroy();
                 $('#start_date').val(start.format('YYYY-MM-DD'));
                 $('#end_date').val(end.format('YYYY-MM-DD'));
 
@@ -546,6 +611,9 @@
                     pemasukan_data();
                 } else if ($('#tipe_laporan').val() == 5) {
                     kendaraan_data();
+                }
+                else if ($('#tipe_laporan').val() == 7) {
+                    sawit_data();
                 };
             });
 
@@ -594,6 +662,7 @@
                 $('.pemasukan').addClass("d-none");
                 $('.bahan-bakar').addClass("d-none");
                 $('.kendaraan').addClass("d-none");
+                $('.sawit').addClass("d-none");
                 $('.tabel').removeClass("d-none");
                 dt.columns([1, 4, 5, 9]).visible(false);
             } else if ($(this).val() == 2) {
@@ -610,9 +679,11 @@
                 $('.pemasukan').addClass("d-none");
                 $('.kendaraan').addClass("d-none");
                 $('.bahan-bakar').addClass("d-none");
+                $('.sawit').addClass("d-none");
             } else if ($(this).val() == 3) {
                 $('.petani').addClass("d-none");
                 $('.pekerja').addClass("d-none");
+                $('.sawit').addClass("d-none");
                 $('.kendaraan').addClass("d-none");
                 $('#car_id').val('default');
                 $('#car_id').selectpicker("refresh");
@@ -626,6 +697,7 @@
             } else if ($(this).val() == 4) {
                 $('.petani').addClass("d-none");
                 $('.pekerja').addClass("d-none");
+                $('.sawit').addClass("d-none");
                 $('.kendaraan').addClass("d-none");
                 $('#car_id').val('default');
                 $('#car_id').selectpicker("refresh");
@@ -639,6 +711,7 @@
             } else if ($(this).val() == 5) {
                 $('.petani').addClass("d-none");
                 $('.pekerja').addClass("d-none");
+                $('.sawit').addClass("d-none");
                 $('.bahan-bakar').addClass("d-none");
                 $('.pemasukan').addClass("d-none");
                 $('#farmer_id').val('default');
@@ -647,8 +720,20 @@
                 $('#worker_id').selectpicker("refresh");
                 $('.tabel').addClass("d-none");
                 $('.kendaraan').removeClass("d-none");
+            } else if ($(this).val() == 7) {
+                $('.petani').addClass("d-none");
+                $('.pekerja').addClass("d-none");
+                $('.bahan-bakar').addClass("d-none");
+                $('.pemasukan').addClass("d-none");
+                $('#farmer_id').val('default');
+                $('#farmer_id').selectpicker("refresh");
+                $('#worker_id').val('default');
+                $('#worker_id').selectpicker("refresh");
+                $('.tabel').addClass("d-none");
+                $('.sawit').removeClass("d-none");
             } else {
                 $('.bahan-bakar').addClass("d-none");
+                $('.sawit').addClass("d-none");
                 $('.pekerja').addClass("d-none");
                 $('.petani').addClass("d-none");
                 $('.tabel').addClass("d-none");

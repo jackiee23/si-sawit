@@ -42,7 +42,7 @@
                         <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
-                        <label for="jenis_kerusakan" class="form-label">Jumlah Liter</label>
+                        <label for="jenis_kerusakan" class="form-label">Jenis Kerusakan</label>
                         <input type="text" class="form-control @error('jenis_kerusakan') is-invalid @enderror"
                             id="jenis_kerusakan" name="jenis_kerusakan" value="{{ old('jenis_kerusakan') }} "
                             placeholder="Masukkan Jumlah Liter">
