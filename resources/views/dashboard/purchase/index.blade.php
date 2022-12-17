@@ -59,6 +59,9 @@
         const table = $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
+            order: [
+                    [3, 'desc']
+                ],
             ajax: '{{ route('purchasedata') }}',
             columns: [{
                     data: 'DT_RowIndex',
@@ -118,16 +121,13 @@
                     orderable: false,
                     searchable: false
                 }
-                //         {
-                // 'orderable': false,
-                // 'searchable': false,
-                // 'data': null,
-                // 'render': function (data, type, row, meta) {
-                //     console.log(data);
-                //     return ' <a id="edit" href="" ><i class="edit fas fa-edit text-success"></i></a> <form id="formHapus" action="/dashboard/farmer/" method="post" class="d-inline" > @method('delete') @csrf <button type="submit" class="fas fa-trash text-danger border-0 tombol-hapus"></button> </form>';
-                // }
-                // }
-            ]
+            ],
+            // columnDefs: [{
+            //         "targets": "_all", // your case first column
+            //         "className": "text-center",
+            //         "width": "4%"
+            //         },
+            //     ]
         });
 
         $('#dataTable tbody').on('click', '.edit', table, function(e) {

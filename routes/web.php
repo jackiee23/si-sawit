@@ -52,7 +52,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/dashboard/cardata', [DashboardController::class, 'cardata'])->name('cardata');
     Route::get('/dashboard/carday', [DashboardController::class, 'carday'])->name('carday');
     Route::get('/dashboard/sawitday', [DashboardController::class, 'sawitday'])->name('sawitday');
-
+    Route::get('/dashboard/spend', [DashboardController::class, 'spend'])->name('spend');
 
     //farmers
     // Route::get('/petani', [FarmerController::class, 'index']);

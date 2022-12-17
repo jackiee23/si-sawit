@@ -57,6 +57,9 @@
         const table = $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
+            order: [
+                    [1, 'desc']
+                ],
             ajax: '{{ route('saledata') }}',
             columns: [{
                     data: 'DT_RowIndex',
@@ -92,6 +95,7 @@
                 {
                     data: 'pabrik',
                     name: 'pabrik'
+                    sortable: false
                 },
                 {
                     data: 'keterangan',

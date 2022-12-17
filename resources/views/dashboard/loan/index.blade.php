@@ -53,6 +53,9 @@
         const table = $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
+            order: [
+                    [2, 'desc']
+                ],
             ajax: '{{ route('loandata') }}',
             columns: [{
                     data: 'DT_RowIndex',

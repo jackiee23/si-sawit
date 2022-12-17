@@ -55,6 +55,9 @@
         const table = $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
+            order: [
+                    [1, 'desc']
+                ],
             ajax: '{{ route('fueldata') }}',
             columns: [{
                     data: 'DT_RowIndex',
@@ -63,7 +66,6 @@
                 {
                     data: 'tgl_pengisian',
                     name: 'tgl_pengisian',
-                    sortable: false
                 },
                 {
                     data: 'car',

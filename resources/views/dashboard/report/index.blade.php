@@ -26,6 +26,7 @@
                         <option value="5">Laporan Kendaraan</option>
                         <option value="6">Laporan Laba Rugi</option>
                         <option value="7">Selisih Jumlah Sawit</option>
+                        <option value="8">Laporan Pengeluaran</option>
 
                     </select>
                     <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
@@ -171,6 +172,24 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="table-responsive spend d-none">
+                    <table class="table table-striped table-hover" id="spendTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Tanggal</th>
+                                <th>Jumlah Sawit(Kg) Harian, Pembelian</th>
+                                <th>Total Pembelian Harian (Rp)</th>
+                                <th>Harga Perbaikan Harian</th>
+                                <th>Harga Bahan Bakar Harian</th>
+                                <th>Total Pengeluaran Harian</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -182,6 +201,7 @@
             pemasukan_data();
             kendaraan_data();
             sawit_data();
+            spend_data();
             // $('#dataTable_filter').hide();
 
 
@@ -253,7 +273,13 @@
                     //     return ' <a id="edit" href="" ><i class="edit fas fa-edit text-success"></i></a> <form id="formHapus" action="/dashboard/farmer/" method="post" class="d-inline" > @method('delete') @csrf <button type="submit" class="fas fa-trash text-danger border-0 tombol-hapus"></button> </form>';
                     // }
                     // }
-                ]
+                ],
+                // columnDefs: [{
+                //     "targets": "_all", // your case first column
+                //     "className": "text-center",
+                //     "width": "4%"
+                //     },
+                // ]
             });
         };
 
@@ -298,10 +324,68 @@
             });
         };
 
+        function spend_data() {
+            const table = $('#spendTable').DataTable({
+                processing: true,
+                searching: false,
+                serverSide: true,
+                order: [
+                    [1, 'desc']
+                ],
+                ajax: {
+                    url: "{{ route('spend') }}",
+                    data: {
+                        action: 'fetch',
+                        start_date: $('#start_date').val(),
+                        end_date: $('#end_date').val(),
+                    },
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'id',
+                    },
+                    {
+                        data: 'tgl',
+                        name: 'tgl',
+                        // sortable: false
+                    },
+                    {
+                        data: 'pembelian_sawit',
+                        name: 'pembelian_sawit'
+                    },
+                    {
+                        data: 'harga_pembelian',
+                        name: 'harga_pembelian'
+                    },
+                    {
+                        data: 'bahan_bakar',
+                        name: 'bahan_bakar'
+                    },
+                    {
+                        data: 'perbaikan',
+                        name: 'perbaikan'
+                    },
+                    {
+                        data: 'total_pengeluaran',
+                        name: 'total_pengeluaran'
+                    },
+                ],
+                columnDefs: [{
+                    "targets": "_all", // your case first column
+                    "className": "text-center",
+                    "width": "4%"
+                    },
+                ]
+            });
+        };
+
         function pemasukan_data() {
             const table = $('#pemasukanTable').DataTable({
                 processing: true,
                 searching: false,
+                order: [
+                    [1, 'desc']
+                ],
                 serverSide: true,
                 ajax: {
                     url: "{{ route('saledata') }}",
@@ -309,9 +393,6 @@
                         action: 'fetch',
                         start_date: $('#start_date').val(),
                         end_date: $('#end_date').val(),
-                        // range: $('.input-daterange').val(),
-                        // farmer_id: $('#farmer_id').val(),
-                        // worker_id: $('#worker_id').val()
                     },
                 },
                 columns: [{
@@ -335,40 +416,6 @@
                         data: 'harga_total',
                         name: 'harga_total'
                     },
-                    // {
-                    //     data: 'worker',
-                    //     name: 'worker.nama',
-                    //     sortable: false
-                    // },
-                    // {
-                    //     data: 'car',
-                    //     name: 'car.nama_kendaraan',
-                    //     sortable: false
-                    // },
-                    // {
-                    //     data: 'pabrik',
-                    //     name: 'pabrik'
-                    // },
-                    // {
-                    //     data: 'keterangan',
-                    //     name: 'keterangan',
-                    //     sortable: false
-                    // },
-                    // {
-                    //     data: 'action',
-                    //     name: 'action',
-                    //     orderable: false,
-                    //     searchable: false
-                    // }
-                    //         {
-                    // 'orderable': false,
-                    // 'searchable': false,
-                    // 'data': null,
-                    // 'render': function (data, type, row, meta) {
-                    //     console.log(data);
-                    //     return ' <a id="edit" href="" ><i class="edit fas fa-edit text-success"></i></a> <form id="formHapus" action="/dashboard/farmer/" method="post" class="d-inline" > @method('delete') @csrf <button type="submit" class="fas fa-trash text-danger border-0 tombol-hapus"></button> </form>';
-                    // }
-                    // }
                 ]
             });
         };
@@ -377,6 +424,9 @@
             const table = $('#fuelTable').DataTable({
                 processing: true,
                 searching: false,
+                order: [
+                    [1, 'desc']
+                ],
                 serverSide: true,
                 ajax: {
                     url: "{{ route('fuelday') }}",
@@ -384,9 +434,6 @@
                         action: 'fetch',
                         start_date: $('#start_date').val(),
                         end_date: $('#end_date').val(),
-                        // range: $('.input-daterange').val(),
-                        // farmer_id: $('#farmer_id').val(),
-                        // worker_id: $('#worker_id').val()
                     },
                 },
                 columns: [{
@@ -415,26 +462,6 @@
                         data: 'total_harga',
                         name: 'total_harga'
                     },
-                    // {
-                    //     data: 'keterangan',
-                    //     name: 'keterangan',
-                    //     sortable: false
-                    // },
-                    // {
-                    //     data: 'action',
-                    //     name: 'action',
-                    //     orderable: false,
-                    //     searchable: false
-                    // }
-                    //         {
-                    // 'orderable': false,
-                    // 'searchable': false,
-                    // 'data': null,
-                    // 'render': function (data, type, row, meta) {
-                    //     console.log(data);
-                    //     return ' <a id="edit" href="" ><i class="edit fas fa-edit text-success"></i></a> <form id="formHapus" action="/dashboard/farmer/" method="post" class="d-inline" > @method('delete') @csrf <button type="submit" class="fas fa-trash text-danger border-0 tombol-hapus"></button> </form>';
-                    // }
-                    // }
                 ]
             });
         };
@@ -443,6 +470,9 @@
             const table = $('#dataTable').DataTable({
                 searching: false,
                 processing: true,
+                order: [
+                    [3, 'desc']
+                ],
                 serverSide: true,
                 ajax: {
                     url: "{{ route('purchasedata') }}",
@@ -557,6 +587,9 @@
             }else if ($('#tipe_laporan').val() == 7) {
                 $('#sawitTable').DataTable().destroy();
                 sawit_data();
+            } else if ($('#tipe_laporan').val() == 8) {
+                $('#spendTable').DataTable().destroy();
+                spend_data();
             }
             // location.reload();
         });
@@ -588,6 +621,7 @@
                 $('#carTable').DataTable().destroy();
                 $('#pemasukanTable').DataTable().destroy();
                 $('#sawitTable').DataTable().destroy();
+                $('#spendTable').DataTable().destroy();
                 $('#start_date').val(start.format('YYYY-MM-DD'));
                 $('#end_date').val(end.format('YYYY-MM-DD'));
 
@@ -614,6 +648,8 @@
                 }
                 else if ($('#tipe_laporan').val() == 7) {
                     sawit_data();
+                }else if ($('#tipe_laporan').val() == 8) {
+                    spend_data();
                 };
             });
 
@@ -634,10 +670,6 @@
             kendaraan_data();
         });
 
-        // $('#farmer_id').change(function() {
-        //     var dt = $('#dataTable').DataTable();
-        //     dt.search(this.value).draw();
-        // });
 
         $('#worker_id').change(function() {
             // $('.input.daterange').val()
@@ -663,6 +695,7 @@
                 $('.bahan-bakar').addClass("d-none");
                 $('.kendaraan').addClass("d-none");
                 $('.sawit').addClass("d-none");
+                $('.spend').addClass("d-none");
                 $('.tabel').removeClass("d-none");
                 dt.columns([1, 4, 5, 9]).visible(false);
             } else if ($(this).val() == 2) {
@@ -677,6 +710,7 @@
                 $('.pekerja').removeClass("d-none");
                 $('.tabel').removeClass("d-none");
                 $('.pemasukan').addClass("d-none");
+                $('.spend').addClass("d-none");
                 $('.kendaraan').addClass("d-none");
                 $('.bahan-bakar').addClass("d-none");
                 $('.sawit').addClass("d-none");
@@ -684,6 +718,7 @@
                 $('.petani').addClass("d-none");
                 $('.pekerja').addClass("d-none");
                 $('.sawit').addClass("d-none");
+                $('.spend').addClass("d-none");
                 $('.kendaraan').addClass("d-none");
                 $('#car_id').val('default');
                 $('#car_id').selectpicker("refresh");
@@ -698,6 +733,7 @@
                 $('.petani').addClass("d-none");
                 $('.pekerja').addClass("d-none");
                 $('.sawit').addClass("d-none");
+                $('.spend').addClass("d-none");
                 $('.kendaraan').addClass("d-none");
                 $('#car_id').val('default');
                 $('#car_id').selectpicker("refresh");
@@ -712,6 +748,7 @@
                 $('.petani').addClass("d-none");
                 $('.pekerja').addClass("d-none");
                 $('.sawit').addClass("d-none");
+                $('.spend').addClass("d-none");
                 $('.bahan-bakar').addClass("d-none");
                 $('.pemasukan').addClass("d-none");
                 $('#farmer_id').val('default');
@@ -725,6 +762,7 @@
                 $('.pekerja').addClass("d-none");
                 $('.bahan-bakar').addClass("d-none");
                 $('.pemasukan').addClass("d-none");
+                $('.spend').addClass("d-none");
                 $('#farmer_id').val('default');
                 $('#farmer_id').selectpicker("refresh");
                 $('#worker_id').val('default');
@@ -732,9 +770,23 @@
                 $('.tabel').addClass("d-none");
                 $('.kendaraan').addClass("d-none");
                 $('.sawit').removeClass("d-none");
-            } else {
+            } else if ($(this).val() == 8) {
+                $('.petani').addClass("d-none");
+                $('.pekerja').addClass("d-none");
                 $('.bahan-bakar').addClass("d-none");
                 $('.sawit').addClass("d-none");
+                $('.pemasukan').addClass("d-none");
+                $('#farmer_id').val('default');
+                $('#farmer_id').selectpicker("refresh");
+                $('#worker_id').val('default');
+                $('#worker_id').selectpicker("refresh");
+                $('.tabel').addClass("d-none");
+                $('.kendaraan').addClass("d-none");
+                $('.spend').removeClass("d-none");
+            }else {
+                $('.bahan-bakar').addClass("d-none");
+                $('.sawit').addClass("d-none");
+                $('.spend').addClass("d-none");
                 $('.pekerja').addClass("d-none");
                 $('.petani').addClass("d-none");
                 $('.tabel').addClass("d-none");

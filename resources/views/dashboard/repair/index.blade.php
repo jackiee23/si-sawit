@@ -96,6 +96,9 @@
         const table = $('#dataTable').DataTable({
             processing: true,
             // searching: false, info: false,
+            order: [
+                    [1, 'desc']
+                ],
             serverSide: true,
             ajax: '{{ route('repairdata') }}',
             columns: [{
@@ -114,7 +117,8 @@
                 },
                 {
                     data: 'jenis_kerusakan',
-                    name: 'jenis_kerusakan'
+                    name: 'jenis_kerusakan',
+                    sortable:false
                 },
                 {
                     data: 'jumlah',
