@@ -6,6 +6,7 @@ use App\Http\Controllers\FuelController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FarmerController;
 use App\Http\Controllers\RepairController;
@@ -32,6 +33,7 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/logout', [PageController::class, 'logout']);
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('home');
+    Route::get('dashboard/ganti-password', [PageController::class, 'change']);
 
     //report
     Route::get('/dashboard/laporan-umum', [ReportController::class, 'index']);
@@ -61,6 +63,9 @@ Route::middleware('auth')->group(function(){
 
     //admin
     Route::resource('/dashboard/admin', AdminController::class);
+
+    //user
+    Route::resource('/dashboard/user', UserController::class);
 
     //car
     Route::resource('/dashboard/car', CarController::class)->except(['show']);

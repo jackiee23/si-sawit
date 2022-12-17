@@ -730,6 +730,7 @@
                 $('#worker_id').val('default');
                 $('#worker_id').selectpicker("refresh");
                 $('.tabel').addClass("d-none");
+                $('.kendaraan').addClass("d-none");
                 $('.sawit').removeClass("d-none");
             } else {
                 $('.bahan-bakar').addClass("d-none");

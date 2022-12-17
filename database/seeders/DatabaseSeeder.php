@@ -24,10 +24,21 @@ class DatabaseSeeder extends Seeder
         \App\Models\Sale::factory(10)->create();
         \App\Models\Fuel::factory(10)->create();
         \App\Models\Repair::factory(10)->create();
+        \App\Models\User::factory(4)->create();
 
         User::create([
-            'name' => 'Jack Ramadhan',
+            'nama' => 'Jack Ramadhan',
             'email' =>'admin@gmail.com',
+            'no_wa' => '085161230906',
+            'jenis' => 'Programmer',
+            'password' => bcrypt('12345')
+        ]);
+
+        User::create([
+            'nama' => 'Ramadhan',
+            'email' => 'hisana@gmail.com',
+            'no_wa' => '085161230906',
+            'jenis' => 'Programmer',
             'password' => bcrypt('12345')
         ]);
 

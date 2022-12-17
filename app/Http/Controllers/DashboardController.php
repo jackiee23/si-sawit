@@ -472,12 +472,16 @@ class DashboardController extends Controller
 
     public function admindata()
     {
-        $admins = DB::table('admins');
+        $email = auth()->user()->email;
+
+        $admins = DB::table('users')
+            ->where('email', '!=', $email)
+            ->get();
         // ->select(['id', 'nama', 'no_wa', 'jenis']);
 
         return Datatables::of($admins)
             ->addColumn('action', function ($admin) {
-                return '<div class="text-center"><a href="/dashboard/admin/' . $admin->id . '/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form></div>';
+                return '<div class="text-center"><a href="/dashboard/user/' . $admin->id . '/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form></div>';
             })
             // ->editColumn('id', 'ID: {{$id}}')
             // ->setRowId('id')

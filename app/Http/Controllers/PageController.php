@@ -45,10 +45,19 @@ class PageController extends Controller
 
     }
 
+    public function change(){
+        $admin = auth()->user();
+        return view('dashboard.gantipw.index', [
+            'title' => 'Ganti-Password',
+            'admin' => $admin
+        ]);
+    }
+
     public function logout(Request $request){
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect('/');
     }
+
 }
