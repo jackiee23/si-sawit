@@ -53,6 +53,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/dashboard/carday', [DashboardController::class, 'carday'])->name('carday');
     Route::get('/dashboard/sawitday', [DashboardController::class, 'sawitday'])->name('sawitday');
     Route::get('/dashboard/spend', [DashboardController::class, 'spend'])->name('spend');
+    Route::get('/dashboard/profit', [DashboardController::class, 'profit'])->name('profit');
 
     //farmers
     // Route::get('/petani', [FarmerController::class, 'index']);

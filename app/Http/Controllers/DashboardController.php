@@ -899,7 +899,7 @@ class DashboardController extends Controller
         $date_bensin = DB:: table('fuels')
             ->selectRaw("tgl_pengisian as tgl_bulan")
             ->groupByRaw('tgl_pengisian')
-            ->orderByRaw('tgl_pengisian ASVC')
+            ->orderByRaw('tgl_pengisian asc')
             ->pluck('tgl_bulan');
 
         //date pembelian
@@ -963,8 +963,8 @@ class DashboardController extends Controller
                         ->groupBy('fuels.tgl_pengisian')
                         ->limit(1),
                     'omset' => Sale::selectRaw('cast(sum(harga_total)as int)')
-                        ->whereColumn('tgl_jual', 'purchases.tgl_beli')
-                        ->groupBy('purchases.tgl_beli')
+                        ->whereColumn('tgl_jual', 'fuels.tgl_pengisian')
+                        ->groupBy('fuels.tgl_pengisian')
                         ->limit(1),
                 ])
                 ->whereBetween('tgl_pengisian', [$request->start_date, $request->end_date])
@@ -991,8 +991,8 @@ class DashboardController extends Controller
                         ->groupBy('repairs.tgl_perbaikan')
                         ->limit(1),
                     'omset' => Sale::selectRaw('cast(sum(harga_total)as int)')
-                        ->whereColumn('tgl_jual', 'purchases.tgl_beli')
-                        ->groupBy('purchases.tgl_beli')
+                        ->whereColumn('tgl_jual', 'repairs.tgl_perbaikan')
+                        ->groupBy('repairs.tgl_perbaikan')
                         ->limit(1),
                 ])
                 ->whereNotIn('tgl_perbaikan', $date_beli)
@@ -1074,8 +1074,8 @@ class DashboardController extends Controller
                         ->groupBy('fuels.tgl_pengisian')
                         ->limit(1),
                     'omset' => Sale::selectRaw('cast(sum(harga_total)as int)')
-                        ->whereColumn('tgl_jual', 'purchases.tgl_beli')
-                        ->groupBy('purchases.tgl_beli')
+                        ->whereColumn('tgl_jual', 'fuels.tgl_pengisian')
+                        ->groupBy('fuels.tgl_pengisian')
                         ->limit(1),
                 ])
                 ->whereNotIn('tgl_pengisian', $date_beli)
@@ -1101,8 +1101,8 @@ class DashboardController extends Controller
                         ->groupBy('repairs.tgl_perbaikan')
                         ->limit(1),
                     'omset' => Sale::selectRaw('cast(sum(harga_total)as int)')
-                        ->whereColumn('tgl_jual', 'purchases.tgl_beli')
-                        ->groupBy('purchases.tgl_beli')
+                        ->whereColumn('tgl_jual', 'repairs.tgl_perbaikan')
+                        ->groupBy('repairs.tgl_perbaikan')
                         ->limit(1),
                 ])
                 ->whereNotIn('tgl_perbaikan', $date_beli)
@@ -1142,7 +1142,14 @@ class DashboardController extends Controller
                     return 'Rp' . number_format(($data->harga_pembelian + $data->perbaikan + $data->bahan_bakar), 2, ",", ".");
                 }
             )
-
+            ->addColumn(
+                'profit',
+                function ($data) {
+                    $pengeluaran = $data->harga_pembelian + $data->perbaikan + $data->bahan_bakar;
+                    return 'Rp' . number_format(($data->omset - $pengeluaran), 2, ",", ".");
+                }
+            )
+            ->editColumn('omset', 'Rp.{{number_format($omset,2,",",".")}}')
             ->make(true);
 
     }
