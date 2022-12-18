@@ -60,7 +60,7 @@
             order: [
                     [1, 'desc']
                 ],
-            ajax: '{{ route('saledata') }}',
+            ajax: "{{ route('saledata') }}",
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'id',
@@ -94,7 +94,7 @@
                 },
                 {
                     data: 'pabrik',
-                    name: 'pabrik'
+                    name: 'pabrik',
                     sortable: false
                 },
                 {
