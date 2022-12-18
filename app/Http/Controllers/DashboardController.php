@@ -27,14 +27,6 @@ class DashboardController extends Controller
             ->whereMonth('tgl_jual', now())
             ->whereYear('tgl_jual', now())
             ->first();
-        // ->whereMonth('created_at',now())
-        // ->pluck('total_harga');
-        // dd($month);
-        // ->get()->toArray();
-        // $type = gettype($total_harga);
-
-        // dd($type);
-        // dd($total_harga);
 
         //nama bulan
         $nama_bulan = DB::table('sales')
@@ -43,99 +35,6 @@ class DashboardController extends Controller
             ->groupByRaw('MONTHNAME(tgl_jual)')
             ->orderByRaw('tgl_jual ASC')
             ->pluck('nama_bulan');
-        // ->get()->all();
-        // dd($nama_bulan);
-
-        //date pembelian
-        $date_beli = DB::table('purchases')
-            ->selectRaw("tgl_beli as tgl_bulan")
-            ->groupByRaw('tgl_beli')
-            ->orderByRaw('tgl_beli ASC')
-            ->pluck('tgl_bulan');
-        // ->get()->all();
-        // dd($date_beli);
-
-        //date pembelian
-        $date_perbaikan = DB::table('repairs')
-        ->selectRaw("tgl_perbaikan as tgl_bulan")
-        ->groupByRaw('tgl_perbaikan')
-        ->orderByRaw('tgl_perbaikan ASC')
-        ->pluck('tgl_bulan');
-
-        //date bahan bakar
-        $total_bensin = DB::table('fuels')
-            ->select('tgl_pengisian as tgl', DB::Raw("CAST(SUM(harga_total)as int) as bahan_bakar"))
-            ->addSelect([
-                'pembelian_sawit' => Purchase::selectRaw('cast(sum(jumlah_sawit)as int)')
-                ->whereColumn('car_id', 'fuels.car_id')
-                ->whereColumn('tgl_beli',
-                    'fuels.tgl_pengisian'
-                )
-                ->groupBy('fuels.tgl_pengisian')
-                ->limit(1),
-                'harga_pembelian' => Purchase::selectRaw('cast(sum(harga_total)as int)')
-                ->whereColumn('car_id', 'fuels.car_id')
-                ->whereColumn('tgl_beli', 'fuels.tgl_pengisian')
-                ->groupBy('fuels.tgl_pengisian')
-                ->limit(1),
-                'perbaikan' => Repair::selectRaw('cast(sum(jumlah)as int)')
-                ->whereColumn('car_id', 'fuels.car_id')
-                ->whereColumn('tgl_perbaikan', 'fuels.tgl_pengisian')
-                ->groupBy('fuels.tgl_pengisian')
-                ->limit(1),
-            ])
-            ->whereNotIn('tgl_pengisian', $date_beli)
-            ->whereNotIn('tgl_pengisian', $date_perbaikan)
-            ->groupByRaw('tgl_pengisian')
-            ->orderByRaw('tgl_pengisian ASC')
-            ->get();
-
-        //date perbaikan
-        $total_perbaikan = DB::table('repairs')
-            ->select('tgl_perbaikan as tgl', DB::Raw("CAST(SUM(jumlah)as int) as perbaikan"))
-            ->addSelect([
-                'pembelian_sawit' => Purchase::selectRaw('cast(sum(jumlah_sawit)as int)')
-                ->whereColumn('car_id', 'repairs.car_id')
-                ->whereColumn('tgl_beli', 'repairs.tgl_perbaikan')
-                ->groupBy('repairs.tgl_perbaikan')
-                ->limit(1),
-                'harga_pembelian' => Purchase::selectRaw('cast(sum(harga_total)as int)')
-                ->whereColumn('car_id', 'repairs.car_id')
-                ->whereColumn('tgl_beli', 'repairs.tgl_perbaikan')
-                ->groupBy('repairs.tgl_perbaikan')
-                ->limit(1),
-                'bahan_bakar' => Fuel::selectRaw('cast(sum(harga_total)as int)')
-                ->whereColumn('car_id', 'repairs.car_id')
-                ->whereColumn('tgl_pengisian', 'repairs.tgl_perbaikan')
-                ->groupBy('repairs.tgl_perbaikan')
-                ->limit(1),
-            ])
-            ->whereNotIn('tgl_perbaikan', $date_beli)
-            ->groupByRaw('tgl_perbaikan')
-            ->orderByRaw('tgl_perbaikan ASC')
-            ->get();
-        // dd($date);
-
-        //pembelian hari ini
-        $total_hbeli = DB::table('purchases')
-            ->select('tgl_beli as tgl', DB::Raw("CAST(SUM(jumlah_sawit)as int) as pembelian_sawit"), DB::Raw('cast(sum(purchases.harga_total)as int) as harga_pembelian'))
-            ->addSelect([
-                'perbaikan' => Repair::selectRaw('cast(sum(jumlah)as int)')
-                    ->whereColumn('car_id', 'purchases.car_id')
-                    ->whereColumn('tgl_perbaikan', 'purchases.tgl_beli')
-                    ->groupBy('purchases.tgl_beli')
-                    ->limit(1),
-                'bahan_bakar' => Fuel::selectRaw('cast(sum(harga_total)as int)')
-                    ->whereColumn('car_id', 'purchases.car_id')
-                    ->whereColumn('tgl_pengisian', 'purchases.tgl_beli')
-                    ->groupBy('purchases.tgl_beli')
-                    ->limit(1),
-            ])
-            ->groupBy('tgl_beli')
-            ->get();
-
-            $dates = $total_perbaikan->concat($total_hbeli)->concat($total_bensin);
-        // dd($dates);
 
         //penjualan tahun ini
         $penjualan = DB::table('sales')
@@ -144,7 +43,6 @@ class DashboardController extends Controller
             ->groupByRaw('Month(tgl_jual)')
             ->orderByRaw('tgl_jual ASC')
             ->pluck('penjualan');
-        // dd($penjualan);
 
         //perbaikan bulan ini
         $perbaikan = DB::table('repairs')
@@ -152,7 +50,6 @@ class DashboardController extends Controller
             ->whereYear('tgl_perbaikan', now())
             ->whereMonth('tgl_perbaikan', now())
             ->first();
-        // dd($perbaikan);
 
         //pembelian bulan ini
         $total_beli = DB::table('purchases')
@@ -164,7 +61,6 @@ class DashboardController extends Controller
 
         //total sawit bulan ini
         $total_sawit = DB::table('purchases')
-            // ->select(DB::raw("SUM(harga_total) as total_harga"))
             ->selectRaw("CAST(SUM(jumlah_sawit)as int) as total_sawit")
             ->whereMonth('tgl_beli', now())
             ->whereYear('tgl_beli', now())
@@ -173,25 +69,17 @@ class DashboardController extends Controller
         //total admin
         $total_admin = DB::table('admins')
             ->selectRaw("COUNT(id) as total_admin")
-            // ->pluck('total_admin');
             ->first();
-        // dd($total_admin);
 
         //total pekerja
         $total_pekerja = DB::table('workers')
             ->selectRaw("COUNT(id) as total_pekerja")
-            // ->pluck('total_admin');
             ->first();
-        // dd($total_pekerja);
 
         //total admin
         $total_petani = DB::table('farmers')
             ->selectRaw("COUNT(id) as total_petani")
-            // ->pluck('total_admin');
             ->first();
-        // dd($total_petani);
-
-
 
 
         return view('dashboard.index', [
@@ -259,10 +147,8 @@ class DashboardController extends Controller
         } else if ($request->start_date && $request->end_date && $request->car_id) {
             //report kendaraan
             $cars = DB::table('cars')
-                // ->join('fuels', 'cars.id', '=', 'fuels.car_id')
                 ->join('purchases', 'cars.id', '=', 'purchases.car_id')
                 ->join('farmers', 'farmer_id', '=', 'farmers.id')
-                // ->join('fuels', 'purchases.car_id', '=', 'fuels.id')
                 ->select('cars.id', 'purchases.car_id', 'cars.nama_kendaraan', DB::raw('sum(farmers.jarak*purchases.trip*2)as jarak_total'), 'farmer_id', 'purchases.tgl_beli')
                 ->addSelect([
                     'jumlah_petani' => Purchase::selectRaw('COUNT(*)')
@@ -284,31 +170,18 @@ class DashboardController extends Controller
                         ->whereColumn('car_id', 'purchases.car_id')
                         ->groupBy('purchases.tgl_beli')
                         ->limit(1),
-                    // 'konsumsi' => Fuel::selectRaw('sum(jumlah_liter/(farmers.jarak*purchases.trip*2))')
-                    // ->whereColumn('tgl_pengisian', 'purchases.tgl_beli')
-                    // ->whereColumn('car_id', 'purchases.car_id')
-                    // ->groupBy('purchases.tgl_beli')
-                    // ->limit(1),
-                    // 'konsumsi_bahan' =>
-                    // 'bahan_bakar' => Fuel::selectRaw("CAST(SUM(harga_total)as int) as total_harga")->whereColumn('car_id', 'cars.id')->groupByRaw('tgl_pengisian')
-                    // ->limit(1)
                 ])
-                // ->groupBy('tgl_pengisian')
-                // ->whereColumn(['fuels.car_id', 'purchase.car_id'], ['fuels.tgl_pengisian', 'purchases.tgl_beli'])
                 ->groupBy('purchases.tgl_beli')
                 ->orderBy('purchases.tgl_beli', 'desc')
                 ->whereBetween('purchases.tgl_beli', [$request->start_date, $request->end_date])
                 ->where('purchases.car_id', $request->car_id)
                 ->groupBy('cars.id')
                 ->get();
-            // dd($cars);
         } else if ($request->car_id) {
             //report kendaraan
             $cars = DB::table('cars')
-                // ->join('fuels', 'cars.id', '=', 'fuels.car_id')
                 ->join('purchases', 'cars.id', '=', 'purchases.car_id')
                 ->join('farmers', 'farmer_id', '=', 'farmers.id')
-                // ->join('fuels', 'purchases.car_id', '=', 'fuels.id')
                 ->select('cars.id', 'purchases.car_id', 'cars.nama_kendaraan', DB::raw('sum(farmers.jarak*purchases.trip*2)as jarak_total'), 'farmer_id', 'purchases.tgl_beli')
                 ->addSelect([
                     'jumlah_petani' => Purchase::selectRaw('COUNT(*)')
@@ -330,30 +203,17 @@ class DashboardController extends Controller
                         ->whereColumn('car_id', 'purchases.car_id')
                         ->groupBy('purchases.tgl_beli')
                         ->limit(1),
-                    // 'konsumsi' => Fuel::selectRaw('sum(jumlah_liter/(farmers.jarak*purchases.trip*2))')
-                    // ->whereColumn('tgl_pengisian', 'purchases.tgl_beli')
-                    // ->whereColumn('car_id', 'purchases.car_id')
-                    // ->groupBy('purchases.tgl_beli')
-                    // ->limit(1),
-                    // 'konsumsi_bahan' =>
-                    // 'bahan_bakar' => Fuel::selectRaw("CAST(SUM(harga_total)as int) as total_harga")->whereColumn('car_id', 'cars.id')->groupByRaw('tgl_pengisian')
-                    // ->limit(1)
                 ])
-                // ->groupBy('tgl_pengisian')
-                // ->whereColumn(['fuels.car_id', 'purchase.car_id'], ['fuels.tgl_pengisian', 'purchases.tgl_beli'])
                 ->where('purchases.car_id', $request->car_id)
                 ->groupBy('purchases.tgl_beli')
                 ->orderBy('purchases.tgl_beli', 'desc')
                 ->groupBy('cars.id')
                 ->get();
-            // dd($cars);
         } else {
             //report kendaraan
             $cars = DB::table('cars')
-                // ->join('fuels', 'cars.id', '=', 'fuels.car_id')
                 ->join('purchases', 'cars.id', '=', 'purchases.car_id')
                 ->join('farmers', 'farmer_id', '=', 'farmers.id')
-                // ->join('fuels', 'purchases.car_id', '=', 'fuels.id')
                 ->select('cars.id', 'purchases.car_id', 'cars.nama_kendaraan', DB::raw('sum(farmers.jarak*purchases.trip*2)as jarak_total'), 'farmer_id', 'purchases.tgl_beli')
                 ->addSelect([
                     'jumlah_petani' => Purchase::selectRaw('COUNT(*)')
@@ -375,22 +235,11 @@ class DashboardController extends Controller
                         ->whereColumn('car_id', 'purchases.car_id')
                         ->groupBy('purchases.tgl_beli')
                         ->limit(1),
-                    // 'konsumsi' => Fuel::selectRaw('sum(jumlah_liter/(farmers.jarak*purchases.trip*2))')
-                    // ->whereColumn('tgl_pengisian', 'purchases.tgl_beli')
-                    // ->whereColumn('car_id', 'purchases.car_id')
-                    // ->groupBy('purchases.tgl_beli')
-                    // ->limit(1),
-                    // 'konsumsi_bahan' =>
-                    // 'bahan_bakar' => Fuel::selectRaw("CAST(SUM(harga_total)as int) as total_harga")->whereColumn('car_id', 'cars.id')->groupByRaw('tgl_pengisian')
-                    // ->limit(1)
                 ])
-                // ->groupBy('tgl_pengisian')
-                // ->whereColumn(['fuels.car_id', 'purchase.car_id'], ['fuels.tgl_pengisian', 'purchases.tgl_beli'])
                 ->groupBy('purchases.tgl_beli')
                 ->orderBy('purchases.tgl_beli', 'desc')
                 ->groupBy('cars.id')
                 ->get();
-            // dd($cars);
         }
 
         return Datatables::of($cars)
@@ -398,9 +247,6 @@ class DashboardController extends Controller
                 return number_format($car->jumlah_liter / $car->jarak_total, 2);
             })
             ->editColumn('perbaikan', 'Rp.{{number_format($perbaikan,2,",",".")}}')
-            // {{number_format($harga_total,2,",",".")}}
-            // ->editColumn('id', 'ID: {{$id}}')
-            // ->setRowId('id')
             ->addIndexColumn()
             ->make(true);
     }
@@ -413,7 +259,6 @@ class DashboardController extends Controller
         ->groupByRaw('tgl_beli')
         ->orderByRaw('tgl_beli ASC')
         ->pluck('tgl_bulan');
-        // dd($date_beli);
 
         if($request->start_date && $request->end_date){
             //date penjualan
@@ -430,14 +275,12 @@ class DashboardController extends Controller
                 ->groupByRaw('tgl_jual')
                 ->orderByRaw('tgl_jual ASC')
                 ->get();
-            // dd($date);
 
             //pembelian hari ini
             $total_hbeli = DB::table('purchases')
                 ->select('tgl_beli', DB::Raw("CAST(SUM(jumlah_sawit)as int) as pembelian_sawit",))
                 ->addSelect([
                     'penjualan_sawit' => Sale::selectRaw('cast(sum(jumlah)as int)')
-                        // ->whereColumn('car_id', 'purchases.car_id')
                         ->whereColumn('tgl_jual', 'purchases.tgl_beli')
                         ->groupBy('purchases.tgl_beli')
                         ->limit(1),
@@ -445,7 +288,6 @@ class DashboardController extends Controller
                 ->whereBetween('tgl_beli', [$request->start_date, $request->end_date])
                 ->groupBy('tgl_beli')
                 ->get();
-        // dd($total_hbeli);
         } else{
             //date penjualan
             $total_hjual = DB::table('sales')
@@ -460,25 +302,21 @@ class DashboardController extends Controller
                 ->groupByRaw('tgl_jual')
                 ->orderByRaw('tgl_jual ASC')
                 ->get();
-            // dd($date);
 
             //pembelian hari ini
             $total_hbeli = DB::table('purchases')
                 ->select('tgl_beli', DB::Raw("CAST(SUM(jumlah_sawit)as int) as pembelian_sawit",))
                 ->addSelect([
                     'penjualan_sawit' => Sale::selectRaw('cast(sum(jumlah)as int)')
-                        // ->whereColumn('car_id', 'purchases.car_id')
                         ->whereColumn('tgl_jual', 'purchases.tgl_beli')
                         ->groupBy('purchases.tgl_beli')
                         ->limit(1),
                 ])
                 ->groupBy('tgl_beli')
                 ->get();
-        // dd($total_hbeli);
         }
 
         $dates = $total_hjual->concat($total_hbeli);
-        // dd($dates);
 
         return Datatables::of($dates)
             ->addIndexColumn()
@@ -492,17 +330,11 @@ class DashboardController extends Controller
     {
 
         $cars = DB::table('cars');
-        // ->join('purchases','car_id', '=', 'purchases.car_id')
-        // ->get();
-        // dd($cars);
-        // ->select(['id', 'nama_kendaraan', 'merek', 'tgl_beli', 'keadaan_beli', 'umur_kendaraan']);
 
         return Datatables::of($cars)
             ->addColumn('action', function ($car) {
                 return '<div class="text-center"><a href="/dashboard/car/' . $car->id . '/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form></div>';
             })
-            // ->editColumn('id', 'ID: {{$id}}')
-            // ->setRowId('id')
             ->addIndexColumn()
             ->make(true);
     }
@@ -510,14 +342,11 @@ class DashboardController extends Controller
     public function workerdata()
     {
         $workers = DB::table('workers');
-        // ->select(['id', 'nama', 'alamat', 'no_wa', 'jenis']);
 
         return Datatables::of($workers)
             ->addColumn('action', function ($worker) {
                 return '<div class="text-center"><a href="/dashboard/worker/' . $worker->id . '/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form></div>';
             })
-            // ->editColumn('id', 'ID: {{$id}}')
-            // ->setRowId('id')
             ->addIndexColumn()
             ->make(true);
     }
@@ -529,14 +358,11 @@ class DashboardController extends Controller
         $admins = DB::table('users')
             ->where('email', '!=', $email)
             ->get();
-        // ->select(['id', 'nama', 'no_wa', 'jenis']);
 
         return Datatables::of($admins)
             ->addColumn('action', function ($admin) {
                 return '<div class="text-center"><a href="/dashboard/user/' . $admin->id . '/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form></div>';
             })
-            // ->editColumn('id', 'ID: {{$id}}')
-            // ->setRowId('id')
             ->addIndexColumn()
             ->make(true);
     }
@@ -544,14 +370,11 @@ class DashboardController extends Controller
     public function farmerdata()
     {
         $farmers = DB::table('farmers');
-        // ->select(['id', 'nama', 'alamat', 'luas', 'jarak', 'umur', 'no_wa']);
 
         return Datatables::of($farmers)
             ->addColumn('action', function ($farmer) {
                 return '<div class="text-center"><a href="/dashboard/farmer/' . $farmer->id . '/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form></div>';
             })
-            // ->editColumn('id', 'ID: {{$id}}')
-            // ->setRowId('id')
             ->addIndexColumn()
             ->make(true);
     }
@@ -559,21 +382,18 @@ class DashboardController extends Controller
     public function loandata()
     {
         $loans = DB::table('loans');
-        // ->select(['id', 'nama', 'tgl', 'nilai', 'jenis_pinjaman', 'keterangan']);
 
         return Datatables::of($loans)
             ->addColumn('action', function ($loan) {
                 return '<div class="text-center"><a href="/dashboard/loan/' . $loan->id . '/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form></div>';
             })
             ->editColumn('nilai', 'Rp.{{number_format($nilai,2,",",".")}}')
-            // ->setRowId('id')
             ->addIndexColumn()
             ->make(true);
     }
 
     public function purchasedata(Request $request)
     {
-        // dd($request->farmer_id);
         if ($request->start_date && $request->end_date && $request->farmer_id) {
             $purchases = Purchase::with('car', 'worker', 'farmer')
                 ->whereBetween('tgl_beli', [$request->start_date, $request->end_date])
@@ -591,12 +411,9 @@ class DashboardController extends Controller
         } else if ($request->worker_id) {
             $purchases = Purchase::with('car', 'worker', 'farmer')
                 ->where('worker_id', $request->worker_id);
-            // ->count();
 
-            // dd($purchases);
         } else {
             $purchases = Purchase::with('car', 'worker', 'farmer');
-            // ->select(['id', 'tgl_panen', 'farmer.nama', 'selish', 'keterangan','tgl_beli','car->nama_kenradaan','trip','worker.nama']);
         }
 
         return Datatables::of($purchases)
@@ -612,13 +429,10 @@ class DashboardController extends Controller
             ->addColumn('farmer', function (Purchase $purchase) {
                 return $purchase->farmer->nama;
             })
-            // ->editColumn('nilai', 'Rp.{{number_format($nilai,2,",",".")}}')
-            // ->setRowId('id')
             ->editColumn('harga', 'Rp.{{number_format($harga,2,",",".")}}')
             ->editColumn('harga_total', 'Rp.{{number_format($harga_total,2,",",".")}}')
             ->addIndexColumn()
             ->toJson();
-        // ->make(true);
     }
 
     public function saledata(Request $request)
@@ -626,10 +440,8 @@ class DashboardController extends Controller
         if ($request->start_date && $request->end_date) {
             $sales = Sale::with('car', 'worker')
                 ->whereBetween('tgl_jual', [$request->start_date, $request->end_date]);
-                // ->orderBy('tgl_jual', 'desc');
         } else {
             $sales = Sale::with('car', 'worker');
-                // ->orderBy('tgl_jual', 'desc');
         }
 
         return Datatables::of($sales)
@@ -642,13 +454,10 @@ class DashboardController extends Controller
             ->addColumn('worker', function (Sale $sale) {
                 return $sale->worker->nama;
             })
-            // ->editColumn('nilai', 'Rp.{{number_format($nilai,2,",",".")}}')
-            // ->setRowId('id')
             ->addIndexColumn()
             ->editColumn('harga_pabrik', 'Rp.{{number_format($harga_pabrik,2,",",".")}}')
             ->editColumn('harga_total', 'Rp.{{number_format($harga_total,2,",",".")}}')
             ->toJson();
-        // ->make(true);
     }
 
     public function fuelday(Request $request)
@@ -674,16 +483,13 @@ class DashboardController extends Controller
             })
             ->editColumn('harga', 'Rp.{{number_format($harga,2,",",".")}}')
             ->editColumn('total_harga', 'Rp.{{number_format($total_harga,2,",",".")}}')
-            // ->setRowId('id')
             ->addIndexColumn()
             ->toJson();
-        // ->make(true);
     }
 
     public function fueldata()
     {
         $fuels = Fuel::with('car');
-        // ->select(['id', 'tgl_panen', 'farmer.nama', 'selish', 'keterangan','tgl_beli','car->nama_kenradaan','trip','worker.nama']);
 
         return Datatables::of($fuels)
             ->addColumn('action', function ($fuel) {
@@ -694,16 +500,13 @@ class DashboardController extends Controller
             })
             ->editColumn('harga', 'Rp.{{number_format($harga,2,",",".")}}')
             ->editColumn('harga_total', 'Rp.{{number_format($harga_total,2,",",".")}}')
-            // ->setRowId('id')
             ->addIndexColumn()
             ->toJson();
-        // ->make(true);
     }
 
     public function repairdata()
     {
         $repairs = Repair::with('car');
-        // ->select(['id', 'tgl_panen', 'farmer.nama', 'selish', 'keterangan','tgl_beli','car->nama_kenradaan','trip','worker.nama']);
 
         return Datatables::of($repairs)
             ->addColumn('action', function ($repair) {
@@ -713,10 +516,8 @@ class DashboardController extends Controller
                 return $repair->car->nama_kendaraan;
             })
             ->editColumn('jumlah', 'Rp.{{number_format($jumlah,2,",",".")}}')
-            // ->setRowId('id')
             ->addIndexColumn()
             ->toJson();
-        // ->make(true);
     }
 
     public function spend(Request $request){
@@ -785,7 +586,6 @@ class DashboardController extends Controller
                 ->groupByRaw('tgl_perbaikan')
                 ->orderByRaw('tgl_perbaikan ASC')
                 ->get();
-            // dd($date);
 
             //pembelian hari ini
             $total_hbeli = DB::table('purchases')
@@ -852,7 +652,6 @@ class DashboardController extends Controller
                 ->groupByRaw('tgl_perbaikan')
                 ->orderByRaw('tgl_perbaikan ASC')
                 ->get();
-            // dd($date);
 
             //pembelian hari ini
             $total_hbeli = DB::table('purchases')
@@ -1000,7 +799,6 @@ class DashboardController extends Controller
                 ->groupByRaw('tgl_perbaikan')
                 ->orderByRaw('tgl_perbaikan ASC')
                 ->get();
-            // dd($date);
 
             //pembelian hari ini
             $total_hbeli = DB::table('purchases')
@@ -1109,7 +907,6 @@ class DashboardController extends Controller
                 ->groupByRaw('tgl_perbaikan')
                 ->orderByRaw('tgl_perbaikan ASC')
                 ->get();
-            // dd($date);
 
             //pembelian hari ini
             $total_hbeli = DB::table('purchases')

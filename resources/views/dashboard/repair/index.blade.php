@@ -10,21 +10,11 @@
         <div class="card shadow mb-4">
             @if (session('status'))
                 <div class="flash-data" data-flashdata="{{ session('status') }} "></div>
-                {{-- <div class="alert alert-success">
-                    {{ session('status') }}
-                </div> --}}
             @endif
             <div class="card-header py-3">
-                {{-- <h6 class="m-0 font-weight-bold text-primary">Data admin</h6> --}}
                 <a href="/dashboard/repair/create" class="btn btn-info">Tambah Data</a>
             </div>
             <div class="card-body">
-                {{-- <div>
-                    Toggle column: <a class="toggle-v" data-column="0">Name</a> - <a class="toggle-vis"
-                        data-column="1">Position</a> - <a class="toggle-vis" data-column="2">Office</a> - <a
-                        class="toggle-vis" data-column="3">Age</a> - <a class="toggle-vis" data-column="4">Start date</a> -
-                    <a class="toggle-vis" data-column="5">Salary</a>
-                </div> --}}
                 <div class="table-responsive">
                     <table class="table table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
                         <thead>
@@ -74,23 +64,6 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-
-            // $('a.toggle-vis').on('click', function() {
-                // e.preventDefault();
-                // var tbl = $('#dataTable');
-
-                // Work with column 2
-                // tbl.DataTable().column(2).visible(false);
-                // tbl.DataTable().column(3).visible(false);
-                // tbl.DataTable().column(4).visible(false);
-
-                // Get the column API object
-                // var column = table.column();
-
-                // Toggle the visibility
-                // column.visible(!column.visible());
-            // });
-
         });
 
         const table = $('#dataTable').DataTable({

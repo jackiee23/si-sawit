@@ -10,15 +10,11 @@
         <div class="card shadow mb-4">
             @if (session('status'))
             <div class="flash-data" data-flashdata="{{session('status')}} "></div>
-                {{-- <div class="alert alert-success">
-                    {{ session('status') }}
-                </div> --}}
                 @elseif (session('failed')){
                     <div class="failed-data" data-failed="{{ session('failed') }} "></div>
                 }
             @endif
             <div class="card-header py-3">
-                {{-- <h6 class="m-0 font-weight-bold text-primary">Data Petani</h6> --}}
                 <a href="/dashboard/farmer/create" class="btn btn-info">Tambah Data</a>
             </div>
             <div class="card-body">
@@ -95,15 +91,6 @@
                     orderable: false,
                     searchable: false
                 }
-                //         {
-                // 'orderable': false,
-                // 'searchable': false,
-                // 'data': null,
-                // 'render': function (data, type, row, meta) {
-                //     console.log(data);
-                //     return ' <a id="edit" href="" ><i class="edit fas fa-edit text-success"></i></a> <form id="formHapus" action="/dashboard/farmer/" method="post" class="d-inline" > @method('delete') @csrf <button type="submit" class="fas fa-trash text-danger border-0 tombol-hapus"></button> </form>';
-                // }
-                // }
             ]
         });
 
@@ -115,14 +102,6 @@
                 // document.getElementById("edit").href="/dashboard/car/"+data.id+"/edit/";
                 window.open("/dashboard/farmer/" + data.id + "/edit/", "_self");
             });
-            // const id = console.log(data.id);
-            // location.reload()
-            //alert('Edit user: ' + data.id);
-            //     Swal.fire(
-            //   'Good job!',
-            //   'You clicked the button!',
-            //   'success'
-            // )
         });
 
         $('#dataTable tbody').on('click', '.tombol-delete', table, function(e) {
@@ -143,7 +122,6 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $(function() {
-                        // document.location.href = href
                         $.ajax({
                             url: "farmer/" + data.id,
                             type: "post",
@@ -170,8 +148,6 @@
                                 $('#dataTable').DataTable().ajax.reload()
                             }
                         })
-                        // location.reload();
-                        // document.getElementById("formHapus").submit();
                     });
                 }
             });

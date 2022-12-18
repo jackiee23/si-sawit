@@ -6,12 +6,7 @@
         <!-- Page Heading -->
         <h1 class="h3 mb-2 text-gray-800">Tambah Data Pinjaman</h1>
 
-        <!-- DataTales Example -->
         <div class="card shadow mb-4">
-            {{-- <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Data loan</h6>
-                <button class="btn btn-info">Tambah Data</button>
-            </div> --}}
             <div class="card-body">
                 <form method="POST" action="/dashboard/loan">
                     @csrf
@@ -24,7 +19,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                             @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="tgl" class="form-label">Tanggal Pinjaman</label>
@@ -34,7 +28,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                             @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="jenis_pinjaman" class="form-label">Jenis Pinjaman</label>
@@ -45,7 +38,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                             @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="nilai" class="form-label">Nilai Pinjaman</label>
@@ -56,7 +48,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                             @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="keterangan" class="form-label">Keterangan Pinjaman</label>
@@ -67,7 +58,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                             @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <button type="submit" class="btn btn-primary">Tambah Data</button>
                 </form>

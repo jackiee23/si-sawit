@@ -3,10 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Car;
-use App\Models\Fuel;
-use App\Models\Purchase;
-use App\Models\Repair;
-use App\Models\Sale;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 

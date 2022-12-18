@@ -6,13 +6,9 @@
         <!-- Page Heading -->
         <h1 class="h3 mb-2 text-gray-800">Data Laporan</h1>
 
-        <!-- DataTales Example -->
         <div class="card shadow mb-4">
             @if (session('status'))
                 <div class="flash-data" data-flashdata="{{ session('status') }} "></div>
-                {{-- <div class="alert alert-success">
-                    {{ session('status') }}
-                </div> --}}
             @endif
             <div class="card-header py-3 d-flex justify-content-between">
                 <div class="mb-3 col-3">
@@ -29,7 +25,6 @@
                         <option value="8">Laporan Pengeluaran</option>
 
                     </select>
-                    <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                 </div>
                 <div class="mb-3 col-3 petani d-none">
                     <label for="farmer_id" class="form-label">Nama Petani</label>
@@ -63,9 +58,7 @@
                             <option value="{{ $car->id }}">{{ $car->nama_kendaraan }}</option>
                         @endforeach
                     </select>
-                    <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                 </div>
-                {{-- <h6 class="m-0 font-weight-bold text-primary">Data admin</h6> --}}
                 <div class="col col-3">
                     <label for="worker_id" class="form-label">Filter Tanggal</label>
                     <div class="col d-flex">
@@ -94,8 +87,6 @@
                                 <th>Total Harga</th>
                                 <th>Nama Kendaraan</th>
                                 <th>Jumlah Trip</th>
-                                {{-- <th>Keterangan</th> --}}
-                                {{-- <th>Opsi</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -223,7 +214,6 @@
             sawit_data();
             spend_data();
             profit_data();
-            // $('#dataTable_filter').hide();
 
 
             $.ajaxSetup({
@@ -249,8 +239,6 @@
                         start_date: $('#start_date').val(),
                         end_date: $('#end_date').val(),
                         car_id: $('#car_id').val(),
-                        // range: $('.input-daterange').val(),
-                        // worker_id: $('#worker_id').val()
                     },
                 },
                 columns: [{
@@ -285,22 +273,7 @@
                         data: 'perbaikan',
                         name: 'perbaikan',
                     },
-                    //         {
-                    // 'orderable': false,
-                    // 'searchable': false,
-                    // 'data': null,
-                    // 'render': function (data, type, row, meta) {
-                    //     console.log(data);
-                    //     return ' <a id="edit" href="" ><i class="edit fas fa-edit text-success"></i></a> <form id="formHapus" action="/dashboard/farmer/" method="post" class="d-inline" > @method('delete') @csrf <button type="submit" class="fas fa-trash text-danger border-0 tombol-hapus"></button> </form>';
-                    // }
-                    // }
                 ],
-                // columnDefs: [{
-                //     "targets": "_all", // your case first column
-                //     "className": "text-center",
-                //     "width": "4%"
-                //     },
-                // ]
             });
         };
 
@@ -327,7 +300,6 @@
                     {
                         data: 'tgl_beli',
                         name: 'tgl_beli',
-                        // sortable: false
                     },
                     {
                         data: 'pembelian_sawit',
@@ -368,7 +340,6 @@
                     {
                         data: 'tgl',
                         name: 'tgl',
-                        // sortable: false
                     },
                     {
                         data: 'pembelian_sawit',
@@ -433,7 +404,6 @@
                     {
                         data: 'tgl',
                         name: 'tgl',
-                        // sortable: false
                     },
                     {
                         data: 'pembelian_sawit',
@@ -491,7 +461,6 @@
                     {
                         data: 'tgl_jual',
                         name: 'tgl_jual',
-                        // sortable: false
                     },
                     {
                         data: 'jumlah',
@@ -532,7 +501,6 @@
                     {
                         data: 'my_date',
                         name: 'my_date',
-                        // sortable: false
                     },
                     {
                         data: 'car',
@@ -569,7 +537,6 @@
                         action: 'fetch',
                         start_date: $('#start_date').val(),
                         end_date: $('#end_date').val(),
-                        // range: $('.input-daterange').val(),
                         farmer_id: $('#farmer_id').val(),
                         worker_id: $('#worker_id').val()
                     },
@@ -621,26 +588,6 @@
                         data: 'trip',
                         name: 'trip'
                     }
-                    // {
-                    //     data: 'keterangan',
-                    //     name: 'keterangan',
-                    //     sortable: false
-                    // }
-                    // {
-                    //     data: 'action',
-                    //     name: 'action',
-                    //     orderable: false,
-                    //     searchable: false
-                    // }
-                    //         {
-                    // 'orderable': false,
-                    // 'searchable': false,
-                    // 'data': null,
-                    // 'render': function (data, type, row, meta) {
-                    //     console.log(data);
-                    //     return ' <a id="edit" href="" ><i class="edit fas fa-edit text-success"></i></a> <form id="formHapus" action="/dashboard/farmer/" method="post" class="d-inline" > @method('delete') @csrf <button type="submit" class="fas fa-trash text-danger border-0 tombol-hapus"></button> </form>';
-                    // }
-                    // }
                 ]
             });
         };
@@ -683,7 +630,6 @@
                 $('#profitTable').DataTable().destroy();
                 profit_data();
             }
-            // location.reload();
         });
 
         $('.input-daterange').on('apply.daterangepicker', function(ev, picker) {
@@ -718,20 +664,15 @@
                 $('#start_date').val(start.format('YYYY-MM-DD'));
                 $('#end_date').val(end.format('YYYY-MM-DD'));
 
-                // var start = start.format('YYYY-MM-DD');
-                // var end = end.format('YYYY-MM-DD');
-
                 var farmer = $('#farmer_id').val();
                 var worker = $('#worker_id').val();
                 if ($('#tipe_laporan').val() == 2) {
                     fetch_data();
                     var dt = $('#dataTable').DataTable();
-                    // dt.columns().visible(true);
                     dt.columns([3, 5, 6, 7, 8]).visible(false);
                 } else if ($('#tipe_laporan').val() == 1) {
                     fetch_data();
                     var dt = $('#dataTable').DataTable();
-                    // dt.columns().visible(true);
                     dt.columns([1, 4, 5, 9]).visible(false);
                 } else if ($('#tipe_laporan').val() == 3) {
                     reload_data();
@@ -750,17 +691,14 @@
             });
 
         $('#farmer_id').change(function() {
-            // $('.input.daterange').val()
 
             $('#dataTable').DataTable().destroy();
             fetch_data();
             var dt = $('#dataTable').DataTable();
-            // dt.columns().visible(true);
             dt.columns([1, 4, 5, 9]).visible(false);
         });
 
         $('#car_id').change(function() {
-            // $('.input.daterange').val()
 
             $('#carTable').DataTable().destroy();
             kendaraan_data();
@@ -768,12 +706,9 @@
 
 
         $('#worker_id').change(function() {
-            // $('.input.daterange').val()
-            // $('#farmer_id').prop('selectedIndex',0);
             $('#dataTable').DataTable().destroy();
             fetch_data();
             var dt = $('#dataTable').DataTable();
-            // dt.columns().visible(true);
             dt.columns([3, 5, 6, 7, 8]).visible(false);
         });
 

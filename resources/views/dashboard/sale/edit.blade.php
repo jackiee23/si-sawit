@@ -8,10 +8,6 @@
 
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
-            {{-- <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Data loan</h6>
-                <button class="btn btn-info">Tambah Data</button>
-            </div> --}}
             <div class="card-body">
                 <form method="POST" action="/dashboard/sale/{{$sale->id}}">
                     @method('patch')
@@ -25,7 +21,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                         @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="worker_id" class="form-label">Nama Pekerja</label>
@@ -40,7 +35,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                         @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="jumlah" class="form-label">Jumlah Sawit</label>
@@ -52,7 +46,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                         @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="harga_pabrik" class="form-label">Harga Pabrik</label>
@@ -63,7 +56,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                         @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="car_id" class="form-label">Nama Kendaraan</label>
@@ -78,7 +70,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                         @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="pabrik" class="form-label">Nama Pabrik</label>
@@ -89,7 +80,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                         @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="keterangan" class="form-label">Keterangan</label>
@@ -100,7 +90,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                         @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <button type="submit" class="btn btn-primary">Simpan Data</button>
                 </form>

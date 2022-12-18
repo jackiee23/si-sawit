@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Purchase;
-use App\Models\Sale;
 use App\Models\Worker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -42,7 +40,6 @@ class WorkerController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
-     *             "nama" => $this->faker->name(),
      */
     public function store(Request $request)
     {
@@ -121,7 +118,6 @@ class WorkerController extends Controller
         $cek = DB::table('sales')
             ->where('worker_id', $worker->id)
             ->first();
-            // ->get()->toArray();
 
         $cek2 = DB::table('purchases')
             ->where('worker_id', $worker->id)

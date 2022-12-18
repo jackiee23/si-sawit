@@ -6,12 +6,7 @@
         <!-- Page Heading -->
         <h1 class="h3 mb-2 text-gray-800">Tambah Data Pembelian</h1>
 
-        <!-- DataTales Example -->
         <div class="card shadow mb-4">
-            {{-- <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Data loan</h6>
-                <button class="btn btn-info">Tambah Data</button>
-            </div> --}}
             <div class="card-body">
                 <form method="POST" action="/dashboard/purchase/{{$purchase->id}}">
                     @method('patch')
@@ -29,7 +24,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                         @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="tgl_panen" class="form-label">Tanggal Panen</label>
@@ -40,7 +34,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                         @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="tgl_beli" class="form-label">Tanggal Pengambilan</label>
@@ -51,7 +44,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                         @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="jumlah_sawit" class="form-label">Jumlah Sawit</label>
@@ -62,7 +54,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                         @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="harga" class="form-label">Harga</label>
@@ -73,7 +64,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                         @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="worker_id" class="form-label">Nama Pekerja</label>
@@ -88,7 +78,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                         @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="car_id" class="form-label">Nama Kendaraan</label>
@@ -103,7 +92,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                         @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="trip" class="form-label">Jumlah Trip</label>
@@ -114,7 +102,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                         @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="keterangan" class="form-label">Keterangan</label>
@@ -125,7 +112,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                         @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <button type="submit" class="btn btn-primary">Simpan Data</button>
                 </form>

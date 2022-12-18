@@ -6,9 +6,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    {{-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> --}}
-    {{-- <meta name="description" content=""> --}}
-    {{-- <meta name="author" content=""> --}}
 
     <title>Sistem Rekapitulasi Panen Sawit - {{$title}}</title>
 
@@ -36,7 +33,6 @@
         <!-- Page level plugins -->
     <script src="{{asset('template/vendor/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('template/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
-    {{-- <script src="{{asset('template/js/demo/data.js')}}"></script> --}}
 
         <!-- daterange filter plugins -->
     <script src="{{asset('daterange/moment.min.js')}}"></script>
@@ -56,7 +52,6 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
                 <div class="sidebar-brand-icon text-light rotate-15 ">
-                    {{-- <i class="fas fa-laugh-wink"></i> --}}
                     <i class="fas fa-tree"></i>
                 </div>
                 <div class="sidebar-brand-text mx-3">SI SAWIT</div>
@@ -93,15 +88,6 @@
             </li>
 
             <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
-            {{-- <li class="nav-item {{ ($title === "Laporan" ? 'active' : '') }}">
-                <a class="nav-link" href="/dashboard/laporan">
-                    <i class="fas fa-flag"></i>
-                    <span>Laporan</span></a>
-            </li> --}}
-            <!-- Divider -->
-            {{-- <hr class="sidebar-divider my-0"> --}}
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item {{ ($title === "Pembelian" ||$title === "Perbaikan" ||$title === "Penjualan" ||$title === "Bahan Bakar" ||$title === "Pinjaman" ? 'active' : '') }}">
@@ -152,23 +138,6 @@
             <!-- Divider -->
             <hr class="sidebar-divider my">
 
-            {{-- <!-- Nav Item - Dashboard -->
-            <form action="/logout">
-                @csrf
-                <li class="nav-item">
-                    <button type="submit" class="btn btn-primary btn-block">
-                        <a class="nav-link">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Logout</span></a>
-                </button>
-            </li>
-            </form>
-            <li class="nav-item">
-                <a class="nav-link" href="/dashboard/logout">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span></a>
-            </li> --}}
-
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
@@ -183,24 +152,6 @@
             <div id="content">
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-                    {{-- <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button> --}}
-
-                    <!-- Topbar Search -->
-                    {{-- <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form> --}}
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -294,27 +245,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-{{--
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-
     <!-- Core plugin JavaScript-->
     <script src="{{asset('template/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
 
@@ -324,7 +254,6 @@
         <!-- Sweet Alert -->
         <script src="{{asset('sweetalert/sweetalert2.all.min.js')}}"></script>
         <script src="{{asset('sweetalert/myscript.js')}}"></script>
-        {{-- <script src="{{asset('vendor/sweetalert/sweetalert.all.js.js')}}"></script> --}}
         <!-- Bootstrap Select -->
         <script src="{{asset('bselect/js/bootstrap-select.js')}}"></script>
 

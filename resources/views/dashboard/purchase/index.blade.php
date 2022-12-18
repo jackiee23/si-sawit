@@ -6,16 +6,11 @@
         <!-- Page Heading -->
         <h1 class="h3 mb-2 text-gray-800">Data Pembelian</h1>
 
-        <!-- DataTales Example -->
         <div class="card shadow mb-4">
             @if (session('status'))
             <div class="flash-data" data-flashdata="{{session('status')}} "></div>
-                {{-- <div class="alert alert-success">
-                    {{ session('status') }}
-                </div> --}}
             @endif
             <div class="card-header py-3">
-                {{-- <h6 class="m-0 font-weight-bold text-primary">Data admin</h6> --}}
                 <a href="/dashboard/purchase/create" class="btn btn-info">Tambah Data</a>
             </div>
             <div class="card-body">
@@ -131,21 +126,11 @@
         });
 
         $('#dataTable tbody').on('click', '.edit', table, function(e) {
-            // e.preventDefault();
             const data = table.row($(this).parents('tr')).data();
             $(function() {
                 console.log(data.id);
-                // document.getElementById("edit").href="/dashboard/car/"+data.id+"/edit/";
                 window.open("/dashboard/purchase/" + data.id + "/edit/", "_self");
             });
-            // const id = console.log(data.id);
-            // location.reload()
-            //alert('Edit user: ' + data.id);
-            //     Swal.fire(
-            //   'Good job!',
-            //   'You clicked the button!',
-            //   'success'
-            // )
         });
 
         $('#dataTable tbody').on('click', '.tombol-delete', table, function(e) {

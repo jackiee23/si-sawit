@@ -6,16 +6,11 @@
         <!-- Page Heading -->
         <h1 class="h3 mb-2 text-gray-800">Data Admin</h1>
 
-        <!-- DataTales Example -->
         <div class="card shadow mb-4">
             @if (session('status'))
                 <div class="flash-data" data-flashdata="{{ session('status') }} "></div>
-                {{-- <div class="alert alert-success">
-                    {{ session('status') }}
-                </div> --}}
             @endif
             <div class="card-header py-3">
-                {{-- <h6 class="m-0 font-weight-bold text-primary">Data admin</h6> --}}
                 <a href="/dashboard/user/create" class="btn btn-info">Tambah Data</a>
             </div>
             <div class="card-body">
@@ -85,7 +80,6 @@
             const data = table.row($(this).parents('tr')).data();
 
             e.preventDefault();
-            // console.log(data.id)
             const rute = $(this).attr('action');
 
             Swal.fire({
@@ -99,7 +93,6 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $(function() {
-                        // document.location.href = href
                         $.ajax({
                             url: "user/" + data.id,
                             type: "post",
@@ -118,8 +111,6 @@
                                 $('#dataTable').DataTable().ajax.reload()
                             }
                         })
-                        // location.reload();
-                        // document.getElementById("formHapus").submit();
                     });
                 }
             });

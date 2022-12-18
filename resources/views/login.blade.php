@@ -6,9 +6,6 @@
             <div class="container">
                 @if (session()->has('status'))
                     <div class="failed-data" data-failed="{{ session('status') }} "></div>
-                    {{-- <div class="alert alert-success">
-                    {{ session('status') }}
-                    </div> --}}
                 @endif
                 <div class="row justify-content-center">
                     <div class="col-md-6 text-center mb-5">
@@ -36,24 +33,6 @@
                                         Sign In
                                     </button>
                                 </div>
-                                {{-- <div class="form-group d-md-flex">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value=""
-                                            id="flexCheckDefault">
-                                        <label class="form-check-label" for="flexCheckDefault">
-                                            Default checkbox
-                                        </label>
-                                    </div>
-                                    <div class="w-50">
-                                        <label class="checkbox-wrap checkbox-primary">Remember Me
-                                            <input type="checkbox" checked />
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </div>
-                                    <div class="w-50 text-md-right">
-                                        <a href="#" style="color: #fff">Forgot Password</a>
-                                    </div>
-                                </div> --}}
                             </form>
                         </div>
                     </div>
@@ -61,12 +40,4 @@
             </div>
         </section>
     </div>
-
-    <!-- Sweet Alert -->
-    {{-- <script src="{{asset('sweetalert/sweetalert2.all.min.js')}}"></script>
-    <script src="{{asset('sweetalert/myscript.js')}}"></script> --}}
-
-    {{-- <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script> --}}
-
 @endsection

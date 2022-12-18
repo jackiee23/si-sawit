@@ -6,12 +6,7 @@
         <!-- Page Heading -->
         <h1 class="h3 mb-2 text-gray-800">Tambah Data Kendaraan</h1>
 
-        <!-- DataTales Example -->
         <div class="card shadow mb-4">
-            {{-- <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Data admin</h6>
-                <button class="btn btn-info">Tambah Data</button>
-            </div> --}}
             <div class="card-body">
                 <form method="POST" action="/dashboard/car/{{$car->id}}">
                     @method('patch')
@@ -25,7 +20,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                             @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="merek" class="form-label">Merek Kendaraan</label>
@@ -36,7 +30,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                             @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="tgl_beli" class="form-label">Tanggal Beli Kendaraan</label>
@@ -46,7 +39,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                             @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="keadaan_beli" class="form-label">Kondisi Kendaraan</label>
@@ -57,7 +49,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                             @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="umur_kendaraan" class="form-label">Umur Kendaraan</label>
@@ -68,7 +59,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                             @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <button type="submit" class="btn btn-primary">Simpan Data</button>
                 </form>

@@ -16,7 +16,6 @@
                 }
             @endif
             <div class="card-header py-3">
-                {{-- <h6 class="m-0 font-weight-bold text-primary">Data admin</h6> --}}
                 <a href="/dashboard/car/create" class="btn btn-info">Tambah Data</a>
             </div>
             <div class="card-body">
@@ -88,41 +87,21 @@
                     orderable: false,
                     searchable: false
                 }
-                //         {
-                // 'orderable': false,
-                // 'searchable': false,
-                // 'data': null,
-                // 'render': function (data, type, row, meta) {
-                //     console.log(data);
-                //     return ' <a id="edit" href="" ><i class="edit fas fa-edit text-success"></i></a> <form id="formHapus" action="/dashboard/farmer/" method="post" class="d-inline" > @method('delete') @csrf <button type="submit" class="fas fa-trash text-danger border-0 tombol-hapus"></button> </form>';
-                // }
-                // }
             ]
         });
 
         $('#dataTable tbody').on('click', '.edit', table, function(e) {
-            // e.preventDefault();
             const data = table.row($(this).parents('tr')).data();
             $(function() {
                 console.log(data.id);
-                // document.getElementById("edit").href="/dashboard/car/"+data.id+"/edit/";
                 window.open("/dashboard/car/" + data.id + "/edit/", "_self");
             });
-            // const id = console.log(data.id);
-            // location.reload()
-            //alert('Edit user: ' + data.id);
-            //     Swal.fire(
-            //   'Good job!',
-            //   'You clicked the button!',
-            //   'success'
-            // )
         });
 
         $('#dataTable tbody').on('click', '.tombol-delete', table, function(e) {
             const data = table.row($(this).parents('tr')).data();
 
             e.preventDefault();
-            // console.log(data.id)
             const rute = $(this).attr('action');
 
             Swal.fire({
@@ -136,7 +115,6 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $(function() {
-                        // document.location.href = href
                         $.ajax({
                             url: "car/" + data.id,
                             type: "post",
@@ -163,8 +141,6 @@
                                 $('#dataTable').DataTable().ajax.reload()
                             }
                         })
-                        // location.reload();
-                        // document.getElementById("formHapus").submit();
                     });
                 }
             });

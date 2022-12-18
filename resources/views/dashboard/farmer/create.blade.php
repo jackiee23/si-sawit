@@ -6,12 +6,7 @@
         <!-- Page Heading -->
         <h1 class="h3 mb-2 text-gray-800">Tambah Data Petani</h1>
 
-        <!-- DataTales Example -->
         <div class="card shadow mb-4">
-            {{-- <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Data Petani</h6>
-                <button class="btn btn-info">Tambah Data</button>
-            </div> --}}
             <div class="card-body">
                 <form method="POST" action="/dashboard/farmer">
                     @csrf
@@ -24,7 +19,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                             @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="alamat" class="form-label">Alamat</label>
@@ -34,7 +28,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                             @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="no_wa" class="form-label">No WA</label>
@@ -45,7 +38,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                             @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="luas" class="form-label">Luas Kebun (Ha)</label>
@@ -56,7 +48,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                             @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="jarak" class="form-label">Jarak TPH ke Kebun</label>
@@ -67,7 +58,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                             @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
                         <label for="umur" class="form-label">Umur Kebun</label>
@@ -78,7 +68,6 @@
                                 Tidak boleh di kosongkan.
                             </div>
                             @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <button type="submit" class="btn btn-primary">Tambah Data</button>
                 </form>

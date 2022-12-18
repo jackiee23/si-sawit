@@ -21,7 +21,6 @@ class PurchaseController extends Controller
 
         return view('dashboard.purchase.index', [
             'title'=>'Pembelian',
-            // 'purchase'=>$purchase,
         ]);
     }
 
