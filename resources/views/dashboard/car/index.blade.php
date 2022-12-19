@@ -28,6 +28,7 @@
                                 <th>Merek Kendaraan</th>
                                 <th>Tanggal Beli</th>
                                 <th>Keadaan Beli</th>
+                                <th>Kapasitas Kendaraan (Kg)</th>
                                 <th>Umur Kendaraan</th>
                                 <th>Opsi</th>
                             </tr>
@@ -76,6 +77,10 @@
                     data: 'keadaan_beli',
                     name: 'keadaan_beli',
                     sortable: false
+                },
+                {
+                    data: 'kapasitas_kendaraan',
+                    name: 'kapasitas_kendaraan'
                 },
                 {
                     data: 'umur_kendaraan',

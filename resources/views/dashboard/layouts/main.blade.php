@@ -76,13 +76,14 @@
                     <i class="fas fa-database"></i>
                     <span>Dataku</span>
                 </a>
-                <div id="collapseTwo" class="collapse {{$title === "Petani" || $title === "Kendaraan" || $title === "Pekerja" ||$title === "Admin" ? 'show' : ''}} " aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseTwo" class="collapse {{$title === "Petani" || $title === "Kendaraan" || $title === "Pemeliharaan" || $title === "Pekerja" ||$title === "Admin" ? 'show' : ''}} " aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Dataku :</h6>
                         <a class="collapse-item {{ ($title === "Admin" ? 'active' : '') }}" href="/dashboard/user">Admin</a>
                         <a class="collapse-item {{ ($title === "Kendaraan" ? 'active' : '') }}" href="/dashboard/car">Kendaraan</a>
                         <a class="collapse-item {{ ($title === "Pekerja" ? 'active' : '') }}" href="/dashboard/worker">Pekerja</a>
                         <a class="collapse-item {{ ($title === "Petani" ? 'active' : '') }}" href="/dashboard/farmer">Petani</a>
+                        <a class="collapse-item {{ ($title === "Pemeliharaan" ? 'active' : '') }}" href="/dashboard/maintenance">Pemeliharaan & Perbaikan</a>
                     </div>
                 </div>
             </li>
@@ -96,7 +97,7 @@
                     <i class="fas fa-wallet"></i>
                     <span>Transaksi</span>
                 </a>
-                <div id="collapseThree" class="collapse {{ ($title === "Pembelian" || $title === "Perbaikan" ||$title === "Penjualan" ||$title === "Bahan Bakar" ||$title === "Pinjaman" ? 'show' : '') }}" aria-labelledby="headingThree" data-parent="#accordionSidebar">
+                <div id="collapseThree" class="collapse {{ ($title === "Pembelian" || $title === "Perbaikan" || $title === "Pengembalian" ||$title === "Penjualan" ||$title === "Bahan Bakar" ||$title === "Pinjaman" ? 'show' : '') }}" aria-labelledby="headingThree" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Transaksi :</h6>
                         <a class="collapse-item {{ ($title === "Pembelian" ? 'active' : '') }}" href="/dashboard/purchase">Pembelian</a>
@@ -104,6 +105,7 @@
                         <a class="collapse-item {{ ($title === "Bahan Bakar" ? 'active' : '') }}" href="/dashboard/fuel">Bahan Bakar</a>
                         <a class="collapse-item {{ ($title === "Perbaikan" ? 'active' : '') }}" href="/dashboard/repair">Perbaikan</a>
                         <a class="collapse-item {{ ($title === "Pinjaman" ? 'active' : '') }}" href="/dashboard/loan">Pinjaman</a>
+                        <a class="collapse-item {{ ($title === "Pengembalian" ? 'active' : '') }}" href="/dashboard/return">Pengembalian</a>
                     </div>
                 </div>
             </li>

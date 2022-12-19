@@ -60,7 +60,7 @@
                             @enderror
                     </div>
                     <div class="mb-3">
-                        <label for="umur" class="form-label">Umur Kebun</label>
+                        <label for="umur" class="form-label">Umur Tanaman Sawit</label>
                         <input type="text" class="form-control @error('umur') is-invalid @enderror" id="umur" name="umur" value="{{old('umur')}} "
                             placeholder="Masukkan Umur Kebun">
                             @error('umur')

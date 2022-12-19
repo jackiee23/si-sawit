@@ -8,7 +8,7 @@
 
         <div class="card shadow mb-4">
             @if (session('status'))
-            <div class="flash-data" data-flashdata="{{session('status')}} "></div>
+                <div class="flash-data" data-flashdata="{{ session('status') }} "></div>
             @endif
             <div class="card-header py-3">
                 <a href="/dashboard/purchase/create" class="btn btn-info">Tambah Data</a>
@@ -33,6 +33,23 @@
                                 <th>Opsi</th>
                             </tr>
                         </thead>
+                        {{-- <tfoot>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Petani</th>
+                                <th>Tanggal Panen</th>
+                                <th>Tanggal Pengambilan</th>
+                                <th>Ketepatan Waktu</th>
+                                <th>Jumlah Sawit(Kg)</th>
+                                <th>Harga</th>
+                                <th>Total Harga</th>
+                                <th>Nama Pekerja</th>
+                                <th>Nama Kendaraan</th>
+                                <th>Jumlah Trip</th>
+                                <th>Keterangan</th>
+                                <th>Opsi</th>
+                            </tr>
+                        </tfoot> --}}
                         <tbody>
 
                         </tbody>
@@ -55,8 +72,8 @@
             processing: true,
             serverSide: true,
             order: [
-                    [3, 'desc']
-                ],
+                [3, 'desc']
+            ],
             ajax: '{{ route('purchasedata') }}',
             columns: [{
                     data: 'DT_RowIndex',
@@ -117,6 +134,65 @@
                     searchable: false
                 }
             ],
+            // footerCallback: function(row, data, start, end, display) {
+            //     var api = this.api();
+
+            //     var columnData = api
+            //         .column(6)
+            //         .data();
+
+            //     var numFormat = $.fn.dataTable.render.number( '\.', ',',2, 'Rp.' ).display
+
+            //     // Remove the formatting to get integer data for summation
+            //     var intVal = function(i) {
+            //         return typeof i === 'string' ? i.replace(/[\Rp.,]/g, '') * 1 : typeof i ===
+            //             'number' ? i : 0;
+            //     };
+
+            //     // Total over this page
+            //     pageTotal = api
+            //         .column(10, {
+            //             page: 'current'
+            //         })
+            //         .data()
+            //         .reduce(function(a, b) {
+            //             return intVal(a) + intVal(b);
+            //         }, 0);
+
+            //     sawitTotal = api
+            //         .column(5, {
+            //             page: 'current'
+            //         })
+            //         .data()
+            //         .reduce(function(a, b) {
+            //             return intVal(a) + intVal(b);
+            //         }, 0);
+
+            //     hargaRate = api
+            //         .column(6, {
+            //             page: 'current'
+            //         })
+            //         .data()
+            //         .reduce(function(a, b) {
+            //             return intVal(a) + intVal(b);
+            //         }, 0);
+
+            //     hargaTotal = api
+            //         .column(7, {
+            //             page: 'current'
+            //         })
+            //         .data()
+            //         .reduce(function(a, b) {
+            //             return intVal(a) + intVal(b);
+            //         }, 0);
+
+            //     // Update footer
+            //     $(api.column(10).footer()).html(pageTotal);
+            //     $(api.column(5).footer()).html(sawitTotal + ' Kg');
+            //     $(api.column(6).footer()).html(numFormat(hargaRate/columnData.count()/100));
+            //     $(api.column(7).footer()).html(numFormat(hargaTotal/100));
+
+            // },
             // columnDefs: [{
             //         "targets": "_all", // your case first column
             //         "className": "text-center",
@@ -169,7 +245,7 @@
                                 )
                                 $('#dataTable').DataTable().ajax.reload()
                             },
-                            error : function(data) { //jika error
+                            error: function(data) { //jika error
                                 Swal.fire(
                                     'Error',
                                     'Data cannot deleted!',

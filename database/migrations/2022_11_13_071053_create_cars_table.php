@@ -18,6 +18,7 @@ class CreateCarsTable extends Migration
             $table->string('nama_kendaraan');
             $table->string('merek');
             $table->date('tgl_beli');
+            $table->string('kapasitas_kendaraan')->nullable();
             $table->string('keadaan_beli')->nullable();
             $table->string('umur_kendaraan')->nullable();
             $table->timestamps();

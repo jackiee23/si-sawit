@@ -28,7 +28,7 @@
                                 <th>No WA</th>
                                 <th>Luas Kebun (Ha)</th>
                                 <th>Jarak TPH ke Kebun</th>
-                                <th>Umur Kebun</th>
+                                <th>Umur Tanaman Sawit</th>
                                 <th>Opsi</th>
                             </tr>
                         </thead>

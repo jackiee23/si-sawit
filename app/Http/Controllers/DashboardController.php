@@ -20,7 +20,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        //penjualan bulan ini
+        //pemasukan bulan ini
         $total_harga = DB::table('sales')
             // ->select(DB::raw("SUM(harga_total) as total_harga"))
             ->selectRaw("CAST(SUM(harga_total)as int) as total_harga")
@@ -51,6 +51,13 @@ class DashboardController extends Controller
             ->whereMonth('tgl_perbaikan', now())
             ->first();
 
+        //pbahan bakar bulan ini
+        $bensin = DB::table('fuels')
+        ->selectRaw("CAST(SUM(harga_total)as int) as bensin")
+        ->whereYear('tgl_pengisian', now())
+        ->whereMonth('tgl_pengisian', now())
+        ->first();
+
         //pembelian bulan ini
         $total_beli = DB::table('purchases')
             // ->select(DB::raw("SUM(harga_total) as total_harga"))
@@ -60,11 +67,11 @@ class DashboardController extends Controller
             ->first();
 
         //total sawit bulan ini
-        $total_sawit = DB::table('purchases')
-            ->selectRaw("CAST(SUM(jumlah_sawit)as int) as total_sawit")
-            ->whereMonth('tgl_beli', now())
-            ->whereYear('tgl_beli', now())
-            ->first();
+        // $total_sawit = DB::table('purchases')
+        //     ->selectRaw("CAST(SUM(jumlah_sawit)as int) as total_sawit")
+        //     ->whereMonth('tgl_beli', now())
+        //     ->whereYear('tgl_beli', now())
+        //     ->first();
 
         //total admin
         $total_admin = DB::table('admins')
@@ -81,12 +88,13 @@ class DashboardController extends Controller
             ->selectRaw("COUNT(id) as total_petani")
             ->first();
 
+        $outcome = $total_beli->total_beli + $perbaikan->perbaikan + $bensin->bensin;
 
         return view('dashboard.index', [
             'title' => 'Dashboard',
-            'total_bulanan' => $total_harga->total_harga,
-            'total_beli' => $total_beli->total_beli + $perbaikan->perbaikan,
-            'total_sawit' => $total_sawit->total_sawit,
+            'total_pemasukan' => $total_harga->total_harga,
+            'total_beli' => $outcome,
+            'total_profit' => $total_harga->total_harga - $outcome,
             'penjualan' => $penjualan,
             'nama_bulan' => $nama_bulan,
             'total_pekerja' => $total_pekerja->total_pekerja,

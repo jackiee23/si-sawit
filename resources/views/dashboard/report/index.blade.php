@@ -89,6 +89,21 @@
                                 <th>Jumlah Trip</th>
                             </tr>
                         </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Total :</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th>Jumlah Sawit(Kg)</th>
+                                <th>Harga</th>
+                                <th>Total Harga</th>
+                                <th></th>
+                                <th>Jumlah Trip</th>
+                            </tr>
+                        </tfoot>
                         <tbody>
 
                         </tbody>
@@ -366,8 +381,7 @@
                     "targets": "_all", // your case first column
                     "className": "text-center",
                     "width": "4%"
-                    },
-                ]
+                }, ]
             });
         };
 
@@ -376,12 +390,12 @@
                 processing: true,
                 searching: false,
                 columnDefs: [{
-                    "targets": "_all", // your case first column
-                    "className": "text-center",
-                    "width": "4%"
+                        "targets": "_all", // your case first column
+                        "className": "text-center",
+                        "width": "4%"
                     },
                     {
-                        "targets": [2,3,4,5],
+                        "targets": [2, 3, 4, 5],
                         "visible": false
                     }
                 ],
@@ -587,8 +601,67 @@
                     {
                         data: 'trip',
                         name: 'trip'
-                    }
-                ]
+                    },
+                ],
+                footerCallback: function(row, data, start, end, display) {
+                var api = this.api();
+
+                var columnData = api
+                    .column(6)
+                    .data();
+
+                var numFormat = $.fn.dataTable.render.number( '\.', ',',2, 'Rp.' ).display
+
+                // Remove the formatting to get integer data for summation
+                var intVal = function(i) {
+                    return typeof i === 'string' ? i.replace(/[\Rp.,]/g, '') * 1 : typeof i ===
+                        'number' ? i : 0;
+                };
+
+                // Total over this page
+                pageTotal = api
+                    .column(10, {
+                        page: 'current'
+                    })
+                    .data()
+                    .reduce(function(a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+
+                sawitTotal = api
+                    .column(6, {
+                        page: 'current'
+                    })
+                    .data()
+                    .reduce(function(a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+
+                hargaRate = api
+                    .column(7, {
+                        page: 'current'
+                    })
+                    .data()
+                    .reduce(function(a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+
+                hargaTotal = api
+                    .column(8, {
+                        page: 'current'
+                    })
+                    .data()
+                    .reduce(function(a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+
+                // Update footer
+                $(api.column(10).footer()).html(pageTotal);
+                $(api.column(6).footer()).html(sawitTotal + ' Kg');
+                $(api.column(7).footer()).html(numFormat(hargaRate/columnData.count()/100));
+                $(api.column(8).footer()).html(numFormat(hargaTotal/100));
+
+                },
             });
         };
 
@@ -620,7 +693,7 @@
             } else if ($('#tipe_laporan').val() == 5) {
                 $('#carTable').DataTable().destroy();
                 kendaraan_data();
-            }else if ($('#tipe_laporan').val() == 7) {
+            } else if ($('#tipe_laporan').val() == 7) {
                 $('#sawitTable').DataTable().destroy();
                 sawit_data();
             } else if ($('#tipe_laporan').val() == 8) {
@@ -680,8 +753,7 @@
                     pemasukan_data();
                 } else if ($('#tipe_laporan').val() == 5) {
                     kendaraan_data();
-                }
-                else if ($('#tipe_laporan').val() == 7) {
+                } else if ($('#tipe_laporan').val() == 7) {
                     sawit_data();
                 } else if ($('#tipe_laporan').val() == 6) {
                     profit_data();
