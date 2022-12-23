@@ -20,8 +20,8 @@ Screenshot :
 
 ## HOW TO INSTALL
 
--sesuaikan .env nya dengan database milikmu (buat database kosong nama nya sesuai di .env)
--lakukan composser install dan composer update
--kemudian lakukan migrasi, php artisan migrate:fresh anda juga bisa menggunakan seeder jika ingin mengisi datanya dengan data dummy php artisan migrate:fresh --seed
--kemudian php artisan serve
--web sudah siap dibuka
+- sesuaikan .env nya dengan database milikmu (buat database kosong nama nya sesuai di .env)
+- lakukan composser install dan composer update
+- kemudian lakukan migrasi, php artisan migrate:fresh anda juga bisa menggunakan seeder jika ingin mengisi datanya dengan data dummy php artisan migrate:fresh --seed
+- kemudian php artisan serve
+- web sudah siap dibuka
