@@ -9,9 +9,10 @@
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             @if (session('status'))
-            <div class="flash-data" data-flashdata="{{session('status')}} "></div>
-                @elseif (session('failed')){
-                    <div class="failed-data" data-failed="{{ session('failed') }} "></div>
+                <div class="flash-data" data-flashdata="{{ session('status') }} "></div>
+            @elseif (session('failed'))
+                {
+                <div class="failed-data" data-failed="{{ session('failed') }} "></div>
                 }
             @endif
             <div class="card-header py-3">
@@ -51,6 +52,10 @@
         });
 
         const table = $('#dataTable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
             processing: true,
             serverSide: true,
             ajax: '{{ route('farmerdata') }}',
@@ -139,7 +144,7 @@
                                 )
                                 $('#dataTable').DataTable().ajax.reload()
                             },
-                            error : function(data) { //jika error
+                            error: function(data) { //jika error
                                 Swal.fire(
                                     'Error',
                                     'Farmer data cannot deleted!',

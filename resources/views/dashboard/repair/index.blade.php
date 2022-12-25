@@ -67,6 +67,10 @@
         });
 
         const table = $('#dataTable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
             processing: true,
             // searching: false, info: false,
             order: [

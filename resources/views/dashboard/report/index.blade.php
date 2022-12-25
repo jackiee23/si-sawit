@@ -241,6 +241,10 @@
 
         function kendaraan_data() {
             const table = $('#carTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
                 searching: false,
                 processing: true,
                 serverSide: true,
@@ -294,6 +298,10 @@
 
         function sawit_data() {
             const table = $('#sawitTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
                 processing: true,
                 searching: false,
                 serverSide: true,
@@ -334,6 +342,10 @@
 
         function spend_data() {
             const table = $('#spendTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
                 processing: true,
                 searching: false,
                 serverSide: true,
@@ -387,6 +399,10 @@
 
         function profit_data() {
             const table = $('#profitTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
                 processing: true,
                 searching: false,
                 columnDefs: [{
@@ -454,6 +470,10 @@
 
         function pemasukan_data() {
             const table = $('#pemasukanTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
                 processing: true,
                 searching: false,
                 order: [
@@ -494,6 +514,10 @@
 
         function reload_data() {
             const table = $('#fuelTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
                 processing: true,
                 searching: false,
                 order: [
@@ -539,6 +563,31 @@
 
         function fetch_data() {
             const table = $('#dataTable').DataTable({
+                columnDefs: [{
+                    "targets": [10, 9, 8, 7, 6, 5], // your case first column
+                    "className": "text-center",
+                    "width": "4%"
+                }, ],
+                dom: 'Bfrtip',
+                buttons: [{
+                        extend: 'copyHtml5',
+                        exportOptions: {
+                            columns: [0, ':visible']
+                        }
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                ],
                 searching: false,
                 processing: true,
                 order: [
@@ -604,62 +653,62 @@
                     },
                 ],
                 footerCallback: function(row, data, start, end, display) {
-                var api = this.api();
+                    var api = this.api();
 
-                var columnData = api
-                    .column(6)
-                    .data();
+                    var columnData = api
+                        .column(6)
+                        .data();
 
-                var numFormat = $.fn.dataTable.render.number( '\.', ',',2, 'Rp.' ).display
+                    var numFormat = $.fn.dataTable.render.number('\.', ',', 2, 'Rp.').display
 
-                // Remove the formatting to get integer data for summation
-                var intVal = function(i) {
-                    return typeof i === 'string' ? i.replace(/[\Rp.,]/g, '') * 1 : typeof i ===
-                        'number' ? i : 0;
-                };
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function(i) {
+                        return typeof i === 'string' ? i.replace(/[\Rp.,]/g, '') * 1 : typeof i ===
+                            'number' ? i : 0;
+                    };
 
-                // Total over this page
-                pageTotal = api
-                    .column(10, {
-                        page: 'current'
-                    })
-                    .data()
-                    .reduce(function(a, b) {
-                        return intVal(a) + intVal(b);
-                    }, 0);
+                    // Total over this page
+                    pageTotal = api
+                        .column(10, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
 
-                sawitTotal = api
-                    .column(6, {
-                        page: 'current'
-                    })
-                    .data()
-                    .reduce(function(a, b) {
-                        return intVal(a) + intVal(b);
-                    }, 0);
+                    sawitTotal = api
+                        .column(6, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
 
-                hargaRate = api
-                    .column(7, {
-                        page: 'current'
-                    })
-                    .data()
-                    .reduce(function(a, b) {
-                        return intVal(a) + intVal(b);
-                    }, 0);
+                    hargaRate = api
+                        .column(7, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
 
-                hargaTotal = api
-                    .column(8, {
-                        page: 'current'
-                    })
-                    .data()
-                    .reduce(function(a, b) {
-                        return intVal(a) + intVal(b);
-                    }, 0);
+                    hargaTotal = api
+                        .column(8, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
 
-                // Update footer
-                $(api.column(10).footer()).html(pageTotal);
-                $(api.column(6).footer()).html(sawitTotal + ' Kg');
-                $(api.column(7).footer()).html(numFormat(hargaRate/columnData.count()/100));
-                $(api.column(8).footer()).html(numFormat(hargaTotal/100));
+                    // Update footer
+                    $(api.column(10).footer()).html(pageTotal);
+                    $(api.column(6).footer()).html(sawitTotal + ' Kg');
+                    $(api.column(7).footer()).html(numFormat(hargaRate / columnData.count() / 100));
+                    $(api.column(8).footer()).html(numFormat(hargaTotal / 100));
 
                 },
             });

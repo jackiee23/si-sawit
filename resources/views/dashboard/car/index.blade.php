@@ -52,6 +52,10 @@
         });
 
         const table = $('#dataTable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
             processing: true,
             serverSide: true,
             ajax: '{{ route('cardata') }}',
@@ -137,7 +141,7 @@
                                 )
                                 $('#dataTable').DataTable().ajax.reload()
                             },
-                            error : function(data) { //jika error
+                            error: function(data) { //jika error
                                 Swal.fire(
                                     'Error',
                                     'Car data cannot deleted!',
