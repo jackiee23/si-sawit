@@ -35,11 +35,14 @@
                         @enderror
                     </div>
                     <div class="mb-3">
-                        <label for="jenis_kerusakan" class="form-label">Jenis Kerusakan</label>
-                        <input type="text" class="form-control @error('jenis_kerusakan') is-invalid @enderror"
-                            id="jenis_kerusakan" name="jenis_kerusakan" value="{{ old('jenis_kerusakan') }} "
-                            placeholder="Masukkan Jumlah Liter">
-                        @error('jenis_kerusakan')
+                        <label for="type_id" class="form-label">Jenis Kerusakan</label>
+                        <select class="form-select form-control selectpicker" data-live-search="true" name="type_id" id="car_id">
+                            <option value="" selected>Pilih jenis kerusakan</option>
+                            @foreach ($type as $type)
+                            <option value="{{$type->id}}" {{old('type_id') == $type->id ? 'selected' : ''}} >{{$type->jenis_pemeliharaan}}</option>
+                            @endforeach
+                        </select>
+                        @error('type_id')
                             <div class="invalid-feedback">
                                 Tidak boleh di kosongkan.
                             </div>

@@ -15,6 +15,7 @@ class WorkerFactory extends Factory
     {
         return [
             "nama" => $this->faker->name(),
+            "nik_worker" => $this->faker->unique()->randomNumber(9, true),
             "alamat" => $this->faker->address(),
             "no_wa" => $this->faker->phoneNumber(),
             "jenis" => $this->faker->jobTitle()

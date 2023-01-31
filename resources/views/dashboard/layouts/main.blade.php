@@ -39,14 +39,18 @@
     <script src="{{asset('daterange/daterangepicker.min.js')}}"></script>
 
     {{-- button export & print --}}
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css">
-    <script src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
+    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css"> --}}
+    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css"> --}}
+    {{-- <script src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.print.min.js"></script>
+    {{-- <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.html5.min.js"></script> --}}
+    {{-- <link href="{{asset('template/css/buttons.dataTables.min.css')}}" rel="stylesheet"> --}}
+    <script src="{{asset('template/js/dataTables.buttons.min.js')}}"></script>
+    <script src="{{asset('template/js/buttons.html5.min.js')}}"></script>
+    {{-- <script src="{{asset('template/js/buttons.print.min.js')}}"></script> --}}
+    {{-- <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.print.min.js"></script> --}}
 
 </head>
 
@@ -61,9 +65,10 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
                 <div class="sidebar-brand-icon text-light rotate-15 ">
-                    <i class="fas fa-tree"></i>
+                <img class="col-12 rounded-circle" src="{{asset('template/img/burung.png')}}">
+                    {{-- <i class="fas fa-tree"></i> --}}
                 </div>
-                <div class="sidebar-brand-text mx-3">SI SAWIT</div>
+                <div class="sidebar-brand-text mx-3">UD. DUA MERPATI</div>
             </a>
 
             <!-- Divider -->
@@ -92,7 +97,7 @@
                         <a class="collapse-item {{ ($title === "Kendaraan" ? 'active' : '') }}" href="/dashboard/car">Kendaraan</a>
                         <a class="collapse-item {{ ($title === "Pekerja" ? 'active' : '') }}" href="/dashboard/worker">Pekerja</a>
                         <a class="collapse-item {{ ($title === "Petani" ? 'active' : '') }}" href="/dashboard/farmer">Petani</a>
-                        <a class="collapse-item {{ ($title === "Pemeliharaan" ? 'active' : '') }}" href="/dashboard/maintenance">Pemeliharaan & Perbaikan</a>
+                        <a class="collapse-item {{ ($title === "Pemeliharaan" ? 'active' : '') }}" href="/dashboard/type">Pemeliharaan & Perbaikan</a>
                     </div>
                 </div>
             </li>
@@ -114,7 +119,7 @@
                         <a class="collapse-item {{ ($title === "Bahan Bakar" ? 'active' : '') }}" href="/dashboard/fuel">Bahan Bakar</a>
                         <a class="collapse-item {{ ($title === "Perbaikan" ? 'active' : '') }}" href="/dashboard/repair">Perbaikan</a>
                         <a class="collapse-item {{ ($title === "Pinjaman" ? 'active' : '') }}" href="/dashboard/loan">Pinjaman</a>
-                        <a class="collapse-item {{ ($title === "Pengembalian" ? 'active' : '') }}" href="/dashboard/return">Pengembalian</a>
+                        <a class="collapse-item {{ ($title === "Pengembalian" ? 'active' : '') }}" href="/dashboard/repayment">Pengembalian</a>
                     </div>
                 </div>
             </li>
@@ -132,7 +137,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Laporan :</h6>
                         <a class="collapse-item {{ ($title === "Laporan Umum" ? 'active' : '') }}" href="/dashboard/laporan-umum">Laporan Umum</a>
-                        <a class="collapse-item {{ ($title === "Laporan Khusus" ? 'active' : '') }}" href="/dashboard/laporan-kusus">Laporan Khusus</a>
+                        <a class="collapse-item {{ ($title === "Laporan Khusus" ? 'active' : '') }}" href="/dashboard/laporan-khusus">Laporan Khusus</a>
                     </div>
                 </div>
             </li>

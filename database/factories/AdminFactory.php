@@ -15,6 +15,7 @@ class AdminFactory extends Factory
     {
         return [
             "nama" => $this->faker->name(),
+            "nik_admin" => $this->faker->unique()->randomNumber(9, true),
             "no_wa" => $this->faker->phoneNumber(),
             "jenis" => $this->faker->jobTitle(),
         ];

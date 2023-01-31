@@ -4,14 +4,19 @@
     <!-- Begin Page Content -->
     <div class="container-fluid">
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">Data Penjualan</h1>
+        <h1 class="h3 mb-2 text-gray-800">Data Kategori Pemeliharaan</h1>
 
+        <!-- DataTales Example -->
         <div class="card shadow mb-4">
             @if (session('status'))
-            <div class="flash-data" data-flashdata="{{session('status')}} "></div>
+                <div class="flash-data" data-flashdata="{{ session('status') }} "></div>
+                {{-- <div class="alert alert-success">
+                    {{ session('status') }}
+                </div> --}}
             @endif
             <div class="card-header py-3">
-                <a href="/dashboard/sale/create" class="btn btn-info">Tambah Data</a>
+                {{-- <h6 class="m-0 font-weight-bold text-primary">Data type</h6> --}}
+                <a href="/dashboard/type/create" class="btn btn-info">Tambah Data</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -19,14 +24,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Tanggal Jual</th>
-                                <th>Jumlah Sawit(Kg)</th>
-                                <th>Harga Pabrik</th>
-                                <th>Omset Penjualan</th>
-                                <th>Nama Pekerja</th>
-                                <th>Nama Kendaraan</th>
-                                <th>Nama Pabrik</th>
-                                <th>Keterangan</th>
+                                <th>Jenis Pemeliharaan</th>
                                 <th>Opsi</th>
                             </tr>
                         </thead>
@@ -50,55 +48,16 @@
         });
 
         const table = $('#dataTable').DataTable({
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'pdf',
-            ],
             processing: true,
             serverSide: true,
-            order: [
-                    [1, 'desc']
-                ],
-            ajax: "{{ route('saledata') }}",
+            ajax: '{{ route('kategoridata') }}',
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'id',
                 },
                 {
-                    data: 'tgl_jual',
-                    name: 'tgl_jual',
-                    sortable: false
-                },
-                {
-                    data: 'jumlah',
-                    name: 'jumlah'
-                },
-                {
-                    data: 'harga_pabrik',
-                    name: 'harga_pabrik'
-                },
-                {
-                    data: 'harga_total',
-                    name: 'harga_total'
-                },
-                {
-                    data: 'worker',
-                    name: 'worker.nama',
-                    sortable: false
-                },
-                {
-                    data: 'car',
-                    name: 'car.nama_kendaraan',
-                    sortable: false
-                },
-                {
-                    data: 'pabrik',
-                    name: 'pabrik',
-                    sortable: false
-                },
-                {
-                    data: 'keterangan',
-                    name: 'keterangan',
+                    data: 'jenis_pemeliharaan',
+                    name: 'jenis_pemeliharaan',
                     sortable: false
                 },
                 {
@@ -111,17 +70,28 @@
         });
 
         $('#dataTable tbody').on('click', '.edit', table, function(e) {
+            // e.preventDefault();
             const data = table.row($(this).parents('tr')).data();
             $(function() {
                 console.log(data.id);
-                window.open("/dashboard/sale/" + data.id + "/edit/", "_self");
+                // document.getElementById("edit").href="/dashboard/car/"+data.id+"/edit/";
+                window.open("/dashboard/type/" + data.id + "/edit/", "_self");
             });
+            // const id = console.log(data.id);
+            // location.reload()
+            //alert('Edit user: ' + data.id);
+            //     Swal.fire(
+            //   'Good job!',
+            //   'You clicked the button!',
+            //   'success'
+            // )
         });
 
         $('#dataTable tbody').on('click', '.tombol-delete', table, function(e) {
             const data = table.row($(this).parents('tr')).data();
 
             e.preventDefault();
+            // console.log(data.id)
             const rute = $(this).attr('action');
 
             Swal.fire({
@@ -135,32 +105,27 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $(function() {
+                        // document.location.href = href
                         $.ajax({
-                            url: "sale/" + data.id,
+                            url: "type/" + data.id,
                             type: "post",
                             dataType: "JSON",
                             data: {
-                                sale: data.id,
+                                type: data.id,
                                 "_method": 'DELETE',
                                 "_token": $('meta[name="csrf-token"]').attr('content'),
                             },
                             success: function(data) { //jika sukses
                                 Swal.fire(
                                     'Success',
-                                    'Data has been deleted!',
+                                    'Kategori data has been deleted!',
                                     'success'
-                                )
-                                $('#dataTable').DataTable().ajax.reload()
-                            },
-                            error : function(data) { //jika error
-                                Swal.fire(
-                                    'Error',
-                                    'Data cannot deleted!',
-                                    'error'
                                 )
                                 $('#dataTable').DataTable().ajax.reload()
                             }
                         })
+                        // location.reload();
+                        // document.getElementById("formHapus").submit();
                     });
                 }
             });

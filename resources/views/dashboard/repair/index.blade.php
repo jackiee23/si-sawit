@@ -69,7 +69,7 @@
         const table = $('#dataTable').DataTable({
             dom: 'Bfrtip',
             buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
+                'copy', 'csv', 'excel', 'pdf',
             ],
             processing: true,
             // searching: false, info: false,
@@ -94,7 +94,7 @@
                 },
                 {
                     data: 'jenis_kerusakan',
-                    name: 'jenis_kerusakan',
+                    name: 'type.jenis_pemeliharaan',
                     sortable:false
                 },
                 {

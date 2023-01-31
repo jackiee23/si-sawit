@@ -10,11 +10,13 @@ use App\Models\Fuel;
 use App\Models\Loan;
 use App\Models\Purchase;
 use App\Models\Repair;
+use App\Models\Repayment;
 use App\Models\Sale;
 use App\Models\Worker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use JetBrains\PhpStorm\Pure;
+use PhpParser\Node\Stmt\Else_;
 
 class DashboardController extends Controller
 {
@@ -252,9 +254,102 @@ class DashboardController extends Controller
 
         return Datatables::of($cars)
             ->addColumn('konsumsi', function ($car) {
-                return number_format($car->jumlah_liter / $car->jarak_total, 2);
+                if($car->jumlah_liter == 0 ){
+                    return number_format($car->jumlah_liter / $car->jarak_total, 2);
+                } else {
+                    return number_format($car->jarak_total/ $car->jumlah_liter, 2);
+                }
             })
             ->editColumn('perbaikan', 'Rp.{{number_format($perbaikan,2,",",".")}}')
+            ->addIndexColumn()
+            ->make(true);
+    }
+
+    public function petrolday(Request $request)
+    {
+        // return Datatables::of(Car::query())->make(true);
+        if ($request->start_date && $request->end_date) {
+            //report kendaraan
+            $cars = DB::table('cars')
+            // ->join('fuels', 'cars.id', '=', 'fuels.car_id')
+            ->join('purchases', 'cars.id', '=', 'purchases.car_id')
+            ->join('farmers', 'farmer_id', '=', 'farmers.id')
+            // ->join('fuels', 'purchases.car_id', '=', 'fuels.id')
+            ->select('cars.id', 'purchases.car_id', DB::raw('sum(farmers.jarak*purchases.trip*2)as jarak_total'), 'farmer_id', 'purchases.tgl_beli')
+            ->addSelect([
+                // 'jumlah_petani' => Purchase::selectRaw('COUNT(*)')
+                // ->whereColumn('car_id', 'cars.id')
+                // ->groupBy('tgl_beli')
+                // ->limit(1),
+                'harga_total' => Fuel::selectRaw('sum(harga_total)')
+                ->whereColumn('tgl_pengisian', 'purchases.tgl_beli')
+                ->groupBy('purchases.tgl_beli')
+                ->limit(1),
+                'jumlah_liter' => Fuel::selectRaw('sum(jumlah_liter)')
+                ->whereColumn('tgl_pengisian', 'purchases.tgl_beli')
+                ->groupBy('purchases.tgl_beli')
+                ->limit(1),
+                // 'perbaikan' => Repair::selectRaw('sum(jumlah)')
+                // ->whereColumn('tgl_perbaikan', 'purchases.tgl_beli')
+                // ->whereColumn('car_id', 'purchases.car_id')
+                // ->groupBy('purchases.tgl_beli')
+                // ->limit(1),
+                // 'konsumsi' => Fuel::selectRaw('sum(jumlah_liter/(farmers.jarak*purchases.trip*2))')
+                // ->whereColumn('tgl_pengisian', 'purchases.tgl_beli')
+                // ->whereColumn('car_id', 'purchases.car_id')
+                // ->groupBy('purchases.tgl_beli')
+                // ->limit(1),
+                // 'konsumsi_bahan' =>
+                // 'bahan_bakar' => Fuel::selectRaw("CAST(SUM(harga_total)as int) as total_harga")->whereColumn('car_id', 'cars.id')->groupByRaw('tgl_pengisian')
+                // ->limit(1)
+            ])
+                // ->groupBy('tgl_pengisian')
+                // ->whereColumn(['fuels.car_id', 'purchase.car_id'], ['fuels.tgl_pengisian', 'purchases.tgl_beli'])
+                ->groupBy('purchases.tgl_beli')
+                ->orderBy('purchases.tgl_beli', 'desc')
+                ->whereBetween('purchases.tgl_beli', [$request->start_date, $request->end_date])
+                ->get();
+            // dd($cars);
+
+        } else {
+            //report kendaraan
+            $cars = DB::table('cars')
+            ->join('purchases', 'cars.id', '=', 'purchases.car_id')
+            ->join('farmers', 'farmer_id', '=', 'farmers.id')
+            ->select('cars.id', 'purchases.car_id', DB::raw('sum(farmers.jarak*purchases.trip*2)as jarak_total'), 'farmer_id', 'purchases.tgl_beli')
+            ->addSelect([
+                // 'jumlah_petani' => Purchase::selectRaw('COUNT(*)')
+                // ->whereColumn('car_id', 'cars.id')
+                // ->groupBy('tgl_beli')
+                // ->limit(1),
+                'harga_total' => Fuel::selectRaw('sum(harga_total)')
+                ->whereColumn('tgl_pengisian', 'purchases.tgl_beli')
+                ->groupBy('purchases.tgl_beli')
+                ->limit(1),
+                'jumlah_liter' => Fuel::selectRaw('sum(jumlah_liter)')
+                ->whereColumn('tgl_pengisian', 'purchases.tgl_beli')
+                ->groupBy('purchases.tgl_beli')
+                ->limit(1),
+                // 'perbaikan' => Repair::selectRaw('sum(jumlah)')
+                // ->whereColumn('tgl_perbaikan', 'purchases.tgl_beli')
+                // ->whereColumn('car_id', 'purchases.car_id')
+                // ->groupBy('purchases.tgl_beli')
+                // ->limit(1),
+            ])
+                ->groupBy('purchases.tgl_beli')
+                ->orderBy('purchases.tgl_beli', 'desc')
+                ->get();
+        }
+
+        return Datatables::of($cars)
+            ->addColumn('konsumsi', function ($car) {
+            if ($car->jumlah_liter == 0) {
+                return number_format($car->jumlah_liter / $car->jarak_total, 2);
+            } else {
+                return number_format($car->jarak_total / $car->jumlah_liter, 2);
+            }
+            })
+            // ->editColumn('perbaikan', 'Rp.{{number_format($perbaikan,2,",",".")}}')
             ->addIndexColumn()
             ->make(true);
     }
@@ -374,7 +469,17 @@ class DashboardController extends Controller
             ->addIndexColumn()
             ->make(true);
     }
+    public function kategoridata()
+    {
+        $types = DB::table('types');
 
+        return Datatables::of($types)
+            ->addColumn('action', function ($type) {
+                return '<div class="text-center"><a href="/dashboard/type/' . $type->id . '/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form></div>';
+            })
+            ->addIndexColumn()
+            ->make(true);
+    }
     public function farmerdata()
     {
         $farmers = DB::table('farmers');
@@ -396,6 +501,33 @@ class DashboardController extends Controller
                 return '<div class="text-center"><a href="/dashboard/loan/' . $loan->id . '/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form></div>';
             })
             ->editColumn('nilai', 'Rp.{{number_format($nilai,2,",",".")}}')
+            ->addIndexColumn()
+            ->make(true);
+    }
+
+    public function repaymentdata()
+    {
+        $repayments = Repayment::with('loan');
+
+        return Datatables::of($repayments)
+            ->addColumn('action', function ($repayment) {
+                return '<div class="text-center"><a href="/dashboard/repayment/' . $repayment->id . '/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form></div>';
+            })
+            ->editColumn('nilai', 'Rp.{{number_format($nilai,2,",",".")}}')
+            ->editColumn('hutang', 'Rp.{{number_format($hutang,2,",",".")}}')
+            ->addColumn('loan', function (Repayment $repayment) {
+                return $repayment->loan->nama;
+            })
+            ->addColumn('hutang', function (Repayment $repayment) {
+                return $repayment->loan->nilai;
+            })
+            ->addColumn('status', function (Repayment $repayment) {
+                if($repayment->loan->nilai <= $repayment->nilai) {
+                    return 'LUNAS';
+                } else {
+                    return 'BELUM LUNAS';
+                }
+            })
             ->addIndexColumn()
             ->make(true);
     }
@@ -437,12 +569,53 @@ class DashboardController extends Controller
             ->addColumn('farmer', function (Purchase $purchase) {
                 return $purchase->farmer->nama;
             })
+            // ->addColumn('umur', function (Purchase $purchase) {
+            //     return $purchase->farmer->umur;
+            // })
             ->editColumn('harga', 'Rp.{{number_format($harga,2,",",".")}}')
             ->editColumn('harga_total', 'Rp.{{number_format($harga_total,2,",",".")}}')
             ->addIndexColumn()
             ->toJson();
     }
 
+    public function farmdata(Request $request)
+    {
+        // if ($request->start_date && $request->end_date) {
+        //     $purchases = Purchase::with('car', 'worker', 'farmer')
+        //     ->whereBetween('tgl_beli', [$request->start_date, $request->end_date]);
+        // } else {
+            $purchases = DB::table('purchases')
+                ->join('farmers', 'farmer_id', '=', 'farmers.id')
+                ->select( 'farmers.umur', DB::Raw("SUM(ton)as total_ton"), DB::Raw("COUNT(farmers.umur)as jumlah_data") )
+                // ->addSelect([
+                //     'perbaikan' => Repair::selectRaw('cast(sum(jumlah)as int)')
+                //     ->whereColumn('tgl_perbaikan', 'purchases.tgl_beli')
+                //     ->groupBy('purchases.tgl_beli')
+                //     ->limit(1),
+                // ])
+                ->groupBy('farmers.umur')
+                // ->avg('ton')
+                ->get();
+        // }
+
+
+        $data = $purchases->map(function($purchase) {
+            return [
+                'umur' => $purchase->umur,
+                'jumlah_ton' => $purchase->total_ton,
+                'total_data' => $purchase->jumlah_data,
+                'ton_hektar' => $purchase->total_ton / $purchase->jumlah_data,
+            ];
+        });
+
+        $sorted = $data->sortBy('umur');
+        // dd($data);
+
+        return Datatables::of($sorted)
+            ->editColumn('ton_hektar', '{{number_format($ton_hektar,2,",",".")}}')
+            ->addIndexColumn()
+            ->toJson();
+    }
     public function saledata(Request $request)
     {
         if ($request->start_date && $request->end_date) {
@@ -522,6 +695,9 @@ class DashboardController extends Controller
             })
             ->addColumn('car', function (Repair $repair) {
                 return $repair->car->nama_kendaraan;
+            })
+            ->addColumn('jenis_kerusakan', function (Repair $repair) {
+                return $repair->type->jenis_pemeliharaan;
             })
             ->editColumn('jumlah', 'Rp.{{number_format($jumlah,2,",",".")}}')
             ->addIndexColumn()

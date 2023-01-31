@@ -49,7 +49,7 @@
         const table = $('#dataTable').DataTable({
             dom: 'Bfrtip',
             buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
+                'copy', 'csv', 'excel', 'pdf',
             ],
             processing: true,
             serverSide: true,

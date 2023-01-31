@@ -6,6 +6,7 @@ use App\Http\Controllers\FuelController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\TypeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FarmerController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\WorkerController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RepaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +39,7 @@ Route::middleware('auth')->group(function(){
 
     //report
     Route::get('/dashboard/laporan-umum', [ReportController::class, 'index']);
-    Route::get('/dashboard/laporan-khusus', [ReportController::class, 'laporan-kusus']);
+    Route::get('/dashboard/laporan-khusus', [ReportController::class, 'particular']);
 
     //server-side
     Route::get('/dashboard/fueldata', [DashboardController::class, 'fueldata'])->name('fueldata');
@@ -54,6 +56,10 @@ Route::middleware('auth')->group(function(){
     Route::get('/dashboard/sawitday', [DashboardController::class, 'sawitday'])->name('sawitday');
     Route::get('/dashboard/spend', [DashboardController::class, 'spend'])->name('spend');
     Route::get('/dashboard/profit', [DashboardController::class, 'profit'])->name('profit');
+    Route::get('/dashboard/kategoridata', [DashboardController::class, 'kategoridata'])->name('kategoridata');
+    Route::get('/dashboard/repaymentdata', [DashboardController::class, 'repaymentdata'])->name('repaymentdata');
+    Route::get('/dashboard/petrolday', [DashboardController::class, 'petrolday'])->name('petrolday');
+    Route::get('/dashboard/farmdata', [DashboardController::class, 'farmdata'])->name('farmdata');
 
     //farmers
     // Route::get('/petani', [FarmerController::class, 'index']);
@@ -88,5 +94,11 @@ Route::middleware('auth')->group(function(){
 
     //repair
     Route::resource('/dashboard/repair', RepairController::class);
+
+    //pemeliharaan
+    Route::resource('/dashboard/type', TypeController::class);
+
+    //pengembalian
+    Route::resource('/dashboard/repayment', RepaymentController::class);
 });
 

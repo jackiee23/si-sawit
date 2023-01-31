@@ -15,12 +15,12 @@ class FarmerFactory extends Factory
     {
         return [
             "nama" => $this->faker->name(),
+            "nik_farmer" => $this->faker->unique()->randomNumber(9, true),
             "alamat" => $this->faker->address(),
             "no_wa" => $this->faker->phoneNumber(),
-            "luas" => $this->faker->randomNumber(2,true),
-            "jarak" => $this->faker->randomNumber(2,false),
-            "umur" => $this->faker->randomNumber(2, false),
-
+            "luas" => mt_rand(1,5),
+            "jarak" => $this->faker->randomNumber(2,true),
+            "umur" => mt_rand(1,35),
         ];
     }
 }

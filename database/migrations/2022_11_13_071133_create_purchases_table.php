@@ -20,6 +20,7 @@ class CreatePurchasesTable extends Migration
             $table->date('tgl_panen');
             $table->string('selisih');
             $table->char('jumlah_sawit');
+            $table->char('ton');
             $table->char('harga');
             $table->char('harga_total');
             $table->foreignId('worker_id');

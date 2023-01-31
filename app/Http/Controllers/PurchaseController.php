@@ -74,10 +74,15 @@ class PurchaseController extends Controller
             $telat = "Tepat waktu";
         }
 
+        $hektar = Farmer::where('id', $request->farmer_id)
+            ->first();
+
+            // dd($hektar->luas);
         Purchase::create([
             'farmer_id' => $request->farmer_id,
             'tgl_beli' => $beli,
             'tgl_panen' => $panen,
+            'ton' => number_format(($request->jumlah_sawit / $hektar->luas) / 1000, 2),
             'selisih' => $telat,
             'jumlah_sawit' => $request->jumlah_sawit,
             'harga' => $request->harga,
@@ -154,6 +159,10 @@ class PurchaseController extends Controller
         } else {
             $telat = "Tepat waktu";
         }
+        
+        $hektar = Farmer::where('id', $request->farmer_id)
+            ->first();
+
         Purchase::where('id', $purchase->id)
                 ->update([
             'farmer_id' => $request->farmer_id,
@@ -161,6 +170,7 @@ class PurchaseController extends Controller
             'tgl_panen' => $panen,
             'selisih' => $telat,
             'jumlah_sawit' => $request->jumlah_sawit,
+            'ton' => number_format(($request->jumlah_sawit / $hektar->luas) / 1000, 2),
             'harga' => $request->harga,
             'harga_total' => $harga_total,
             'worker_id' => $request->worker_id,

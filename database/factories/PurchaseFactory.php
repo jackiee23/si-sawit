@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Farmer;
 use Faker\Provider\Fakecar;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -14,21 +15,25 @@ class PurchaseFactory extends Factory
      */
     public function definition()
     {
-        $jumlah = $this->faker->randomNumber(3);
+        $jumlah = $this->faker->randomNumber(4);
         $harga = $this->faker->randomNumber(4);
         $harga_total = $harga * $jumlah;
+        $farmer  = mt_rand(1, 10);
+        $hektar = Farmer::where('id', $farmer)
+            ->first();
 
         return [
-            'farmer_id'=>mt_rand(1,10),
+            'farmer_id'=>$farmer,
             'tgl_beli'=> $this->faker->dateTimeThisYear(),
             'tgl_panen' => $this->faker->dateTimeThisYear(),
             'selisih' => $this->faker->bothify('Telat # Hari # Jam'),
             'jumlah_sawit'=>$jumlah,
+            'ton' => number_format(($jumlah / $hektar->luas) / 1000,2),
             'harga'=>$harga,
             'harga_total' => $harga_total,
             'worker_id'=>mt_rand(1,10),
             'car_id' => mt_rand(1, 10),
-            'trip' => $this->faker->randomNumber(1),
+            'trip' => mt_rand(1, 3),
             'keterangan'=>$this->faker->sentence()
         ];
     }

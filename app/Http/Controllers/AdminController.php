@@ -16,10 +16,8 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $admin = admin::all();
         return view('dashboard.admin.index', [
             'title' => 'Admin',
-            'admin' => $admin,
         ]);
     }
 

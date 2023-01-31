@@ -17,6 +17,7 @@ class CreateLoansTable extends Migration
             $table->id();
             $table->date('tgl');
             $table->string('nama');
+            // $table->char('nik')->unique();
             $table->string('jenis_pinjaman');
             $table->char('nilai');
             $table->string('keterangan')->nullable();

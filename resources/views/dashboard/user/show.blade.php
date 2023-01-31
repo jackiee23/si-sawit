@@ -9,7 +9,7 @@
         <div class="card shadow mb-4">
             <div class="card-body">
                 <form method="POST" action="/dashboard/user/{{$admin->id}}">
-                    @method('patch');
+                    @method('patch')
                     @csrf
                     <div class="mb-3">
                         <label for="inputnama" class="form-label">Nama</label>

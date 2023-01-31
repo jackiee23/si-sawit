@@ -16,6 +16,7 @@ class CreateWorkersTable extends Migration
         Schema::create('workers', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
+            $table->char('nik_worker')->unique();
             $table->longText('alamat');
             $table->char('no_wa');
             $table->string('jenis');

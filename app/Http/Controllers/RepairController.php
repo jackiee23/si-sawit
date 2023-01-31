@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Car;
 use App\Models\Repair;
+use App\Models\Type;
 use Illuminate\Http\Request;
 
 use function GuzzleHttp\Promise\all;
@@ -33,10 +34,12 @@ class RepairController extends Controller
     public function create()
     {
         $car = Car::all();
+        $type = Type::all();
 
         return view('dashboard.repair.create', [
             'title' => 'Perbaikan',
-            'car' => $car
+            'car' => $car,
+            'type' => $type
         ]);
     }
 
@@ -51,7 +54,7 @@ class RepairController extends Controller
         $request->validate([
             'tgl_perbaikan' => 'required',
             'car_id' => 'required',
-            'jenis_kerusakan' => 'required',
+            'type_id' => 'required',
             'jumlah' => 'required',
             'keterangan' => 'required'
         ]);
@@ -80,9 +83,11 @@ class RepairController extends Controller
     public function edit(Repair $repair)
     {
         $car = Car::all();
+        $type = Type::all();
         return view('dashboard.repair.edit', [
             'title' => 'Perbaikan',
             'car' => $car,
+            'type' => $type,
             'repair' => $repair
         ]);
     }
@@ -99,7 +104,7 @@ class RepairController extends Controller
         $request->validate([
             'tgl_perbaikan' => 'required',
             'car_id' => 'required',
-            'jenis_kerusakan' => 'required',
+            'type_id' => 'required',
             'jumlah' => 'required',
             'keterangan' => 'required'
         ]);
@@ -108,7 +113,7 @@ class RepairController extends Controller
                 ->update([
                     'tgl_perbaikan' =>$request->tgl_perbaikan,
                     'car_id' => $request->car_id,
-                    'jenis_kerusakan' => $request->jenis_kerusakan,
+                    'type_id' => $request->type_id,
                     'jumlah' => $request->jumlah,
                     'keterangan' => $request->keterangan
                 ]);

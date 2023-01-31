@@ -30,6 +30,7 @@
                                 <th>Nama Kendaraan</th>
                                 <th>Jumlah Trip</th>
                                 <th>Keterangan</th>
+                                {{-- <th>Umur</th> --}}
                                 <th>Opsi</th>
                             </tr>
                         </thead>
@@ -71,7 +72,7 @@
         const table = $('#dataTable').DataTable({
             dom: 'Bfrtip',
             buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
+                'copy', 'csv', 'excel', 'pdf',
             ],
             processing: true,
             serverSide: true,
@@ -131,6 +132,11 @@
                     name: 'keterangan',
                     sortable: false
                 },
+                // {
+                //     data: 'umur',
+                //     name: 'farmer.umur',
+                //     sortable: false
+                // },
                 {
                     data: 'action',
                     name: 'action',

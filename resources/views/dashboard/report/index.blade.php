@@ -124,6 +124,16 @@
                         <tbody>
 
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Total :</th>
+                                <th></th>
+                                <th></th>
+                                <th>Jumlah Bahan Bakar Harian</th>
+                                <th></th>
+                                <th>Total Harga</th>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
                 <div class="table-responsive pemasukan d-none">
@@ -141,6 +151,16 @@
                         <tbody>
 
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Total</th>
+                                <th></th>
+                                <th>Jumlah Sawit(Kg)</th>
+                                <th></th>
+                                <th>Omset Penjualan</th>
+                                {{-- <th>Nama Pabrik</th> --}}
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
                 <div class="table-responsive kendaraan d-none">
@@ -160,6 +180,18 @@
                         <tbody>
 
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Total :</th>
+                                <th></th>
+                                <th></th>
+                                <th>Jumlah Petani</th>
+                                <th>Jarak Tempuh</th>
+                                <th></th>
+                                <th></th>
+                                <th>Harga Perbaikan Harian</th>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
                 <div class="table-responsive sawit d-none">
@@ -176,6 +208,15 @@
                         <tbody>
 
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Total :</th>
+                                <th></th>
+                                <th>Jumlah Sawit(Kg) Harian, Pembelian</th>
+                                <th>Jumlah Sawit(Kg) Harian, Penjualan</th>
+                                <th>Selisih Keduanya</th>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
                 <div class="table-responsive spend d-none">
@@ -186,14 +227,25 @@
                                 <th>Tanggal</th>
                                 <th>Jumlah Sawit(Kg) Harian, Pembelian</th>
                                 <th>Total Pembelian Harian (Rp)</th>
-                                <th>Harga Perbaikan Harian</th>
                                 <th>Harga Bahan Bakar Harian</th>
+                                <th>Harga Perbaikan Harian</th>
                                 <th>Total Pengeluaran Harian</th>
                             </tr>
                         </thead>
                         <tbody>
 
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Total :</th>
+                                <th></th>
+                                <th>Jumlah Sawit(Kg) Harian, Pembelian</th>
+                                <th>Total Pembelian Harian (Rp)</th>
+                                <th>Harga Bahan Bakar Harian</th>
+                                <th>Harga Perbaikan Harian</th>
+                                <th>Total Pengeluaran Harian</th>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
                 <div class="table-responsive profit d-none">
@@ -214,6 +266,19 @@
                         <tbody>
 
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Total :</th>
+                                <th></th>
+                                <th>Jumlah Sawit(Kg) Harian, Pembelian</th>
+                                <th>Total Pembelian Harian (Rp)</th>
+                                <th>Harga Perbaikan Harian</th>
+                                <th>Harga Bahan Bakar Harian</th>
+                                <th>Total Pengeluaran Harian</th>
+                                <th>Total Pemasukan Harian</th>
+                                <th>Total Profit</th>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -223,7 +288,7 @@
     <script>
         $(document).ready(function() {
             fetch_data();
-            reload_data();
+            fuel_data();
             pemasukan_data();
             kendaraan_data();
             sawit_data();
@@ -243,7 +308,7 @@
             const table = $('#carTable').DataTable({
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    'copy', 'csv', 'excel', 'pdf',
                 ],
                 searching: false,
                 processing: true,
@@ -293,14 +358,98 @@
                         name: 'perbaikan',
                     },
                 ],
+                footerCallback: function(row, data, start, end, display) {
+                    var api = this.api();
+
+                    // var columnData = api
+                    //     .column(5)
+                    //     .data();
+
+                    var numFormat = $.fn.dataTable.render.number('\.', ',', 2, 'Rp.').display
+
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function(i) {
+                        return typeof i === 'string' ? i.replace(/[\Rp.,]/g, '') * 1 : typeof i ===
+                            'number' ? i : 0;
+                    };
+
+                    // Total over this page
+                    // pageTotal = api
+                    //     .column(3, {
+                    //         page: 'current'
+                    //     })
+                    //     .data()
+                    //     .reduce(function(a, b) {
+                    //         return intVal(a) + intVal(b);
+                    //     }, 0);
+
+                    petaniTotal = api
+                        .column(3, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    jarakTotal = api
+                        .column(4, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                        konsumsiTotal = api
+                        .column(6, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // hargaRate = api
+                    //     .column(4, {
+                    //         page: 'current'
+                    //     })
+                    //     .data()
+                    //     .reduce(function(a, b) {
+                    //         return intVal(a) + intVal(b);
+                    //     }, 0);
+
+                    hargaTotal = api
+                        .column(7, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Update footer
+                    // $(api.column(10).footer()).html(pageTotal);
+                    $(api.column(3).footer()).html(petaniTotal + ' Petani');
+                    $(api.column(4).footer()).html(jarakTotal + ' ');
+                    $(api.column(6).footer()).html(konsumsiTotal + ' ');
+                    // $(api.column(7).footer()).html(numFormat(hargaRate / columnData.count() / 100));
+                    $(api.column(7).footer()).html(numFormat(hargaTotal / 100));
+
+                },
             });
         };
 
         function sawit_data() {
             const table = $('#sawitTable').DataTable({
+                columnDefs: [{
+                    "targets": [0, 1, 2, 3, 4,], // your case first column
+                    "className": "text-center",
+                    "width": "4%"
+                }, ],
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    'copy', 'csv', 'excel', 'pdf',
                 ],
                 processing: true,
                 searching: false,
@@ -336,7 +485,76 @@
                         data: 'selisih',
                         name: 'selisih'
                     },
-                ]
+                ],
+                footerCallback: function(row, data, start, end, display) {
+                    var api = this.api();
+
+                    // var columnData = api
+                    //     .column(5)
+                    //     .data();
+
+                    var numFormat = $.fn.dataTable.render.number('\.', ',', 2, 'Rp.').display
+
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function(i) {
+                        return typeof i === 'string' ? i.replace(/[\Rp.,]/g, '') * 1 : typeof i ===
+                            'number' ? i : 0;
+                    };
+
+                    // Total over this page
+                    // pageTotal = api
+                    //     .column(3, {
+                    //         page: 'current'
+                    //     })
+                    //     .data()
+                    //     .reduce(function(a, b) {
+                    //         return intVal(a) + intVal(b);
+                    //     }, 0);
+
+                    pembelianTotal = api
+                        .column(2, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // hargaRate = api
+                    //     .column(4, {
+                    //         page: 'current'
+                    //     })
+                    //     .data()
+                    //     .reduce(function(a, b) {
+                    //         return intVal(a) + intVal(b);
+                    //     }, 0);
+
+                    penjualanTotal = api
+                        .column(3, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                        selisihTotal = api
+                        .column(4, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Update footer
+                    // $(api.column(10).footer()).html(pageTotal);
+                    // $(api.column(3).footer()).html(literTotal + ' Kg');
+                    // $(api.column(7).footer()).html(numFormat(hargaRate / columnData.count() / 100));
+                    $(api.column(2).footer()).html(pembelianTotal + ' Kg');
+                    $(api.column(3).footer()).html(penjualanTotal + ' Kg');
+                    $(api.column(4).footer()).html(selisihTotal + ' Kg');
+                },
             });
         };
 
@@ -344,7 +562,7 @@
             const table = $('#spendTable').DataTable({
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    'copy', 'csv', 'excel', 'pdf',
                 ],
                 processing: true,
                 searching: false,
@@ -393,7 +611,97 @@
                     "targets": "_all", // your case first column
                     "className": "text-center",
                     "width": "4%"
-                }, ]
+                },
+            ],
+            footerCallback: function(row, data, start, end, display) {
+                    var api = this.api();
+
+                    // var columnData = api
+                    //     .column(5)
+                    //     .data();
+
+                    var numFormat = $.fn.dataTable.render.number('\.', ',', 2, 'Rp.').display
+
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function(i) {
+                        return typeof i === 'string' ? i.replace(/[\Rp.,]/g, '') * 1 : typeof i ===
+                            'number' ? i : 0;
+                    };
+
+                    // Total over this page
+                    // pageTotal = api
+                    //     .column(3, {
+                    //         page: 'current'
+                    //     })
+                    //     .data()
+                    //     .reduce(function(a, b) {
+                    //         return intVal(a) + intVal(b);
+                    //     }, 0);
+
+                    pembelianTotal = api
+                        .column(2, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // hargaRate = api
+                    //     .column(4, {
+                    //         page: 'current'
+                    //     })
+                    //     .data()
+                    //     .reduce(function(a, b) {
+                    //         return intVal(a) + intVal(b);
+                    //     }, 0);
+
+                    hargaTotal = api
+                        .column(3, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                        bensinTotal = api
+                        .column(4, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                        perbaikanTotal = api
+                        .column(5, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                        jumlahTotal = api
+                        .column(6, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Update footer
+                    // $(api.column(10).footer()).html(pageTotal);
+                    // $(api.column(3).footer()).html(literTotal + ' Kg');
+                    // $(api.column(7).footer()).html(numFormat(hargaRate / columnData.count() / 100));
+                    $(api.column(2).footer()).html(pembelianTotal + ' Kg');
+                    $(api.column(3).footer()).html(numFormat(hargaTotal / 100));
+                    $(api.column(4).footer()).html(numFormat(bensinTotal / 100));
+                    $(api.column(5).footer()).html(numFormat(perbaikanTotal / 100));
+                    $(api.column(6).footer()).html(numFormat(jumlahTotal / 100));
+                },
             });
         };
 
@@ -401,7 +709,7 @@
             const table = $('#profitTable').DataTable({
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    'copy', 'csv', 'excel', 'pdf',
                 ],
                 processing: true,
                 searching: false,
@@ -464,15 +772,69 @@
                         name: 'profit'
                     },
                 ],
+                    footerCallback: function(row, data, start, end, display) {
+                    var api = this.api();
 
+                    // var columnData = api
+                    //     .column(5)
+                    //     .data();
+
+                    var numFormat = $.fn.dataTable.render.number('\.', ',', 2, 'Rp.').display
+
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function(i) {
+                        return typeof i === 'string' ? i.replace(/[\Rp.,]/g, '') * 1 : typeof i ===
+                            'number' ? i : 0;
+                    };
+
+                        pengeluaranTotal = api
+                        .column(6, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                        pemasukanTotal = api
+                        .column(7, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                        jumlahTotal = api
+                        .column(8, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Update footer
+                    // $(api.column(10).footer()).html(pageTotal);
+                    // $(api.column(3).footer()).html(literTotal + ' Kg');
+                    // $(api.column(7).footer()).html(numFormat(hargaRate / columnData.count() / 100));
+                    $(api.column(6).footer()).html(numFormat(pengeluaranTotal / 100));
+                    $(api.column(7).footer()).html(numFormat(pemasukanTotal / 100));
+                    $(api.column(8).footer()).html(numFormat(jumlahTotal / 100));
+                },
             });
         };
 
         function pemasukan_data() {
             const table = $('#pemasukanTable').DataTable({
+                columnDefs: [{
+                    "targets": [0, 1, 2, 3, 4,], // your case first column
+                    "className": "text-center",
+                    "width": "4%"
+                }, ],
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    'copy', 'csv', 'excel', 'pdf',
                 ],
                 processing: true,
                 searching: false,
@@ -508,15 +870,79 @@
                         data: 'harga_total',
                         name: 'harga_total'
                     },
-                ]
+                ],
+                footerCallback: function(row, data, start, end, display) {
+                    var api = this.api();
+
+                    // var columnData = api
+                    //     .column(5)
+                    //     .data();
+
+                    var numFormat = $.fn.dataTable.render.number('\.', ',', 2, 'Rp.').display
+
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function(i) {
+                        return typeof i === 'string' ? i.replace(/[\Rp.,]/g, '') * 1 : typeof i ===
+                            'number' ? i : 0;
+                    };
+
+                    // Total over this page
+                    // pageTotal = api
+                    //     .column(3, {
+                    //         page: 'current'
+                    //     })
+                    //     .data()
+                    //     .reduce(function(a, b) {
+                    //         return intVal(a) + intVal(b);
+                    //     }, 0);
+
+                    sawitTotal = api
+                        .column(2, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // hargaRate = api
+                    //     .column(4, {
+                    //         page: 'current'
+                    //     })
+                    //     .data()
+                    //     .reduce(function(a, b) {
+                    //         return intVal(a) + intVal(b);
+                    //     }, 0);
+
+                    hargaTotal = api
+                        .column(4, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Update footer
+                    // $(api.column(10).footer()).html(pageTotal);
+                    $(api.column(2).footer()).html(sawitTotal + ' Kg');
+                    // $(api.column(7).footer()).html(numFormat(hargaRate / columnData.count() / 100));
+                    $(api.column(4).footer()).html(numFormat(hargaTotal / 100));
+
+                },
             });
         };
 
-        function reload_data() {
+        function fuel_data() {
             const table = $('#fuelTable').DataTable({
+            columnDefs: [{
+                    "targets": [0, 1, 2, 3, 4, 5], // your case first column
+                    "className": "text-center",
+                    "width": "4%"
+                }, ],
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    'copy', 'csv', 'excel', 'pdf',
                 ],
                 processing: true,
                 searching: false,
@@ -557,14 +983,73 @@
                         data: 'total_harga',
                         name: 'total_harga'
                     },
-                ]
+                ],
+                footerCallback: function(row, data, start, end, display) {
+                    var api = this.api();
+
+                    // var columnData = api
+                    //     .column(5)
+                    //     .data();
+
+                    var numFormat = $.fn.dataTable.render.number('\.', ',', 2, 'Rp.').display
+
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function(i) {
+                        return typeof i === 'string' ? i.replace(/[\Rp.,]/g, '') * 1 : typeof i ===
+                            'number' ? i : 0;
+                    };
+
+                    // Total over this page
+                    // pageTotal = api
+                    //     .column(3, {
+                    //         page: 'current'
+                    //     })
+                    //     .data()
+                    //     .reduce(function(a, b) {
+                    //         return intVal(a) + intVal(b);
+                    //     }, 0);
+
+                    literTotal = api
+                        .column(3, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // hargaRate = api
+                    //     .column(4, {
+                    //         page: 'current'
+                    //     })
+                    //     .data()
+                    //     .reduce(function(a, b) {
+                    //         return intVal(a) + intVal(b);
+                    //     }, 0);
+
+                    hargaTotal = api
+                        .column(5, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Update footer
+                    // $(api.column(10).footer()).html(pageTotal);
+                    $(api.column(3).footer()).html(literTotal + ' Liter');
+                    // $(api.column(7).footer()).html(numFormat(hargaRate / columnData.count() / 100));
+                    $(api.column(5).footer()).html(numFormat(hargaTotal / 100));
+
+                },
             });
         };
 
         function fetch_data() {
             const table = $('#dataTable').DataTable({
                 columnDefs: [{
-                    "targets": [10, 9, 8, 7, 6, 5], // your case first column
+                    "targets": [10, 9, 8, 4, 7, 6, 5], // your case first column
                     "className": "text-center",
                     "width": "4%"
                 }, ],
@@ -735,7 +1220,7 @@
                 dt.columns([3, 5, 6, 7, 8]).visible(false);
             } else if ($('#tipe_laporan').val() == 3) {
                 $('#fuelTable').DataTable().destroy();
-                reload_data();
+                fuel_data();
             } else if ($('#tipe_laporan').val() == 4) {
                 $('#pemasukanTable').DataTable().destroy();
                 pemasukan_data();
@@ -797,7 +1282,7 @@
                     var dt = $('#dataTable').DataTable();
                     dt.columns([1, 4, 5, 9]).visible(false);
                 } else if ($('#tipe_laporan').val() == 3) {
-                    reload_data();
+                    fuel_data();
                 } else if ($('#tipe_laporan').val() == 4) {
                     pemasukan_data();
                 } else if ($('#tipe_laporan').val() == 5) {

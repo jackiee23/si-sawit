@@ -17,7 +17,7 @@ class RepairFactory extends Factory
         return [
             'tgl_perbaikan' => $this->faker->dateTimeThisYear(),
             'car_id' => mt_rand(1, 5),
-            'jenis_kerusakan' => $this->faker->sentence(3),
+            'type_id' => mt_rand(1, 5),
             'jumlah' => $this->faker->randomNumber(5),
             'keterangan' => $this->faker->sentence()
         ];

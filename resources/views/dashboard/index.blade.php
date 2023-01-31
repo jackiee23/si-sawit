@@ -30,7 +30,7 @@
                                 Pemasukan (Bulan Ini)</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">Rp
                                 @if ($total_pemasukan)
-                                {{number_format($total_bulanan, 2,',','.')}}
+                                {{number_format($total_pemasukan, 2,',','.')}}
                                 @else
                                 {{'0'}}
                                 @endif
