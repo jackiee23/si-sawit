@@ -32,7 +32,7 @@ var ctx = document.getElementById("myAreaChart");
 var myLineChart = new Chart(ctx, {
   type: 'line',
   data: {
-    labels: nama_bulan,
+    labels: nama_b,
     datasets: [{
       label: "Konsumsi",
       lineTension: 0.3,

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Loan;
 use App\Models\Repayment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RepaymentController extends Controller
 {
@@ -13,6 +14,17 @@ class RepaymentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function nik()
+    {
+            $data = Loan::where('nama', 'LIKE', '%'.request('q').'%')->groupBy("nik")->paginate(10);
+            return response()->json($data);
+    }
+
+    public function jenis($id){
+        $data = Loan::where('nik', $id)->where('jenis_pinjaman', 'Like', '%' . request('q') . '%')->paginate(10);
+        return response()->json($data);
+    }
+
     public function index()
     {
         return view('dashboard.repayment.index', [
@@ -28,8 +40,11 @@ class RepaymentController extends Controller
      */
     public function create()
     {
-        $loans = Loan::all();
-        return view('dashboard.repayment.create',[
+        $loans = DB::table('loans')
+            ->groupBy('nik')
+            ->get();
+
+        return view('dashboard.repayment.create', [
             'title' => 'Pengembalian',
             'loans' => $loans
         ]);
@@ -44,12 +59,20 @@ class RepaymentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'loan_id' => 'required',
+            'nik' => 'required',
+            'jenis_pinjaman' => 'required',
             'tgl' => 'required',
             'nilai' => 'required',
         ]);
 
-        Repayment::create($request->all());
+        $jenis = Loan::where('id', $request->jenis_pinjaman)->first();
+        Repayment::create([
+            'loan_id' => $request->jenis_pinjaman,
+            'loan_nik' => $request->nik,
+            'tgl' => $request->tgl,
+            'nilai' => $request->nilai,
+            'jenis_pinjaman' => $jenis->jenis_pinjaman
+        ]);
         return redirect('/dashboard/repayment')->with('status', 'New data has been added');
     }
 
@@ -90,15 +113,15 @@ class RepaymentController extends Controller
     public function update(Request $request, Repayment $repayment)
     {
         $request->validate([
-            'loan_id' => 'required',
-            'tgl' => 'required',
+            // 'loan_id' => 'required',
+            // 'tgl' => 'required',
             'nilai' => 'required',
         ]);
 
         Repayment::where('id', $repayment->id)
             ->update([
-                'loan_id' => $request->loan_id,
-                'tgl' => $request->tgl,
+                // 'loan_id' => $request->loan_id,
+                // 'tgl' => $request->tgl,
                 'nilai' => $request->nilai,
             ]);
         return redirect('/dashboard/repayment')->with('status', 'Data has been updated.');

@@ -16,7 +16,7 @@ class CreateFarmersTable extends Migration
         Schema::create('farmers', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->char('nik_farmer')->unique();
+            $table->char('nik')->unique();
             $table->longText('alamat');
             $table->char('no_wa');
             $table->string('luas');

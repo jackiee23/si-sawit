@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="{{asset('bselect/css/bootstrap-select.css')}}">
     <link href="{{asset('daterange/daterangepicker.css')}}" rel="stylesheet" />
 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
         <!-- Page level plugins -->
     <script src="{{asset('template/vendor/chart.js/Chart.min.js')}}"></script>
@@ -37,6 +38,9 @@
         <!-- daterange filter plugins -->
     <script src="{{asset('daterange/moment.min.js')}}"></script>
     <script src="{{asset('daterange/daterangepicker.min.js')}}"></script>
+
+    <!-- select2 -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     {{-- button export & print --}}
     {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css"> --}}

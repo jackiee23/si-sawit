@@ -22,8 +22,9 @@
                                 <th>No</th>
                                 <th>Nama</th>
                                 <th>Tanggal Pengembalian</th>
-                                <th>Loan</th>
-                                <th>Jumlah Yang Dibayar</th>
+                                <th>Hutang</th>
+                                <th>Jumlah Yang Dikembalikan</th>
+                                <th>Jenis</th>
                                 <th>Status</th>
                                 <th>Opsi</th>
                             </tr>
@@ -78,11 +79,11 @@
                     data: 'nilai',
                     name: 'nilai'
                 },
-                // {
-                //     data: 'keterangan',
-                //     name: 'keterangan',
-                //     sortable: false
-                // },
+                {
+                    data: 'jenis',
+                    name: 'jenis_pinjaman',
+                    sortable: false
+                },
                 {
                     data: 'status',
                     name: 'status',
@@ -96,7 +97,7 @@
                 }
             ],
             columnDefs: [{
-                targets: [5],
+                targets: [6],
                 render: function(data, type, row) {
                     if(data == 'LUNAS') {
                         return '<h5><span class="badge bg-success text-light">'+data+'</span></h5>'

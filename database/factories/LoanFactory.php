@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Farmer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class LoanFactory extends Factory
@@ -13,9 +14,13 @@ class LoanFactory extends Factory
      */
     public function definition()
     {
+        $id = mt_rand(1,10);
+        $nama = Farmer::where('id', $id)->first();
         return [
             'tgl'=> $this->faker->dateTimeThisYear(),
-            'nama' => $this->faker->name(),
+            'nama' => $nama->nama,
+            'nik' => $nama->nik,
+            'bagian' => 1,
             'jenis_pinjaman' => $this->faker->word(),
             'nilai' => $this->faker->randomNumber(6),
             'keterangan' => $this->faker->sentence()

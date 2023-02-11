@@ -82,6 +82,7 @@ Route::middleware('auth')->group(function(){
 
     //loan
     Route::resource('/dashboard/loan', LoanController::class);
+    Route::post('/dashboard/loan/create', [LoanController::class, 'getAllFields'])->name('getdata');
 
     //pruchase
     Route::resource('/dashboard/purchase', PurchaseController::class);
@@ -100,5 +101,10 @@ Route::middleware('auth')->group(function(){
 
     //pengembalian
     Route::resource('/dashboard/repayment', RepaymentController::class);
+    Route::get('selectNik', [RepaymentController::class, 'nik'])->name('getnik');
+    Route::get('selectJenis/{id}', [RepaymentController::class, 'jenis'])->name('getjenis');
+
+
+
 });
 

@@ -543,7 +543,7 @@
         });
 
             const penghasilan = {{json_encode($meter)}}
-            const nama_bulan = {!! $nama_bulan !!}
+            const nama_bulan = {!! $nama_b !!}
             const ton_hektar = {{json_encode($ton_hektar)}}
             const umur = {!! $umur !!}
     </script>

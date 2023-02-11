@@ -500,7 +500,7 @@ class DashboardController extends Controller
             ->addColumn('action', function ($loan) {
                 return '<div class="text-center"><a href="/dashboard/loan/' . $loan->id . '/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form></div>';
             })
-            ->editColumn('nilai', 'Rp.{{number_format($nilai,2,",",".")}}')
+            // ->editColumn('nilai', 'Rp.{{number_format($nilai,2,",",".")}}')
             ->addIndexColumn()
             ->make(true);
     }
@@ -513,13 +513,16 @@ class DashboardController extends Controller
             ->addColumn('action', function ($repayment) {
                 return '<div class="text-center"><a href="/dashboard/repayment/' . $repayment->id . '/edit/"><i class="fas fa-edit text-success"></i></a> <form class="d-inline" ><button type="button" class="fas fa-trash text-danger border-0 tombol-delete"></button></form></div>';
             })
-            ->editColumn('nilai', 'Rp.{{number_format($nilai,2,",",".")}}')
-            ->editColumn('hutang', 'Rp.{{number_format($hutang,2,",",".")}}')
+            // ->editColumn('nilai', 'Rp.{{number_format($nilai,2,",",".")}}')
+            // ->editColumn('hutang', 'Rp.{{number_format($hutang,2,",",".")}}')
             ->addColumn('loan', function (Repayment $repayment) {
                 return $repayment->loan->nama;
             })
             ->addColumn('hutang', function (Repayment $repayment) {
                 return $repayment->loan->nilai;
+            })
+            ->addColumn('jenis', function (Repayment $repayment) {
+                return $repayment->loan->jenis_pinjaman;
             })
             ->addColumn('status', function (Repayment $repayment) {
                 if($repayment->loan->nilai <= $repayment->nilai) {

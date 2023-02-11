@@ -15,7 +15,7 @@ class FarmerFactory extends Factory
     {
         return [
             "nama" => $this->faker->name(),
-            "nik_farmer" => $this->faker->unique()->randomNumber(9, true),
+            "nik" => $this->faker->unique()->randomNumber(9, true),
             "alamat" => $this->faker->address(),
             "no_wa" => $this->faker->phoneNumber(),
             "luas" => mt_rand(1,5),

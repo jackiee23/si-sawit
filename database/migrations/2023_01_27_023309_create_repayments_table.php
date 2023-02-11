@@ -15,7 +15,9 @@ class CreateRepaymentsTable extends Migration
     {
         Schema::create('repayments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('loan_id');
+            $table->char('loan_id');
+            $table->char('loan_nik');
+            $table->string('jenis_pinjaman');
             $table->date('tgl');
             $table->char('nilai');
             $table->timestamps();
