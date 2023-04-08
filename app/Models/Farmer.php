@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Farmer extends Model
 {
     use HasFactory;
-    protected $fillable=['nama', 'alamat', 'no_wa', 'luas', 'jarak', 'umur'];
+    protected $fillable=['nama', 'alamat', 'no_wa', 'luas', 'jarak', 'umur', 'jenis_tanah'];
 
     public function purchases(){
         return $this->hasMany(Purchase::class);

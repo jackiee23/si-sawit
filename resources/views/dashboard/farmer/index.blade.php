@@ -30,6 +30,7 @@
                                 <th>Luas Kebun (Ha)</th>
                                 <th>Jarak TPH ke Kebun</th>
                                 <th>Umur Tanaman Sawit</th>
+                                <th>Jenis Tanah</th>
                                 <th>Opsi</th>
                             </tr>
                         </thead>
@@ -89,6 +90,10 @@
                 {
                     data: 'umur',
                     name: 'umur'
+                },
+                {
+                    data: 'jenis_tanah',
+                    name: 'jenis_tanah'
                 },
                 {
                     data: 'action',

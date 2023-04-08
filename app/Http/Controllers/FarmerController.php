@@ -49,6 +49,7 @@ class FarmerController extends Controller
             "luas" => "required",
             "jarak" => "required",
             "umur" => "required",
+            "jenis_tanah" => "required"
         ]);
 
         Farmer::create($request->all());
@@ -96,6 +97,7 @@ class FarmerController extends Controller
             "luas" => "required",
             "jarak" => "required",
             "umur" => "required",
+            "jenis_tanah" => "required"
         ]);
 
         Farmer::where('id', $farmer->id)
@@ -106,6 +108,7 @@ class FarmerController extends Controller
                     'luas' => $request->luas,
                     'jarak' => $request->jarak,
                     'umur' => $request->umur,
+                    'jenis_tanah' => $request->jenis_tanah
                 ]);
         return redirect('/dashboard/farmer')->with('status', 'Farmer data has been updated.');
     }

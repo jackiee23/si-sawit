@@ -22,6 +22,7 @@ class CreateFarmersTable extends Migration
             $table->string('luas');
             $table->char('jarak')->nullable();
             $table->string('umur');
+            $table->char('jenis_tanah');
             $table->timestamps();
         });
     }

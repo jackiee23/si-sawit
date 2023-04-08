@@ -127,7 +127,7 @@ class ReportController extends Controller
             'title' => 'Laporan Khusus',
             'ton_hektar' => $ton_hektar,
             'umur' => $umur2,
-            'nama_bulan' => $nama_hari,
+            'nama_b' => $nama_hari,
             'farmer' => $farmer,
             'worker' => $worker,
             'car' => $car,

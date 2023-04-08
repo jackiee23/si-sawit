@@ -70,6 +70,19 @@
                             </div>
                             @enderror
                     </div>
+                    <div class="mb-3">
+                        <label for="jenis_tanah" class="form-label">Jenis Tanah</label>
+                        <select class="form-select form-control selectpicker" data-live-search="true" name="jenis_tanah" id="jenis_tanah">
+                            <option value="{{$farmer->jenis_tanah}}" selected>{{$farmer->jenis_tanah}}</option>
+                            <option value="Tanah Keras" {{old('jenis_tanah') ? 'selected' : ''}} >Tanah Keras</option>
+                            <option value="Gambut" {{old('jenis_tanah') ? 'selected' : ''}} >Gambut</option>
+                        </select>
+                        @error('jenis_tanah')
+                            <div class="invalid-feedback">
+                                Tidak boleh di kosongkan.
+                            </div>
+                        @enderror
+                    </div>
                     <button type="submit" class="btn btn-primary">Simpan Data</button>
                 </form>
             </div>
