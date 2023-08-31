@@ -38,10 +38,6 @@ Route::middleware('auth')->group(function(){
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('home');
     Route::get('dashboard/ganti-password', [PageController::class, 'change']);
 
-    //report
-    Route::get('/dashboard/laporan-umum', [ReportController::class, 'index']);
-    Route::get('/dashboard/laporan-khusus', [ReportController::class, 'particular']);
-
     //server-side
     Route::get('/dashboard/fueldata', [DashboardController::class, 'fueldata'])->name('fueldata');
     Route::get('/dashboard/fuelday', [DashboardController::class, 'fuelday'])->name('fuelday');
@@ -74,6 +70,25 @@ Route::middleware('auth')->group(function(){
     Route::resource('/dashboard/farm', FarmController::class);
     Route::post('/dashboard/farm/create', [FarmController::class, 'getAllFields'])->name('getfarmer');
 
+    //pruchase
+    Route::resource('/dashboard/purchase', PurchaseController::class);
+
+    //sale
+    Route::resource('/dashboard/sale', SaleController::class);
+
+    //fuel
+    Route::resource('/dashboard/fuel', FuelController::class);
+
+    //repair
+    Route::resource('/dashboard/repair', RepairController::class);
+
+    //pemeliharaan
+    Route::resource('/dashboard/type', TypeController::class);
+
+});
+
+Route::middleware('admin')->group(function(){
+
     //admin
     Route::resource('/dashboard/admin', AdminController::class);
 
@@ -90,27 +105,14 @@ Route::middleware('auth')->group(function(){
     Route::resource('/dashboard/loan', LoanController::class);
     Route::post('/dashboard/loan/create', [LoanController::class, 'getAllFields'])->name('getdata');
 
-    //pruchase
-    Route::resource('/dashboard/purchase', PurchaseController::class);
-
-    //sale
-    Route::resource('/dashboard/sale', SaleController::class);
-
-    //fuel
-    Route::resource('/dashboard/fuel', FuelController::class);
-
-    //repair
-    Route::resource('/dashboard/repair', RepairController::class);
-
-    //pemeliharaan
-    Route::resource('/dashboard/type', TypeController::class);
-
     //pengembalian
     Route::resource('/dashboard/repayment', RepaymentController::class);
     Route::get('selectNik', [RepaymentController::class, 'nik'])->name('getnik');
     Route::get('selectJenis/{id}', [RepaymentController::class, 'jenis'])->name('getjenis');
 
-
+    //report
+    Route::get('/dashboard/laporan-umum', [ReportController::class, 'index']);
+    Route::get('/dashboard/laporan-khusus', [ReportController::class, 'particular']);
 
 });
 

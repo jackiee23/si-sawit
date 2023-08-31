@@ -50,15 +50,17 @@
                         <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
-                        <label for="jenis" class="form-label">Jenis Pekerjaan</label>
-                        <input type="text" class="form-control @error('jenis') is-invalid @enderror" id="jenis" name="jenis" value="{{old('jenis', $admin->jenis)}} "
-                            >
-                            @error('jenis')
+                        <label for="jenis" class="form-label">Jenis Tanah</label>
+                        <select class="form-select form-control selectpicker" data-live-search="true" name="jenis" id="jenis">
+                            <option value="{{$admin->jenis}}" selected>{{$admin->jenis}}</option>
+                            <option value="Tanah Keras" {{old('jenis') ? 'selected' : ''}} >Tanah Keras</option>
+                            <option value="Gambut" {{old('jenis') ? 'selected' : ''}} >Gambut</option>
+                        </select>
+                        @error('jenis')
                             <div class="invalid-feedback">
                                 Tidak boleh di kosongkan.
                             </div>
-                            @enderror
-                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
+                        @enderror
                     </div>
                     <button type="submit" class="btn btn-primary">Simpan Data</button>
                 </form>

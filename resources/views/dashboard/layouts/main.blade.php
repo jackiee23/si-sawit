@@ -97,9 +97,11 @@
                 <div id="collapseTwo" class="collapse {{$title === "Petani" || $title === "Kendaraan" || $title === "Pemeliharaan" || $title === "Pekerja" ||$title === "Admin" ? 'show' : ''}} " aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Dataku :</h6>
+                        @can('isadmin')
                         <a class="collapse-item {{ ($title === "Admin" ? 'active' : '') }}" href="/dashboard/user">Admin</a>
                         <a class="collapse-item {{ ($title === "Kendaraan" ? 'active' : '') }}" href="/dashboard/car">Kendaraan</a>
                         <a class="collapse-item {{ ($title === "Pekerja" ? 'active' : '') }}" href="/dashboard/worker">Pekerja</a>
+                        @endcan
                         <a class="collapse-item {{ ($title === "Petani" ? 'active' : '') }}" href="/dashboard/farmer">Petani</a>
                         <a class="collapse-item {{ ($title === "Kebun" ? 'active' : '') }}" href="/dashboard/farm">Kebun</a>
                         <a class="collapse-item {{ ($title === "Pemeliharaan" ? 'active' : '') }}" href="/dashboard/type">Pemeliharaan & Perbaikan   </a>
@@ -123,14 +125,17 @@
                         <a class="collapse-item {{ ($title === "Penjualan" ? 'active' : '') }}" href="/dashboard/sale">Penjualan</a>
                         <a class="collapse-item {{ ($title === "Bahan Bakar" ? 'active' : '') }}" href="/dashboard/fuel">Bahan Bakar</a>
                         <a class="collapse-item {{ ($title === "Perbaikan" ? 'active' : '') }}" href="/dashboard/repair">Pemeliharaan & Perbaikan   </a>
+                        @can('isadmin')
                         <a class="collapse-item {{ ($title === "Pinjaman" ? 'active' : '') }}" href="/dashboard/loan">Pinjaman</a>
                         <a class="collapse-item {{ ($title === "Pengembalian" ? 'active' : '') }}" href="/dashboard/repayment">Pengembalian</a>
+                        @endcan
                     </div>
                 </div>
             </li>
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
+            @can('isadmin')
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item {{ ($title === "Laporan" ? 'active' : '') }}">
                 <a class="nav-link {{ ($title === "Laporan" ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseFour"
@@ -148,7 +153,7 @@
             </li>
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
-
+            @endcan
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item {{ ($title === "Ganti-Password" ? 'active' : '') }}">
@@ -211,10 +216,12 @@
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                @can('isadmin')
                                 <a class="dropdown-item" href="/dashboard/user/{{auth()->user()->id}}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
+                                @endcan
                                 {{-- <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Settings

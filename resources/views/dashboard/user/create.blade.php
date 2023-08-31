@@ -52,13 +52,16 @@
                     </div>
                     <div class="mb-3">
                         <label for="jenis" class="form-label">Jenis Pekerjaan</label>
-                        <input type="text" class="form-control @error('jenis') is-invalid @enderror" id="jenis" name="jenis" value="{{old('jenis')}} "
-                            placeholder="Masukkan Jenis Pekerjaan">
-                            @error('jenis')
+                        <select class="form-select form-control selectpicker" data-live-search="true" name="jenis" id="jenis">
+                            <option value="" selected>Pilih jenis pekerjaan</option>
+                            <option value="Admin" {{old('jenis') ? 'selected' : ''}} >Admin</option>
+                            <option value="Worker" {{old('jenis') ? 'selected' : ''}} >Worker</option>
+                        </select>
+                        @error('jenis')
                             <div class="invalid-feedback">
                                 Tidak boleh di kosongkan.
                             </div>
-                            @enderror
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
