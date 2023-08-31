@@ -25,12 +25,13 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama</th>
+                                <th>NIK</th>
                                 <th>Alamat</th>
                                 <th>No WA</th>
-                                <th>Luas Kebun (Ha)</th>
+                                {{-- <th>Luas Kebun (Ha)</th>
                                 <th>Jarak TPH ke Kebun</th>
                                 <th>Umur Tanaman Sawit</th>
-                                <th>Jenis Tanah</th>
+                                <th>Jenis Tanah</th> --}}
                                 <th>Opsi</th>
                             </tr>
                         </thead>
@@ -70,6 +71,10 @@
                     sortable: false
                 },
                 {
+                    data: 'nik',
+                    name: 'nik'
+                },
+                {
                     data: 'alamat',
                     name: 'alamat',
                     sortable: false
@@ -79,22 +84,18 @@
                     name: 'no_wa',
                     sortable: false
                 },
-                {
-                    data: 'luas',
-                    name: 'luas'
-                },
-                {
-                    data: 'jarak',
-                    name: 'jarak'
-                },
-                {
-                    data: 'umur',
-                    name: 'umur'
-                },
-                {
-                    data: 'jenis_tanah',
-                    name: 'jenis_tanah'
-                },
+                // {
+                //     data: 'jarak',
+                //     name: 'jarak'
+                // },
+                // {
+                //     data: 'umur',
+                //     name: 'umur'
+                // },
+                // {
+                //     data: 'jenis_tanah',
+                //     name: 'jenis_tanah'
+                // },
                 {
                     data: 'action',
                     name: 'action',

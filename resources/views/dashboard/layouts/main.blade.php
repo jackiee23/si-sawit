@@ -89,7 +89,7 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item {{ ($title === "Petani" || $title === "Kendaraan" || $title === "Pekerja" ||$title === "Admin" ? 'active' : '') }}">
-                <a class="nav-link {{$title === "Petani" || $title === "Kendaraan" || $title === "Pekerja" ||$title === "Admin" ? '' : 'collapsed'}}" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                <a class="nav-link {{$title === "Petani" || $title === "Kendaraan" || $title === "Pekerja" ||$title === "Kebun" ||$title === "Admin" ? '' : 'collapsed'}}" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-database"></i>
                     <span>Dataku</span>
@@ -101,7 +101,8 @@
                         <a class="collapse-item {{ ($title === "Kendaraan" ? 'active' : '') }}" href="/dashboard/car">Kendaraan</a>
                         <a class="collapse-item {{ ($title === "Pekerja" ? 'active' : '') }}" href="/dashboard/worker">Pekerja</a>
                         <a class="collapse-item {{ ($title === "Petani" ? 'active' : '') }}" href="/dashboard/farmer">Petani</a>
-                        <a class="collapse-item {{ ($title === "Pemeliharaan" ? 'active' : '') }}" href="/dashboard/type">Pemeliharaan & Perbaikan</a>
+                        <a class="collapse-item {{ ($title === "Kebun" ? 'active' : '') }}" href="/dashboard/farm">Kebun</a>
+                        <a class="collapse-item {{ ($title === "Pemeliharaan" ? 'active' : '') }}" href="/dashboard/type">Pemeliharaan & Perbaikan   </a>
                     </div>
                 </div>
             </li>
@@ -121,7 +122,7 @@
                         <a class="collapse-item {{ ($title === "Pembelian" ? 'active' : '') }}" href="/dashboard/purchase">Pembelian</a>
                         <a class="collapse-item {{ ($title === "Penjualan" ? 'active' : '') }}" href="/dashboard/sale">Penjualan</a>
                         <a class="collapse-item {{ ($title === "Bahan Bakar" ? 'active' : '') }}" href="/dashboard/fuel">Bahan Bakar</a>
-                        <a class="collapse-item {{ ($title === "Perbaikan" ? 'active' : '') }}" href="/dashboard/repair">Perbaikan</a>
+                        <a class="collapse-item {{ ($title === "Perbaikan" ? 'active' : '') }}" href="/dashboard/repair">Pemeliharaan & Perbaikan   </a>
                         <a class="collapse-item {{ ($title === "Pinjaman" ? 'active' : '') }}" href="/dashboard/loan">Pinjaman</a>
                         <a class="collapse-item {{ ($title === "Pengembalian" ? 'active' : '') }}" href="/dashboard/repayment">Pengembalian</a>
                     </div>

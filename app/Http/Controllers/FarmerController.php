@@ -46,10 +46,7 @@ class FarmerController extends Controller
             "nama" => "required",
             "alamat" => "required",
             "no_wa" => "required",
-            "luas" => "required",
-            "jarak" => "required",
-            "umur" => "required",
-            "jenis_tanah" => "required"
+            "nik" => "required",
         ]);
 
         Farmer::create($request->all());
@@ -93,11 +90,8 @@ class FarmerController extends Controller
         $request->validate([
             "nama" => "required",
             "alamat" => "required",
+            "nik" => "required",
             "no_wa" => "required",
-            "luas" => "required",
-            "jarak" => "required",
-            "umur" => "required",
-            "jenis_tanah" => "required"
         ]);
 
         Farmer::where('id', $farmer->id)
@@ -105,10 +99,7 @@ class FarmerController extends Controller
                     'nama' => $request->nama,
                     'alamat' => $request->alamat,
                     'no_wa' => $request->no_wa,
-                    'luas' => $request->luas,
-                    'jarak' => $request->jarak,
-                    'umur' => $request->umur,
-                    'jenis_tanah' => $request->jenis_tanah
+                    'nik' => $request->nik,
                 ]);
         return redirect('/dashboard/farmer')->with('status', 'Farmer data has been updated.');
     }
@@ -121,7 +112,7 @@ class FarmerController extends Controller
      */
     public function destroy(Farmer $farmer)
     {
-        $cek = DB::table('purchases')
+        $cek = DB::table('farms')
         ->where('farmer_id', $farmer->id)
         ->first();
         if ($cek == null) {

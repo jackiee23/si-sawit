@@ -22,6 +22,16 @@
                             @enderror
                     </div>
                     <div class="mb-3">
+                        <label for="inputnik" class="form-label">No NIK</label>
+                        <input type="text" class="form-control @error('nik') is-invalid @enderror"
+                            name="nik" value="{{old('nik', $worker->nik)}}">
+                            @error('nik')
+                            <div class="invalid-feedback">
+                                Tidak boleh di kosongkan.
+                            </div>
+                            @enderror
+                    </div>
+                    <div class="mb-3">
                         <label for="alamat" class="form-label">Alamat</label>
                         <textarea class="form-control @error('alamat') is-invalid @enderror" name="alamat" id="alamat" rows="3" name="alamat">{{old('alamat', $worker->alamat)}}</textarea>
                         @error('alamat')

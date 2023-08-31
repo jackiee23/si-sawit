@@ -52,16 +52,20 @@ class SaleController extends Controller
         $request->validate([
             'tgl_jual' => 'required',
             'jumlah' => 'required',
+            'sortasi' => 'required',
             'harga_pabrik' => 'required',
             'worker_id' => 'required',
             'car_id' => 'required',
             'pabrik' => 'required',
-            'keterangan' => 'required'
+            // 'keterangan' => 'required'
         ]);
 
         Sale::create([
                     'tgl_jual' => $request->tgl_jual,
                     'jumlah' => $request->jumlah,
+                    'sortasi' => $request->sortasi,
+                    'potongan' => $request->jumlah*($request->sortasi/100),
+                    'jumlah_net' => $request->jumlah - $request->jumlah * ($request->sortasi / 100),
                     'harga_pabrik' => $request->harga_pabrik,
                     'harga_total' => $request->harga_pabrik*$request->jumlah,
                     'worker_id' => $request->worker_id,
@@ -114,19 +118,23 @@ class SaleController extends Controller
         $request->validate([
             'tgl_jual' => 'required',
             'jumlah' => 'required',
+            'sortasi' => 'required',
             'harga_pabrik' => 'required',
             'worker_id' => 'required',
             'car_id' => 'required',
             'pabrik' => 'required',
-            'keterangan' => 'required'
+            // 'keterangan' => 'required'
         ]);
 
         Sale::where('id', $sale->id)
                 ->update([
                     'tgl_jual' => $request->tgl_jual,
                     'jumlah' => $request->jumlah,
+                    'sortasi' => $request->sortasi,
+                    'potongan' => $request->jumlah*($request->sortasi/100),
+                    'jumlah_net' => $request->jumlah - $request->jumlah * ($request->sortasi / 100),
                     'harga_pabrik' => $request->harga_pabrik,
-                    'harga_total' => $request->harga_pabrik*$request->jumlah,
+                    'harga_total' => $request->harga_pabrik*$request->jumlah_net,
                     'worker_id' => $request->worker_id,
                     'car_id' => $request->car_id,
                     'pabrik' => $request->pabrik,

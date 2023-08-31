@@ -19,7 +19,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama Petani</th>
+                                <th>Nama Kebun</th>
                                 <th>Tanggal Panen</th>
                                 <th>Tanggal Pengambilan</th>
                                 <th>Ketepatan Waktu</th>
@@ -27,7 +27,9 @@
                                 <th>Harga</th>
                                 <th>Total Harga</th>
                                 <th>Nama Pekerja</th>
+                                {{-- <th>Nama Pekerja 2</th> --}}
                                 <th>Nama Kendaraan</th>
+                                {{-- <th>Nama Kendaraan 2</th> --}}
                                 <th>Jumlah Trip</th>
                                 <th>Keterangan</th>
                                 {{-- <th>Umur</th> --}}
@@ -70,6 +72,7 @@
         });
 
         const table = $('#dataTable').DataTable({
+            "pageLength": 20,
             dom: 'Bfrtip',
             buttons: [
                 'copy', 'csv', 'excel', 'pdf',
@@ -85,8 +88,8 @@
                     name: 'id',
                 },
                 {
-                    data: 'farmer',
-                    name: 'farmer.nama',
+                    data: 'farm.nama_kebun',
+                    name: 'farm.nama_kebun',
                     sortable: false
                 },
                 {
@@ -118,11 +121,21 @@
                     name: 'worker.nama',
                     sortable: false
                 },
+                // {
+                //     data: 'worker',
+                //     name: 'worker.nama',
+                //     sortable: false
+                // },
                 {
                     data: 'car',
                     name: 'car.nama_kendaraan',
                     sortable: false
                 },
+                // {
+                //     data: 'car',
+                //     name: 'car.nama_kendaraan',
+                //     sortable: false
+                // },
                 {
                     data: 'trip',
                     name: 'trip'

@@ -56,7 +56,7 @@ class RepairController extends Controller
             'car_id' => 'required',
             'type_id' => 'required',
             'jumlah' => 'required',
-            'keterangan' => 'required'
+            // 'keterangan' => 'required'
         ]);
 
         Repair::create($request->all());
@@ -106,7 +106,7 @@ class RepairController extends Controller
             'car_id' => 'required',
             'type_id' => 'required',
             'jumlah' => 'required',
-            'keterangan' => 'required'
+            // 'keterangan' => 'required'
         ]);
 
         Repair::where('id', $repair->id)

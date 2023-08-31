@@ -23,7 +23,7 @@
                                 <th>Nama</th>
                                 <th>Tanggal Pinjaman</th>
                                 <th>Jenis Pinjaman</th>
-                                <th>Nilai</th>
+                                <th>Jumlah Pinjaman</th>
                                 <th>Keterangan</th>
                                 <th>Opsi</th>
                             </tr>

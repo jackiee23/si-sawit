@@ -44,7 +44,8 @@ class AdminController extends Controller
         $request->validate([
             'nama'=>'required',
             'no_wa'=>'required',
-            'jenis'=>'required'
+            'jenis'=>'required',
+            'nik'=>'required'
         ]);
 
         Admin::create($request->all());
@@ -89,14 +90,17 @@ class AdminController extends Controller
         $request->validate([
             'nama' => 'required',
             'no_wa' => 'required',
-            'jenis' => 'required'
+            'jenis' => 'required',
+            'nik' => 'required'
+
         ]);
 
         Admin::where('id', $admin->id)
                 ->update([
                     'nama'=>$request->nama,
                     'no_wa'=>$request->no_wa,
-                    'jenis'=>$request->jenis
+                    'jenis'=>$request->jenis,
+                    'nik'=>$request->nik
                 ]);
 
                 return redirect('/dashboard/admin')->with('status', 'Data admin has been updated.');

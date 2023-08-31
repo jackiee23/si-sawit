@@ -31,6 +31,16 @@
                             @enderror
                     </div>
                     <div class="mb-3">
+                        <label for="nik" class="form-label">No NIK</label>
+                        <input type="text" class="form-control @error('nik') is-invalid @enderror" id="nik" name="nik" value="{{old('nik', $farmer->nik)}} "
+                            placeholder="Masukkan Nomer WA">
+                            @error('nik')
+                            <div class="invalid-feedback">
+                                Tidak boleh di kosongkan.
+                            </div>
+                            @enderror
+                    </div>
+                    <div class="mb-3">
                         <label for="no_wa" class="form-label">No WA</label>
                         <input type="text" class="form-control @error('no_wa') is-invalid @enderror" id="no_wa" name="no_wa" value="{{old('no_wa', $farmer->no_wa)}} "
                             placeholder="Masukkan Nomer WA">
@@ -40,7 +50,7 @@
                             </div>
                             @enderror
                     </div>
-                    <div class="mb-3">
+                    {{-- <div class="mb-3">
                         <label for="luas" class="form-label">Luas Kebun (Ha)</label>
                         <input type="text" class="form-control @error('luas') is-invalid @enderror" id="luas" name="luas" value="{{old('luas', $farmer->luas)}} "
                             placeholder="Masukkan Luas Kebun">
@@ -82,7 +92,7 @@
                                 Tidak boleh di kosongkan.
                             </div>
                         @enderror
-                    </div>
+                    </div> --}}
                     <button type="submit" class="btn btn-primary">Simpan Data</button>
                 </form>
             </div>

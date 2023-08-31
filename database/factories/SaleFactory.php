@@ -15,10 +15,16 @@ class SaleFactory extends Factory
         $harga = $this->faker->randomNumber(3);
         $jumlah = $this->faker->randomNumber(3);
         $total = $harga * $jumlah;
+        $sortasi = mt_rand(1, 10);
+        $potongan = $jumlah*$sortasi/100;
+        $jumlah_net = $jumlah - $potongan;
 
         return [
             'tgl_jual' => $this->faker->dateTimeThisYear(),
             'jumlah' => $jumlah,
+            'sortasi' => $sortasi,
+            'potongan' => $potongan,
+            'jumlah_net' => $jumlah_net,
             'harga_pabrik' => $harga,
             'harga_total' => $total,
             'worker_id' => mt_rand(1,10),

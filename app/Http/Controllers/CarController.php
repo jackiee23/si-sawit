@@ -47,7 +47,9 @@ class CarController extends Controller
             'nama_kendaraan' => 'required',
             'merek' => 'required',
             'tgl_beli' => 'required',
-            'keadaan_beli' => 'required'
+            'keadaan_beli' => 'required',
+            'kapasitas_kendaraan' => 'required'
+
         ]);
 
         Car::create($request->all());
@@ -92,7 +94,8 @@ class CarController extends Controller
             'nama_kendaraan' => 'required',
             'merek' => 'required',
             'tgl_beli' => 'required',
-            'keadaan_beli' => 'required'
+            'keadaan_beli' => 'required',
+            'kapasitas_kendaraan' => 'required'
         ]);
 
         Car::where('id', $car->id)
@@ -101,7 +104,9 @@ class CarController extends Controller
             'merek' => $request->merek,
             'tgl_beli' => $request->tgl_beli,
             'keadaan_beli' => $request->keadaan_beli,
-            'umur_kendaraan' => $request->umur_kendaraan
+            'umur_kendaraan' => $request->umur_kendaraan,
+            'kapasitas_kendaraan' => $request->kapasitas_kendaraan
+
         ]);
 
         return redirect('/dashboard/car')->with('status', 'Car data has been updated.');

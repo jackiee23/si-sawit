@@ -51,6 +51,16 @@
                             @enderror
                     </div>
                     <div class="mb-3">
+                        <label for="kapasitas_kendaraan" class="form-label">Kapasitas Kendaraan (Kg)</label>
+                        <input type="text" class="form-control @error('kapasitas_kendaraan') is-invalid @enderror" id="kapasitas_kendaraan" name="kapasitas_kendaraan" value="{{old('kapasitas_kendaraan', $car->kapasitas_kendaraan)}} "
+                            >
+                            @error('kapasitas_kendaraan')
+                            <div class="invalid-feedback">
+                                Tidak boleh di kosongkan.
+                            </div>
+                            @enderror
+                    </div>
+                    <div class="mb-3">
                         <label for="umur_kendaraan" class="form-label">Umur Kendaraan</label>
                         <input type="text" class="form-control @error('umur_kendaraan') is-invalid @enderror" id="umur_kendaraan" name="umur_kendaraan" value="{{old('umur_kendaraan', $car->umur_kendaraan)}} "
                             >

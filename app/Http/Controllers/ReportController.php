@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Car;
+use App\Models\Farm;
 use App\Models\Farmer;
 use App\Models\Fuel;
 use App\Models\Worker;
@@ -14,12 +15,14 @@ class ReportController extends Controller
 {
     public function index(){
         $farmer = Farmer::all();
+        $farm = Farm::all();
         $worker = Worker::all();
         $car = Car::all();
 
         return view('dashboard.report.index',[
             'title' => 'Laporan Umum',
             'farmer' => $farmer,
+            'farm' => $farm,
             'worker' => $worker,
             'car' =>$car
         ]);
@@ -27,16 +30,16 @@ class ReportController extends Controller
 
     public function particular()
     {
-        $farmer = Farmer::all();
+        $farm = Farm::all();
         $worker = Worker::all();
         $car = Car::all();
 
         //report kendaraan
         $cars = DB::table('cars')
         ->join('purchases', 'cars.id', '=', 'purchases.car_id')
-        ->join('farmers', 'farmer_id', '=', 'farmers.id')
+        ->join('farms', 'farm_id', '=', 'farms.id')
         // ->join('fuels', 'tgl_pengisian', '=', 'purchases.tgl_beli')
-        ->select(  DB::raw('sum(farmers.jarak*purchases.trip*2)as jarak_total'), 'purchases.tgl_beli')
+        ->select(  DB::raw('sum(farms.jarak*purchases.trip*2)as jarak_total'), 'purchases.tgl_beli')
         ->addSelect([
             'jumlah_liter' => Fuel::selectRaw('sum(jumlah_liter)')
             ->whereColumn('tgl_pengisian', 'purchases.tgl_beli')
@@ -88,15 +91,16 @@ class ReportController extends Controller
         // dd($jalan);
 
         $purchases = DB::table('purchases')
-        ->join('farmers', 'farmer_id', '=', 'farmers.id')
-        ->select('farmers.umur', DB::Raw("SUM(ton)as total_ton"), DB::Raw("COUNT(farmers.umur)as jumlah_data"))
+        ->join('farms', 'farm_id', '=', 'farms.id')
+        ->select('farms.umur', DB::Raw("SUM(ton)as total_ton"), DB::Raw("COUNT(farms.umur)as jumlah_data"))
         // ->addSelect([
         //     'perbaikan' => Repair::selectRaw('cast(sum(jumlah)as int)')
         //     ->whereColumn('tgl_perbaikan', 'purchases.tgl_beli')
         //     ->groupBy('purchases.tgl_beli')
         //     ->limit(1),
         // ])
-        ->groupBy('farmers.umur')
+        ->groupBy('farms.umur')
+        ->where('farms.jenis_tanah', 'Gambut')
         // ->avg('ton')
         ->get();
 
@@ -112,23 +116,62 @@ class ReportController extends Controller
         $sort = $data->sortBy('umur');
         $ton_hektar = Arr::pluck($sort, 'ton_hektar');
 
+        $purchases2 = DB::table('purchases')
+        ->join('farms', 'farm_id', '=', 'farms.id')
+        ->select('farms.umur', DB::Raw("SUM(ton)as total_ton"), DB::Raw("COUNT(farms.umur)as jumlah_data"))
+        // ->addSelect([
+        //     'perbaikan' => Repair::selectRaw('cast(sum(jumlah)as int)')
+        //     ->whereColumn('tgl_perbaikan', 'purchases.tgl_beli')
+        //     ->groupBy('purchases.tgl_beli')
+        //     ->limit(1),
+        // ])
+        ->groupBy('farms.umur')
+        ->where('farms.jenis_tanah', 'Tanah Keras')
+            // ->avg('ton')
+            ->get();
+
+        $data2 = $purchases2->map(function ($purchase) {
+            return [
+                'umur' => $purchase->umur,
+                'jumlah_ton' => $purchase->total_ton,
+                'total_data' => $purchase->jumlah_data,
+                'ton_hektar' => $purchase->total_ton / $purchase->jumlah_data,
+            ];
+        });
+
+        $sort3 = $data2->sortBy('umur');
+        $ton_hektar2 = Arr::pluck($sort3, 'ton_hektar');
+
         //nama bulan
         $umur = DB::table('purchases')
-        ->join('farmers', 'farmer_id', '=', 'farmers.id')
-        ->selectRaw("farmers.umur as umur")
-        ->groupByRaw('farmers.umur')
-        ->orderByRaw('farmers.umur ASC')
+        ->join('farms', 'farm_id', '=', 'farms.id')
+        ->selectRaw("farms.umur as umur")
+        ->where('farms.jenis_tanah', 'Gambut')
+        ->groupByRaw('farms.umur')
+        ->orderByRaw('farms.umur ASC')
         ->get();
         $sort2 = $umur->sortBy('umur');
         $umur2 = $sort2->pluck('umur');
         // dd($sort2);
 
+        $umurT = DB::table('purchases')
+        ->join('farms', 'farm_id', '=', 'farms.id')
+        ->selectRaw("farms.umur as umur")
+        ->where('farms.jenis_tanah', 'Tanah Keras')
+        ->groupByRaw('farms.umur')
+        ->orderByRaw('farms.umur ASC')
+        ->get();
+        $sortT = $umurT->sortBy('umur');
+        $umur4 = $sortT->pluck('umur');
+
         return view('dashboard.particular.index', [
             'title' => 'Laporan Khusus',
             'ton_hektar' => $ton_hektar,
+            'ton' => $ton_hektar2,
             'umur' => $umur2,
+            'umur2' => $umur4,
             'nama_b' => $nama_hari,
-            'farmer' => $farmer,
+            'farm' => $farm,
             'worker' => $worker,
             'car' => $car,
             'meter' => $meter

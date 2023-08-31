@@ -15,29 +15,42 @@
                     <label for="tipe_laporan" class="form-label">Pilih Tipe Laporan</label>
                     <select class="form-select form-control" name="tipe_laporan" id="tipe_laporan">
                         <option value="0" selected>Pilih tipe laporan</option>
-                        <option value="1">Laporan Petani</option>
+                        <option value="1">Laporan Kebun</option>
                         <option value="2">Laporan Pekerja</option>
-                        <option value="3">Laporan Bahan Bakar</option>
-                        <option value="4">Laporan Pemasukan</option>
                         <option value="5">Laporan Kendaraan</option>
-                        <option value="6">Laporan Laba Rugi</option>
+                        <option value="3">Laporan Pengisian BBM</option>
                         <option value="7">Selisih Jumlah Sawit</option>
+                        <option value="4">Laporan Pemasukan</option>
                         <option value="8">Laporan Pengeluaran</option>
+                        <option value="6">Laporan Laba Rugi</option>
+
 
                     </select>
                 </div>
-                <div class="mb-3 col-3 petani d-none">
-                    <label for="farmer_id" class="form-label">Nama Petani</label>
-                    <select class="form-select form-control selectpicker" data-live-search="true" name="farmer_id"
-                        id="farmer_id">
-                        <option value="" selected>Pilih nama petani</option>
-                        @foreach ($farmer as $farmer)
-                            <option value="{{ $farmer->id }}" {{ old('farmer_id') == $farmer->id ? 'selected' : '' }}>
-                                {{ $farmer->nama }}</option>
+                <div class="mb-3 col-3 kebun d-none">
+                    <label for="farm_id" class="form-label">Nama Kebun</label>
+                    <select class="form-select form-control selectpicker" data-live-search="true" name="farm_id"
+                        id="farm_id">
+                        <option value="" selected>Pilih nama kebun</option>
+                        @foreach ($farm as $farm)
+                            <option value="{{ $farm->id }}" {{ old('farm_id') == $farm->id ? 'selected' : '' }}>
+                                {{ $farm->nama_kebun }}</option>
                         @endforeach
                     </select>
                     <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                 </div>
+                {{-- <div class="mb-3 col-3 kebun d-none">
+                    <label for="farmer_id" class="form-label">Nama Pemilik</label>
+                    <select class="form-select form-control selectpicker" data-live-search="true" name="farmer_id"
+                        id="farmer_id">
+                        <option value="" selected>Pilih nama pemilik</option>
+                        @foreach ($farmer as $farmer)
+                            <option value="{{ $farm->id }}" {{ old('farmer_id') == $farmer->id ? 'selected' : '' }}>
+                                {{ $farmer->nama }}</option>
+                        @endforeach
+                    </select>
+                    <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
+                </div> --}}
                 <div class="mb-3 col-3 pekerja d-none">
                     <label for="worker_id" class="form-label">Nama Pekerja</label>
                     <select class="form-select form-control selectpicker" data-live-search="true" name="worker_id"
@@ -78,7 +91,8 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Pekerja</th>
-                                <th>Nama Petani</th>
+                                <th>Nama Kebun</th>
+                                <th>Nama Pemilik</th>
                                 <th>Tanggal Panen</th>
                                 <th>Tanggal Pengambilan</th>
                                 <th>Ketepatan Waktu</th>
@@ -92,6 +106,7 @@
                         <tfoot>
                             <tr>
                                 <th>Total :</th>
+                                <th></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -170,10 +185,10 @@
                                 <th>No</th>
                                 <th>Tanggal</th>
                                 <th>Nama Kendaraan</th>
-                                <th>Jumlah Petani</th>
+                                <th>Jumlah Kebun</th>
                                 <th>Jarak Tempuh</th>
                                 <th>Bahan Bakar Mobil Harian</th>
-                                <th>Konsumsi Bahan Bakar (M/liter)</th>
+                                {{-- <th>Konsumsi Bahan Bakar (M/liter)</th> --}}
                                 <th>Harga Perbaikan Harian</th>
                             </tr>
                         </thead>
@@ -185,10 +200,10 @@
                                 <th>Total :</th>
                                 <th></th>
                                 <th></th>
-                                <th>Jumlah Petani</th>
+                                <th>Jumlah Kebun</th>
                                 <th>Jarak Tempuh</th>
                                 <th></th>
-                                <th></th>
+                                {{-- <th></th> --}}
                                 <th>Harga Perbaikan Harian</th>
                             </tr>
                         </tfoot>
@@ -202,7 +217,7 @@
                                 <th>Tanggal</th>
                                 <th>Jumlah Sawit(Kg) Harian, Pembelian</th>
                                 <th>Jumlah Sawit(Kg) Harian, Penjualan</th>
-                                <th>Selisih Keduanya</th>
+                                <th>Selisih Berat</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -214,7 +229,7 @@
                                 <th></th>
                                 <th>Jumlah Sawit(Kg) Harian, Pembelian</th>
                                 <th>Jumlah Sawit(Kg) Harian, Penjualan</th>
-                                <th>Selisih Keduanya</th>
+                                <th>Selisih Berat</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -330,16 +345,16 @@
                         name: 'id',
                     },
                     {
-                        data: 'tgl_beli',
-                        name: 'tgl_beli'
+                        data: 'tanggal',
+                        name: 'tanggal'
                     },
                     {
-                        data: 'nama_kendaraan',
-                        name: 'nama_kendaraan',
+                        data: 'car_id',
+                        name: 'car_id.nama_kendaraan',
                     },
                     {
-                        data: 'jumlah_petani',
-                        name: 'jumlah_petani',
+                        data: 'jumlah_kebun',
+                        name: 'jumlah_kebun',
                     },
                     {
                         data: 'jarak_total',
@@ -349,10 +364,10 @@
                         data: 'jumlah_liter',
                         name: 'jumlah_liter'
                     },
-                    {
-                        data: 'konsumsi',
-                        name: 'konsumsi',
-                    },
+                    // {
+                    //     data: 'konsumsi',
+                    //     name: 'konsumsi',
+                    // },
                     {
                         data: 'perbaikan',
                         name: 'perbaikan',
@@ -383,7 +398,7 @@
                     //         return intVal(a) + intVal(b);
                     //     }, 0);
 
-                    petaniTotal = api
+                    kebunTotal = api
                         .column(3, {
                             page: 'current'
                         })
@@ -401,14 +416,14 @@
                             return intVal(a) + intVal(b);
                         }, 0);
 
-                        konsumsiTotal = api
-                        .column(6, {
-                            page: 'current'
-                        })
-                        .data()
-                        .reduce(function(a, b) {
-                            return intVal(a) + intVal(b);
-                        }, 0);
+                        // konsumsiTotal = api
+                        // .column(6, {
+                        //     page: 'current'
+                        // })
+                        // .data()
+                        // .reduce(function(a, b) {
+                        //     return intVal(a) + intVal(b);
+                        // }, 0);
 
                     // hargaRate = api
                     //     .column(4, {
@@ -420,7 +435,7 @@
                     //     }, 0);
 
                     hargaTotal = api
-                        .column(7, {
+                        .column(6, {
                             page: 'current'
                         })
                         .data()
@@ -430,11 +445,11 @@
 
                     // Update footer
                     // $(api.column(10).footer()).html(pageTotal);
-                    $(api.column(3).footer()).html(petaniTotal + ' Petani');
+                    $(api.column(3).footer()).html(kebunTotal + ' Kebun');
                     $(api.column(4).footer()).html(jarakTotal + ' ');
-                    $(api.column(6).footer()).html(konsumsiTotal + ' ');
+                    // $(api.column(6).footer()).html(konsumsiTotal + ' ');
                     // $(api.column(7).footer()).html(numFormat(hargaRate / columnData.count() / 100));
-                    $(api.column(7).footer()).html(numFormat(hargaTotal / 100));
+                    $(api.column(6).footer()).html(numFormat(hargaTotal / 100));
 
                 },
             });
@@ -1048,11 +1063,6 @@
 
         function fetch_data() {
             const table = $('#dataTable').DataTable({
-                columnDefs: [{
-                    "targets": [10, 9, 8, 4, 7, 6, 5], // your case first column
-                    "className": "text-center",
-                    "width": "4%"
-                }, ],
                 dom: 'Bfrtip',
                 buttons: [{
                         extend: 'copyHtml5',
@@ -1085,6 +1095,7 @@
                         action: 'fetch',
                         start_date: $('#start_date').val(),
                         end_date: $('#end_date').val(),
+                        farm_id: $('#farm_id').val(),
                         farmer_id: $('#farmer_id').val(),
                         worker_id: $('#worker_id').val()
                     },
@@ -1099,8 +1110,13 @@
                         sortable: false
                     },
                     {
-                        data: 'farmer',
-                        name: 'farmer.nama',
+                        data: 'farm.nama_kebun',
+                        name: 'farm.nama_kebun',
+                        sortable: false
+                    },
+                    {
+                        data: 'nama_pemilik',
+                        name: 'nama_pemilik',
                         sortable: false
                     },
                     {
@@ -1163,15 +1179,6 @@
                         }, 0);
 
                     sawitTotal = api
-                        .column(6, {
-                            page: 'current'
-                        })
-                        .data()
-                        .reduce(function(a, b) {
-                            return intVal(a) + intVal(b);
-                        }, 0);
-
-                    hargaRate = api
                         .column(7, {
                             page: 'current'
                         })
@@ -1180,8 +1187,27 @@
                             return intVal(a) + intVal(b);
                         }, 0);
 
-                    hargaTotal = api
+
+                        tripTotal = api
+                        .column(11, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    hargaRate = api
                         .column(8, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    hargaTotal = api
+                        .column(9, {
                             page: 'current'
                         })
                         .data()
@@ -1191,9 +1217,10 @@
 
                     // Update footer
                     $(api.column(10).footer()).html(pageTotal);
-                    $(api.column(6).footer()).html(sawitTotal + ' Kg');
-                    $(api.column(7).footer()).html(numFormat(hargaRate / columnData.count() / 100));
-                    $(api.column(8).footer()).html(numFormat(hargaTotal / 100));
+                    $(api.column(11).footer()).html(tripTotal);
+                    $(api.column(7).footer()).html(sawitTotal + ' Kg');
+                    $(api.column(8).footer()).html(numFormat(hargaRate / columnData.count() / 100));
+                    $(api.column(9).footer()).html(numFormat(hargaTotal / 100));
 
                 },
             });
@@ -1217,7 +1244,7 @@
                 $('#dataTable').DataTable().destroy();
                 fetch_data();
                 var dt = $('#dataTable').DataTable();
-                dt.columns([3, 5, 6, 7, 8]).visible(false);
+                dt.columns([3, 5, 6, 8]).visible(false);
             } else if ($('#tipe_laporan').val() == 3) {
                 $('#fuelTable').DataTable().destroy();
                 fuel_data();
@@ -1271,12 +1298,13 @@
                 $('#start_date').val(start.format('YYYY-MM-DD'));
                 $('#end_date').val(end.format('YYYY-MM-DD'));
 
+                var farm = $('#farm_id').val();
                 var farmer = $('#farmer_id').val();
                 var worker = $('#worker_id').val();
                 if ($('#tipe_laporan').val() == 2) {
                     fetch_data();
                     var dt = $('#dataTable').DataTable();
-                    dt.columns([3, 5, 6, 7, 8]).visible(false);
+                    dt.columns([3, 5, 6, 8, 9]).visible(false);
                 } else if ($('#tipe_laporan').val() == 1) {
                     fetch_data();
                     var dt = $('#dataTable').DataTable();
@@ -1295,6 +1323,14 @@
                     spend_data();
                 };
             });
+
+        $('#farm_id').change(function() {
+
+            $('#dataTable').DataTable().destroy();
+            fetch_data();
+            var dt = $('#dataTable').DataTable();
+            dt.columns([1, 4, 5, 9]).visible(false);
+        });
 
         $('#farmer_id').change(function() {
 
@@ -1315,7 +1351,7 @@
             $('#dataTable').DataTable().destroy();
             fetch_data();
             var dt = $('#dataTable').DataTable();
-            dt.columns([3, 5, 6, 7, 8]).visible(false);
+            dt.columns([3, 5, 6, 8, 9]).visible(false);
         });
 
         $('#tipe_laporan').change(function() {
@@ -1324,7 +1360,7 @@
                 $('.profit').addClass("d-none");
                 var dt = $('#dataTable').DataTable();
                 dt.columns().visible(true);
-                $('.petani').removeClass("d-none");
+                $('.kebun').removeClass("d-none");
                 $('#worker_id').val('default');
                 $('#worker_id').selectpicker("refresh");
                 $('#car_id').val('default');
@@ -1337,15 +1373,17 @@
                 $('.tabel').removeClass("d-none");
                 dt.columns([1, 4, 5, 9]).visible(false);
             } else if ($(this).val() == 2) {
-                $('.petani').addClass("d-none");
+                $('.kebun').addClass("d-none");
                 $('.profit').addClass("d-none");
+                $('#farm_id').val('default');
+                $('#farm_id').selectpicker("refresh");
                 $('#farmer_id').val('default');
                 $('#farmer_id').selectpicker("refresh");
                 $('#car_id').val('default');
                 $('#car_id').selectpicker("refresh");
                 var dt = $('#dataTable').DataTable();
                 dt.columns().visible(true);
-                dt.columns([3, 5, 6, 7, 8]).visible(false);
+                dt.columns([3, 5, 6, 8, 9]).visible(false);
                 $('.pekerja').removeClass("d-none");
                 $('.tabel').removeClass("d-none");
                 $('.pemasukan').addClass("d-none");
@@ -1354,7 +1392,7 @@
                 $('.bahan-bakar').addClass("d-none");
                 $('.sawit').addClass("d-none");
             } else if ($(this).val() == 3) {
-                $('.petani').addClass("d-none");
+                $('.kebun').addClass("d-none");
                 $('.pekerja').addClass("d-none");
                 $('.profit').addClass("d-none");
                 $('.sawit').addClass("d-none");
@@ -1362,6 +1400,8 @@
                 $('.kendaraan').addClass("d-none");
                 $('#car_id').val('default');
                 $('#car_id').selectpicker("refresh");
+                $('#farm_id').val('default');
+                $('#farm_id').selectpicker("refresh");
                 $('#farmer_id').val('default');
                 $('#farmer_id').selectpicker("refresh");
                 $('#worker_id').val('default');
@@ -1370,7 +1410,7 @@
                 $('.pemasukan').addClass("d-none");
                 $('.bahan-bakar').removeClass("d-none");
             } else if ($(this).val() == 4) {
-                $('.petani').addClass("d-none");
+                $('.kebun').addClass("d-none");
                 $('.pekerja').addClass("d-none");
                 $('.profit').addClass("d-none");
                 $('.sawit').addClass("d-none");
@@ -1378,6 +1418,8 @@
                 $('.kendaraan').addClass("d-none");
                 $('#car_id').val('default');
                 $('#car_id').selectpicker("refresh");
+                $('#farm_id').val('default');
+                $('#farm_id').selectpicker("refresh");
                 $('#farmer_id').val('default');
                 $('#farmer_id').selectpicker("refresh");
                 $('#worker_id').val('default');
@@ -1386,13 +1428,15 @@
                 $('.bahan-bakar').addClass("d-none");
                 $('.pemasukan').removeClass("d-none");
             } else if ($(this).val() == 5) {
-                $('.petani').addClass("d-none");
+                $('.kebun').addClass("d-none");
                 $('.pekerja').addClass("d-none");
                 $('.profit').addClass("d-none");
                 $('.sawit').addClass("d-none");
                 $('.spend').addClass("d-none");
                 $('.bahan-bakar').addClass("d-none");
                 $('.pemasukan').addClass("d-none");
+                $('#farm_id').val('default');
+                $('#farm_id').selectpicker("refresh");
                 $('#farmer_id').val('default');
                 $('#farmer_id').selectpicker("refresh");
                 $('#worker_id').val('default');
@@ -1400,12 +1444,14 @@
                 $('.tabel').addClass("d-none");
                 $('.kendaraan').removeClass("d-none");
             } else if ($(this).val() == 7) {
-                $('.petani').addClass("d-none");
+                $('.kebun').addClass("d-none");
                 $('.pekerja').addClass("d-none");
                 $('.profit').addClass("d-none");
                 $('.bahan-bakar').addClass("d-none");
                 $('.pemasukan').addClass("d-none");
                 $('.spend').addClass("d-none");
+                $('#farm_id').val('default');
+                $('#farm_id').selectpicker("refresh");
                 $('#farmer_id').val('default');
                 $('#farmer_id').selectpicker("refresh");
                 $('#worker_id').val('default');
@@ -1414,11 +1460,13 @@
                 $('.kendaraan').addClass("d-none");
                 $('.sawit').removeClass("d-none");
             } else if ($(this).val() == 8) {
-                $('.petani').addClass("d-none");
+                $('.kebun').addClass("d-none");
                 $('.pekerja').addClass("d-none");
                 $('.bahan-bakar').addClass("d-none");
                 $('.sawit').addClass("d-none");
                 $('.pemasukan').addClass("d-none");
+                $('#farm_id').val('default');
+                $('#farm_id').selectpicker("refresh");
                 $('#farmer_id').val('default');
                 $('#farmer_id').selectpicker("refresh");
                 $('#worker_id').val('default');
@@ -1428,11 +1476,13 @@
                 $('.profit').addClass("d-none");
                 $('.spend').removeClass("d-none");
             } else if ($(this).val() == 6) {
-                $('.petani').addClass("d-none");
+                $('.kebun').addClass("d-none");
                 $('.pekerja').addClass("d-none");
                 $('.bahan-bakar').addClass("d-none");
                 $('.sawit').addClass("d-none");
                 $('.pemasukan').addClass("d-none");
+                $('#farm_id').val('default');
+                $('#farm_id').selectpicker("refresh");
                 $('#farmer_id').val('default');
                 $('#farmer_id').selectpicker("refresh");
                 $('#worker_id').val('default');
@@ -1446,7 +1496,7 @@
                 $('.sawit').addClass("d-none");
                 $('.spend').addClass("d-none");
                 $('.pekerja').addClass("d-none");
-                $('.petani').addClass("d-none");
+                $('.kebun').addClass("d-none");
                 $('.tabel').addClass("d-none");
                 $('.pemasukan').addClass("d-none");
                 $('.kendaraan').addClass("d-none");

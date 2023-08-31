@@ -4,7 +4,7 @@
     <!-- Begin Page Content -->
     <div class="container-fluid">
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">Data Perbaikan</h1>
+        <h1 class="h3 mb-2 text-gray-800">Data Pemeliharaan & Perbaikan</h1>
 
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
@@ -85,7 +85,7 @@
                 {
                     data: 'tgl_perbaikan',
                     name: 'tgl_perbaikan',
-                    sortable: false
+                    // sortable: false
                 },
                 {
                     data: 'car',

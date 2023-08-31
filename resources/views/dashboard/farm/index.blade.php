@@ -4,19 +4,19 @@
     <!-- Begin Page Content -->
     <div class="container-fluid">
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">Data Kategori Pemeliharaan & Perbaikan</h1>
+        <h1 class="h3 mb-2 text-gray-800">Data Kebun</h1>
 
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             @if (session('status'))
                 <div class="flash-data" data-flashdata="{{ session('status') }} "></div>
-                {{-- <div class="alert alert-success">
-                    {{ session('status') }}
-                </div> --}}
+            @elseif (session('failed'))
+                {
+                <div class="failed-data" data-failed="{{ session('failed') }} "></div>
+                }
             @endif
             <div class="card-header py-3">
-                {{-- <h6 class="m-0 font-weight-bold text-primary">Data type</h6> --}}
-                <a href="/dashboard/type/create" class="btn btn-info">Tambah Data</a>
+                <a href="/dashboard/farm/create" class="btn btn-info">Tambah Data</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -24,7 +24,12 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Jenis Pemeliharaan</th>
+                                <th>Nama Kebun</th>
+                                <th>Nama Petani</th>
+                                <th>Luas Kebun (Ha)</th>
+                                <th>Jarak TPH ke Kebun (m)</th>
+                                <th>Umur Tanaman Sawit</th>
+                                <th>Jenis Tanah</th>
                                 <th>Opsi</th>
                             </tr>
                         </thead>
@@ -37,7 +42,6 @@
         </div>
     </div>
     <!-- /.container-fluid -->
-
     <script>
         $(document).ready(function() {
             $.ajaxSetup({
@@ -48,17 +52,42 @@
         });
 
         const table = $('#dataTable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf',
+            ],
             processing: true,
             serverSide: true,
-            ajax: '{{ route('kategoridata') }}',
+            ajax: '{{ route('farmdata') }}',
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'id',
                 },
                 {
-                    data: 'jenis_pemeliharaan',
-                    name: 'jenis_pemeliharaan',
+                    data: 'nama_kebun',
+                    name: 'nama_kebun',
                     sortable: false
+                },
+                {
+                    data: 'nama_petani',
+                    name: 'nama_petani',
+                    sortable: false
+                },
+                {
+                    data: 'luas',
+                    name: 'luas'
+                },
+                {
+                    data: 'jarak',
+                    name: 'jarak'
+                },
+                {
+                    data: 'umur',
+                    name: 'umur'
+                },
+                {
+                    data: 'jenis_tanah',
+                    name: 'jenis_tanah'
                 },
                 {
                     data: 'action',
@@ -75,16 +104,8 @@
             $(function() {
                 console.log(data.id);
                 // document.getElementById("edit").href="/dashboard/car/"+data.id+"/edit/";
-                window.open("/dashboard/type/" + data.id + "/edit/", "_self");
+                window.open("/dashboard/farm/" + data.id + "/edit/", "_self");
             });
-            // const id = console.log(data.id);
-            // location.reload()
-            //alert('Edit user: ' + data.id);
-            //     Swal.fire(
-            //   'Good job!',
-            //   'You clicked the button!',
-            //   'success'
-            // )
         });
 
         $('#dataTable tbody').on('click', '.tombol-delete', table, function(e) {
@@ -105,27 +126,32 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $(function() {
-                        // document.location.href = href
                         $.ajax({
-                            url: "type/" + data.id,
+                            url: "farm/" + data.id,
                             type: "post",
                             dataType: "JSON",
                             data: {
-                                type: data.id,
+                                farm: data.id,
                                 "_method": 'DELETE',
                                 "_token": $('meta[name="csrf-token"]').attr('content'),
                             },
                             success: function(data) { //jika sukses
                                 Swal.fire(
                                     'Success',
-                                    'Kategori data has been deleted!',
+                                    'Farm data has been deleted!',
                                     'success'
+                                )
+                                $('#dataTable').DataTable().ajax.reload()
+                            },
+                            error: function(data) { //jika error
+                                Swal.fire(
+                                    'Error',
+                                    'Farm data cannot deleted!',
+                                    'error'
                                 )
                                 $('#dataTable').DataTable().ajax.reload()
                             }
                         })
-                        // location.reload();
-                        // document.getElementById("formHapus").submit();
                     });
                 }
             });

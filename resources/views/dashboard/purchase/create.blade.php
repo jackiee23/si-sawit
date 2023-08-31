@@ -11,14 +11,14 @@
                 <form method="POST" action="/dashboard/purchase">
                     @csrf
                     <div class="mb-3">
-                        <label for="farmer_id" class="form-label">Nama Petani</label>
-                        <select class="form-select form-control selectpicker" data-live-search="true" name="farmer_id" id="farmer_id">
-                            <option value="" selected>Pilih nama petani</option>
-                            @foreach ($farmers as $farmer)
-                            <option value="{{$farmer->id}}" {{ old('farmer_id') == $farmer->id ? 'selected' : '' }}>{{$farmer->nama}}</option>
+                        <label for="farm_id" class="form-label">Nama Kebun</label>
+                        <select class="form-select form-control selectpicker" data-live-search="true" name="farm_id" id="farm_id">
+                            <option value="" selected>Pilih nama kebun</option>
+                            @foreach ($farms as $farm)
+                            <option value="{{$farm->id}}" {{ old('farm_id') == $farm->id ? 'selected' : '' }}>{{$farm->nama_kebun}}</option>
                             @endforeach
                         </select>
-                        @error('farmer_id')
+                        @error('farm_id')
                             <div class="invalid-feedback">
                                 Tidak boleh di kosongkan.
                             </div>
@@ -73,17 +73,28 @@
                             <option value="{{$worker->id}}" {{old('worker_id') == $worker->id ? 'selected' : ''}} >{{$worker->nama}}</option>
                             @endforeach
                         </select>
-                        @error('worker')
+                        @error('worker_id')
                             <div class="invalid-feedback">
                                 Tidak boleh di kosongkan.
                             </div>
                         @enderror
                     </div>
+
+                    {{-- <div class="mb-3">
+                        <label for="worker_id2" class="form-label">Nama Pekerja 2</label>
+                        <select class="form-select form-control selectpicker" data-live-search="true" name="worker_id2" id="worker_id2">
+                            <option value="" selected>Pilih nama pekerja</option>
+                            @foreach ($workers as $worker)
+                            <option value="{{$worker->id}}" {{old('worker_id2') == $worker->id ? 'selected' : ''}} >{{$worker->nama}}</option>
+                            @endforeach
+                        </select>
+                    </div> --}}
+
                     <div class="mb-3">
                         <label for="car_id" class="form-label">Nama Kendaraan</label>
                         <select class="form-select form-control selectpicker" data-live-search="true" name="car_id" id="car_id">
                             <option value="" selected>Pilih nama kendaraan</option>
-                            @foreach ($car as $car)
+                            @foreach ($cars as $car)
                             <option value="{{$car->id}}" {{old('car_id') == $car->id ? 'selected' : ''}} >{{$car->nama_kendaraan}}</option>
                             @endforeach
                         </select>
@@ -93,6 +104,16 @@
                             </div>
                         @enderror
                     </div>
+                    {{-- <div class="mb-3">
+                        <label for="car_id2" class="form-label">Nama Kendaraan 2</label>
+                        <select class="form-select form-control selectpicker" data-live-search="true" name="car_id2" id="car_id2">
+                            <option value="" selected>Pilih nama kendaraan</option>
+                            @foreach ($cars as $car)
+                            <option value="{{$car->id}}" {{old('car_id2') == $car->id ? 'selected' : ''}} >{{$car->nama_kendaraan}}</option>
+                            @endforeach
+                        </select>
+                    </div> --}}
+
                     <div class="mb-3">
                         <label for="trip" class="form-label">Jumlah Trip</label>
                         <input type="text" class="form-control @error('trip') is-invalid @enderror" id="trip"
@@ -107,11 +128,11 @@
                         <label for="keterangan" class="form-label">Keterangan</label>
                         <input type="text" class="form-control @error('keterangan') is-invalid @enderror" id="keterangan"
                             name="keterangan" value="{{ old('keterangan') }} " >
-                        @error('keterangan')
+                        {{-- @error('keterangan')
                             <div class="invalid-feedback">
                                 Tidak boleh di kosongkan.
                             </div>
-                        @enderror
+                        @enderror --}}
                     </div>
                     <button type="submit" class="btn btn-primary">Tambah Data</button>
                 </form>

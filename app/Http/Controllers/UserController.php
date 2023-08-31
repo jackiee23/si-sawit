@@ -45,6 +45,7 @@ class UserController extends Controller
             'email' => 'required|email:dns',
             'no_wa' => 'required',
             'jenis' => 'required',
+            'nik' => 'required',
             'password' => 'required|confirmed|min:6'
         ]);
 
@@ -53,6 +54,7 @@ class UserController extends Controller
             'email' => $request->email,
             'no_wa' => $request->no_wa,
             'jenis' => $request->jenis,
+            'nik' => $request->nik,
             'password' => Hash::make($request->password)
         ]);
 
@@ -117,7 +119,8 @@ class UserController extends Controller
             $request->validate([
                 'nama' => 'required',
                 'no_wa' => 'required',
-                'jenis' => 'required'
+                'jenis' => 'required',
+                'nik' => 'required'
             ]);
 
             User::where('id', $user->id)
@@ -125,6 +128,7 @@ class UserController extends Controller
                     'nama' => $request->nama,
                     'no_wa' => $request->no_wa,
                     'jenis' => $request->jenis,
+                    'nik' => $request->nik
                 ]);
 
             return redirect('/dashboard/user')->with('status', 'Data admin has been updated.');

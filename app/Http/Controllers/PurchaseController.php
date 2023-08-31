@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Farmer;
+use App\Models\Farm;
 use App\Models\Purchase;
 use App\Models\Worker;
 use App\Models\Car;
@@ -31,15 +31,15 @@ class PurchaseController extends Controller
      */
     public function create()
     {
-        $farmer = Farmer::all();
+        $farm = Farm::all();
         $worker = Worker::all();
         $car = Car::all();
 
         return view('dashboard.purchase.create', [
             'title'=>'Pembelian',
-            'farmers'=>$farmer,
+            'farms'=>$farm,
             'workers'=>$worker,
-            'car' => $car
+            'cars' => $car
         ]);
     }
 
@@ -52,7 +52,7 @@ class PurchaseController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'farmer_id' => 'required',
+            'farm_id' => 'required',
             'tgl_beli' => 'required',
             'tgl_panen' => 'required',
             'jumlah_sawit' => 'required',
@@ -60,7 +60,7 @@ class PurchaseController extends Controller
             'worker_id' => 'required',
             'car_id' => 'required',
             'trip' => 'required',
-            'keterangan' => 'required'
+            // 'keterangan' => 'required'
         ]);
 
         $harga_total = $request->harga*$request->jumlah_sawit;
@@ -74,12 +74,12 @@ class PurchaseController extends Controller
             $telat = "Tepat waktu";
         }
 
-        $hektar = Farmer::where('id', $request->farmer_id)
+        $hektar = Farm::where('id', $request->farm_id)
             ->first();
 
             // dd($hektar->luas);
         Purchase::create([
-            'farmer_id' => $request->farmer_id,
+            'farm_id' => $request->farm_id,
             'tgl_beli' => $beli,
             'tgl_panen' => $panen,
             'ton' => number_format(($request->jumlah_sawit / $hektar->luas) / 1000, 2),
@@ -89,6 +89,7 @@ class PurchaseController extends Controller
             'harga_total' =>$harga_total,
             'worker_id' => $request->worker_id,
             'car_id' => $request->car_id,
+            // 'car_id2' => $request->car_id2,
             'trip' => $request->trip,
             'keterangan' => $request->keterangan
         ]);
@@ -114,14 +115,14 @@ class PurchaseController extends Controller
      */
     public function edit(Purchase $purchase)
     {
-        $farmer = Farmer::all();
+        $farm = Farm::all();
         $worker = Worker::all();
         $car = Car::all();
 
         return view('dashboard.purchase.edit', [
             'title' => 'Pembelian',
             'purchase' => $purchase,
-            'farmers' => $farmer,
+            'farms' => $farm,
             'workers'=> $worker,
             'car' => $car
 
@@ -138,7 +139,7 @@ class PurchaseController extends Controller
     public function update(Request $request, Purchase $purchase)
     {
         $request->validate([
-            'farmer_id' => 'required',
+            'farm_id' => 'required',
             'tgl_beli' => 'required',
             'tgl_panen' => 'required',
             'jumlah_sawit' => 'required',
@@ -146,7 +147,7 @@ class PurchaseController extends Controller
             'worker_id' => 'required',
             'car_id' => 'required',
             'trip' => 'required',
-            'keterangan' => 'required'
+            // 'keterangan' => 'required'
         ]);
 
         $harga_total = $request->harga * $request->jumlah_sawit;
@@ -159,13 +160,13 @@ class PurchaseController extends Controller
         } else {
             $telat = "Tepat waktu";
         }
-        
-        $hektar = Farmer::where('id', $request->farmer_id)
+
+        $hektar = Farm::where('id', $request->farm_id)
             ->first();
 
         Purchase::where('id', $purchase->id)
                 ->update([
-            'farmer_id' => $request->farmer_id,
+            'farm_id' => $request->farm_id,
             'tgl_beli' => $beli,
             'tgl_panen' => $panen,
             'selisih' => $telat,

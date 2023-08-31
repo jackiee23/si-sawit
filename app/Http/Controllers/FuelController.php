@@ -50,7 +50,7 @@ class FuelController extends Controller
             'car_id' => 'required',
             'jumlah_liter' => 'required',
             'harga' => 'required',
-            'keterangan' => 'required'
+            // 'keterangan' => 'required'
         ]);
 
         Fuel::create([
@@ -105,7 +105,7 @@ class FuelController extends Controller
             'car_id' => 'required',
             'jumlah_liter' => 'required',
             'harga' => 'required',
-            'keterangan' => 'required'
+            // 'keterangan' => 'required'
         ]);
 
         Fuel::where('id', $fuel->id)

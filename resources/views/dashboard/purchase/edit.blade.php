@@ -12,14 +12,14 @@
                     @method('patch')
                     @csrf
                     <div class="mb-3">
-                        <label for="farmer_id" class="form-label">Nama Petani</label>
-                        <select class="form-select form-control selectpicker" data-live-search="true" name="farmer_id" id="farmer_id">
-                            <option value="{{$purchase->farmer_id}} " selected>{{$purchase->farmer->nama}}</option>
-                            @foreach ($farmers as $farmer)
-                            <option value="{{$farmer->id}}" {{ old('farmer_id') == $farmer->id ? 'selected' : '' }}>{{$farmer->nama}}</option>
+                        <label for="farm_id" class="form-label">Nama Kebun</label>
+                        <select class="form-select form-control selectpicker" data-live-search="true" name="farm_id" id="farm_id">
+                            <option value="{{$purchase->farm_id}} " selected>{{$purchase->farm->nama_kebun}}</option>
+                            @foreach ($farms as $farm)
+                            <option value="{{$farm->id}}" {{ old('farm_id') == $farm->id ? 'selected' : '' }}>{{$farm->nama_kebun}}</option>
                             @endforeach
                         </select>
-                        @error('farmer_id')
+                        @error('farm_id')
                             <div class="invalid-feedback">
                                 Tidak boleh di kosongkan.
                             </div>

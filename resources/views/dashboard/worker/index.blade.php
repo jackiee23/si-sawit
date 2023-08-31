@@ -24,6 +24,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama</th>
+                                <th>NIK</th>
                                 <th>Alamat</th>
                                 <th>No WA</th>
                                 <th>Jenis Pekerjaan</th>
@@ -64,6 +65,11 @@
                 {
                     data: 'nama',
                     name: 'nama',
+                    sortable: false
+                },
+                {
+                    data: 'nik',
+                    name: 'nik',
                     sortable: false
                 },
                 {

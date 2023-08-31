@@ -22,7 +22,7 @@
                                 <th>No</th>
                                 <th>Nama</th>
                                 <th>Tanggal Pengembalian</th>
-                                <th>Hutang</th>
+                                <th>Jumlah Pinjaman</th>
                                 <th>Jumlah Yang Dikembalikan</th>
                                 <th>Jenis</th>
                                 <th>Status</th>

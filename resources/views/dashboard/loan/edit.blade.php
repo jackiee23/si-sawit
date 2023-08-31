@@ -53,6 +53,18 @@
                             </div>
                         @enderror
                     </div>
+
+                    <div class="mb-3">
+                        <label for="nik" class="form-label">NIK Peminjam</label>
+                        <input type="text" class="form-control @error('nik') is-invalid @enderror" id="nik"
+                            name="nik" placeholder="{{$loan->nik}}" value="{{old('nik') == 1 ? $loan->nik : old('nik')}}" readonly>
+                            @error('nik')
+                            <div class="invalid-feedback">
+                                Tidak boleh di kosongkan.
+                            </div>
+                            @enderror
+                    </div>
+
                     <div class="mb-3">
                         {{-- <label for="nama" class="form-label">Nama</label> --}}
                         <input type="hidden" class="form-control @error('nama') is-invalid @enderror" id="nama"
@@ -83,7 +95,7 @@
                             @enderror
                     </div>
                     <div class="mb-3">
-                        <label for="nilai" class="form-label">Nilai Pinjaman</label>
+                        <label for="nilai" class="form-label">Jumlah Pinjaman</label>
                         <input type="text" class="form-control @error('nilai') is-invalid @enderror" id="nilai" name="nilai" value="{{old('nilai', $loan->nilai)}} "
                             placeholder="Masukkan Nilai Pinjaman">
                             @error('nilai')
@@ -92,16 +104,7 @@
                             </div>
                             @enderror
                     </div>
-                    <div class="mb-3">
-                        <label for="nik" class="form-label">NIK Peminjam</label>
-                        <input type="text" class="form-control @error('nik') is-invalid @enderror" id="nik"
-                            name="nik" placeholder="{{$loan->nik}}" value="{{old('nik') == 1 ? $loan->nik : old('nik')}}" readonly>
-                            @error('nik')
-                            <div class="invalid-feedback">
-                                Tidak boleh di kosongkan.
-                            </div>
-                            @enderror
-                    </div>
+
                     <div class="mb-3">
                         <label for="keterangan" class="form-label">Keterangan Pinjaman</label>
                         <input type="text" class="form-control @error('keterangan') is-invalid @enderror" id="keterangan" name="keterangan" value="{{old('keterangan', $loan->keterangan)}} "

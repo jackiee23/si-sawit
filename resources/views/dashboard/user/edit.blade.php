@@ -9,7 +9,7 @@
         <div class="card shadow mb-4">
             <div class="card-body">
                 <form method="POST" action="/dashboard/user/{{$admin->id}}">
-                    @method('patch');
+                    @method('patch')
                     @csrf
                     <div class="mb-3">
                         <label for="inputnama" class="form-label">Nama</label>
@@ -26,6 +26,16 @@
                         <input type="text" class="form-control @error('no_wa') is-invalid @enderror" id="no_wa" name="no_wa" value="{{old('no_wa', $admin->no_wa)}} "
                             placeholder="Masukkan Nomer WA">
                             @error('no_wa')
+                            <div class="invalid-feedback">
+                                Tidak boleh di kosongkan.
+                            </div>
+                            @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="nik" class="form-label">No NIK</label>
+                        <input type="text" class="form-control @error('nik') is-invalid @enderror" id="nik" name="nik" value="{{old('nik', $admin->nik)}} "
+                            placeholder="Masukkan NIK">
+                            @error('nik')
                             <div class="invalid-feedback">
                                 Tidak boleh di kosongkan.
                             </div>

@@ -46,7 +46,7 @@ class LoanController extends Controller
         }
 
     }
-    
+
     public function index()
     {
         $loan = Loan::all();
@@ -88,7 +88,7 @@ class LoanController extends Controller
             'nik' => 'required',
             'jenis_pinjaman' => 'required',
             'nilai' => 'required',
-            'keterangan' => 'required'
+            // 'keterangan' => 'required'
         ]);
 
         Loan::create($request->all());
@@ -140,7 +140,7 @@ class LoanController extends Controller
             'tgl' => 'required',
             'jenis_pinjaman' => 'required',
             'nilai' => 'required',
-            'keterangan' => 'required'
+            // 'keterangan' => 'required'
         ]);
 
         Loan::where('id', $loan->id)

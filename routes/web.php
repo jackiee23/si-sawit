@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\FarmController;
 use App\Http\Controllers\FuelController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\PageController;
@@ -45,6 +46,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/dashboard/fueldata', [DashboardController::class, 'fueldata'])->name('fueldata');
     Route::get('/dashboard/fuelday', [DashboardController::class, 'fuelday'])->name('fuelday');
     Route::get('/dashboard/farmerdata', [DashboardController::class, 'farmerdata'])->name('farmerdata');
+    Route::get('/dashboard/farmdata', [DashboardController::class, 'farmdata'])->name('farmdata');
     Route::get('/dashboard/loandata', [DashboardController::class, 'loandata'])->name('loandata');
     Route::get('/dashboard/purchasedata', [DashboardController::class, 'purchasedata'])->name('purchasedata');
     Route::get('/dashboard/saledata', [DashboardController::class, 'saledata'])->name('saledata');
@@ -59,7 +61,9 @@ Route::middleware('auth')->group(function(){
     Route::get('/dashboard/kategoridata', [DashboardController::class, 'kategoridata'])->name('kategoridata');
     Route::get('/dashboard/repaymentdata', [DashboardController::class, 'repaymentdata'])->name('repaymentdata');
     Route::get('/dashboard/petrolday', [DashboardController::class, 'petrolday'])->name('petrolday');
-    Route::get('/dashboard/farmdata', [DashboardController::class, 'farmdata'])->name('farmdata');
+    Route::get('/dashboard/gambutdata', [DashboardController::class, 'gambutdata'])->name('gambutdata');
+    Route::get('/dashboard/tanahdata', [DashboardController::class, 'tanahdata'])->name('tanahdata');
+
 
     //farmers
     // Route::get('/petani', [FarmerController::class, 'index']);
@@ -67,6 +71,8 @@ Route::middleware('auth')->group(function(){
     // Route::post('/petani', [FarmerController::class, 'store']);
     Route::resource('/dashboard/farmer', FarmerController::class);
 
+    Route::resource('/dashboard/farm', FarmController::class);
+    Route::post('/dashboard/farm/create', [FarmController::class, 'getAllFields'])->name('getfarmer');
 
     //admin
     Route::resource('/dashboard/admin', AdminController::class);

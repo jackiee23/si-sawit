@@ -13,16 +13,12 @@ class FarmerFactory extends Factory
      */
     public function definition()
     {
-            $array = ["Tanah Keras", "Gambut"];
+            // $array = ["Tanah Keras", "Gambut"];
         return [
             "nama" => $this->faker->name(),
             "nik" => $this->faker->unique()->randomNumber(9, true),
             "alamat" => $this->faker->address(),
             "no_wa" => $this->faker->phoneNumber(),
-            "luas" => mt_rand(1,5),
-            "jarak" => $this->faker->randomNumber(2,true),
-            "umur" => mt_rand(1,35),
-            "jenis_tanah" => $array[mt_rand(0,1)],
         ];
     }
 }

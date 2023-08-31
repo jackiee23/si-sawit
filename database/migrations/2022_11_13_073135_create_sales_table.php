@@ -17,6 +17,9 @@ class CreateSalesTable extends Migration
             $table->id();
             $table->date('tgl_jual');
             $table->char('jumlah');
+            $table->char('sortasi');
+            $table->char('jumlah_net');
+            $table->char('potongan');
             $table->char('harga_pabrik');
             $table->char('harga_total');
             $table->foreignId('worker_id');

@@ -15,7 +15,7 @@ class CreatePurchasesTable extends Migration
     {
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('farmer_id');
+            $table->foreignId('farm_id');
             $table->date('tgl_beli');
             $table->date('tgl_panen');
             $table->string('selisih');
@@ -24,7 +24,9 @@ class CreatePurchasesTable extends Migration
             $table->char('harga');
             $table->char('harga_total');
             $table->foreignId('worker_id');
+            // $table->foreignId('worker_id2');
             $table->foreignId('car_id');
+            // $table->foreignId('car_id2');
             $table->char('trip')->nullable();
             $table->string('keterangan')->nullable();
             $table->timestamps();

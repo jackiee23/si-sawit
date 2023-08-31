@@ -21,16 +21,16 @@
     <div class="row">
 
         <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Pemasukan (Bulan Ini)</div>
+                                Pembelian Dari Petani (Bulan Ini)</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">Rp
-                                @if ($total_pemasukan)
-                                {{number_format($total_pemasukan, 2,',','.')}}
+                                @if ($beli_petani)
+                                {{number_format($beli_petani, 2,',','.')}}
                                 @else
                                 {{'0'}}
                                 @endif
@@ -45,16 +45,16 @@
         </div>
 
         <!-- pembelian (Monthly) Card Example -->
-        <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card border-left-success shadow h-100 py-2">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Pengeluaran (Bulan Ini)</div>
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Penjualan Ke Pabrik <br>(Bulan Ini)</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">Rp
-                                @if ($total_beli)
-                                {{number_format($total_beli, 2,',','.')}}
+                                @if ($pabrik)
+                                {{number_format($pabrik, 2,',','.')}}
                                 @else
                                 {{"0"}}
                                 @endif
@@ -68,20 +68,144 @@
             </div>
         </div>
 
-            <!-- jumlah sawit (Monthly) -->
-        <div class="col-xl-4 col-md-6 mb-4">
+        <!-- jumlah sawit (Monthly) -->
+        <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-info shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Jumlah Profit (Bulan Ini)</div>
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Omset Bisnis <br> (Bulan Ini)</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                @if ($total_profit)
-                                {{number_format($total_profit, 2,',','.')}}
+                                @if ($total_omset)
+                                {{number_format($total_omset, 2,',','.')}}
                                 @else
                                 {{"0"}}
                                 @endif
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                            {{-- <i class="fas fa-dollar-sign fa-2x text-gray-300"></i> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+                <!-- biaya operasional (Monthly) -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Total Selisih <br> (Bulan Ini)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                @if ($total_selisih)
+                                {{$total_selisih}}
+                                @else
+                                {{"0"}}
+                                @endif Kg
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-balance-scale fa-2x text-gray-300"></i>
+                            {{-- <i class="fas fa-dollar-sign fa-2x text-gray-300"></i> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Pembelian Dari Petani (Hari Ini)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp
+                                @if ($beli_petani2)
+                                {{number_format($beli_petani2, 2,',','.')}}
+                                @else
+                                {{'0'}}
+                                @endif
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- pembelian (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Penjualan Ke Pabrik <br>(Hari Ini)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp
+                                @if ($pabrik2)
+                                {{number_format($pabrik2, 2,',','.')}}
+                                @else
+                                {{"0"}}
+                                @endif
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- jumlah sawit (Monthly) -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Omset Bisnis <br> (Hari Ini)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                @if ($total_omset2)
+                                {{number_format($total_omset2, 2,',','.')}}
+                                @else
+                                {{"0"}}
+                                @endif
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                            {{-- <i class="fas fa-dollar-sign fa-2x text-gray-300"></i> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- jumlah sawit (Monthly) -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Total Selisih <br> (Hari Ini)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                @if ($total_selisih2)
+                                {{$total_selisih2}}
+                                @else
+                                {{"0"}}
+                                @endif Kg
                             </div>
                         </div>
                         <div class="col-auto">
@@ -145,7 +269,7 @@
     <div class="row">
 
         <!-- Area Chart -->
-        <div class="col-xl-8 col-lg-7">
+        <div class="col-xl-12 col-lg-7">
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -174,49 +298,6 @@
             </div>
         </div>
 
-        <!-- Pie Chart -->
-        <div class="col-xl-4 col-lg-5">
-            <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Human Resources</h6>
-                    {{-- <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                            aria-labelledby="dropdownMenuLink">
-                            <div class="dropdown-header">Dropdown Header:</div>
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </div> --}}
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                    <div class="chart-pie pt-4 pb-2">
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-warning"></i> {{$total_admin + $total_pekerja + $total_petani}}
-                        </span>
-                        <canvas id="myPieChart"></canvas>
-                    </div>
-                    <div class="mt-4 text-center small">
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-primary"></i> Admin
-                        </span>
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-success"></i> Pekerja
-                        </span>
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-info"></i> Petani
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- Content Row -->
@@ -372,10 +453,8 @@
     <!-- Page level custom scripts -->
     <script>
             const penghasilan = {{json_encode($penjualan)}}
+            const pengeluaran = {{json_encode($pengeluaran)}}
             const nama_bulan = {!! $nama_bulan !!}
-            const admin = {{$total_admin}}
-            const pekerja = {{$total_pekerja}}
-            const petani = {{$total_petani}}
     </script>
     <script src="{{asset('template/js/demo/chart-area.js')}}"></script>
     <script src="{{asset('template/js/demo/chart-pie.js')}}"></script>

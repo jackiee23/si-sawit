@@ -4,7 +4,7 @@
     <!-- Begin Page Content -->
     <div class="container-fluid">
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">Tambah Data Pembelian</h1>
+        <h1 class="h3 mb-2 text-gray-800">Tambah Data Penjualan</h1>
 
         <div class="card shadow mb-4">
             <div class="card-body">
@@ -35,17 +35,6 @@
                         @enderror
                     </div>
                     <div class="mb-3">
-                        <label for="jumlah" class="form-label">Jumlah Sawit</label>
-                        <input type="text" class="form-control @error('jumlah') is-invalid @enderror"
-                            id="jumlah" name="jumlah" value="{{ old('jumlah') }} "
-                            >
-                        @error('jumlah')
-                            <div class="invalid-feedback">
-                                Tidak boleh di kosongkan.
-                            </div>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
                         <label for="car_id" class="form-label">Nama Mobil</label>
                         <select class="form-select form-control selectpicker" data-live-search="true" name="car_id" id="car_id">
                             <option value="" selected>Pilih nama mobil</option>
@@ -59,6 +48,29 @@
                             </div>
                         @enderror
                     </div>
+                    <div class="mb-3">
+                        <label for="jumlah" class="form-label">Jumlah Sawit</label>
+                        <input type="text" class="form-control @error('jumlah') is-invalid @enderror"
+                            id="jumlah" name="jumlah" value="{{ old('jumlah') }} "
+                            >
+                        @error('jumlah')
+                            <div class="invalid-feedback">
+                                Tidak boleh di kosongkan.
+                            </div>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="sortasi" class="form-label">Sortasi (%)</label>
+                        <input type="text" class="form-control @error('sortasi') is-invalid @enderror"
+                            id="sortasi" name="sortasi" value="{{ old('sortasi') }} "
+                            >
+                        @error('sortasi')
+                            <div class="invalid-feedback">
+                                Tidak boleh di kosongkan.
+                            </div>
+                        @enderror
+                    </div>
+
                     <div class="mb-3">
                         <label for="harga_pabrik" class="form-label">Harga Pabrik</label>
                         <input type="text" class="form-control @error('harga_pabrik') is-invalid @enderror" id="harga"

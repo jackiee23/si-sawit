@@ -45,6 +45,7 @@ class WorkerController extends Controller
     {
         $request->validate([
             'nama' => 'required',
+            'nik' => 'required',
             'alamat' => 'required',
             'no_wa' => 'required',
             'jenis' => 'required',
@@ -90,6 +91,7 @@ class WorkerController extends Controller
     {
         $request->validate([
             'nama' => 'required',
+            'nik' => 'required',
             'alamat' => 'required',
             'no_wa' => 'required',
             'jenis' => 'required',
@@ -98,6 +100,7 @@ class WorkerController extends Controller
         Worker::where('id', $worker->id)
                 ->update([
                     'nama' => $request->nama,
+                    'nik' => $request->nik,
                     'alamat' => $request->alamat,
                     'no_wa' => $request->no_wa,
                     'jenis' => $request->jenis

@@ -39,6 +39,17 @@
                         <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
+                        <label for="nik" class="form-label">No NIK</label>
+                        <input type="text" class="form-control @error('nik') is-invalid @enderror" id="nik" name="nik" value="{{old('nik', $admin->nik)}} "
+                            placeholder="Masukkan NIK">
+                            @error('nik')
+                            <div class="invalid-feedback">
+                                Tidak boleh di kosongkan.
+                            </div>
+                            @enderror
+                        <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
+                    </div>
+                    <div class="mb-3">
                         <label for="jenis" class="form-label">Jenis Pekerjaan</label>
                         <input type="text" class="form-control @error('jenis') is-invalid @enderror" id="jenis" name="jenis" value="{{old('jenis', $admin->jenis)}} "
                             >

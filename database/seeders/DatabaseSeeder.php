@@ -16,11 +16,12 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
         \App\Models\Farmer::factory(10)->create();
+        \App\Models\Farm::factory(10)->create();
         \App\Models\Admin::factory(10)->create();
         \App\Models\Car::factory(10)->create();
         \App\Models\Worker::factory(10)->create();
         \App\Models\Loan::factory(10)->create();
-        \App\Models\Purchase::factory(50)->create();
+        \App\Models\Purchase::factory(5)->create();
         \App\Models\Sale::factory(10)->create();
         \App\Models\Fuel::factory(30)->create();
         \App\Models\Repair::factory(10)->create();
@@ -33,6 +34,7 @@ class DatabaseSeeder extends Seeder
             'nama' => 'Jack Ramadhan',
             'email' =>'admin@gmail.com',
             'no_wa' => '085161230906',
+            'nik' => '21093437',
             'jenis' => 'Programmer',
             'password' => bcrypt('12345')
         ]);
@@ -42,6 +44,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'hisana@gmail.com',
             'no_wa' => '085161230906',
             'jenis' => 'Programmer',
+            'nik' => '23495743',
             'password' => bcrypt('12345')
         ]);
 

@@ -20,7 +20,10 @@
                             <tr>
                                 <th>No</th>
                                 <th>Tanggal Jual</th>
-                                <th>Jumlah Sawit(Kg)</th>
+                                <th>Jumlah Sawit Dibawa(Kg)</th>
+                                <th>Sortasi (%)</th>
+                                <th>Potongan Sortasi (Kg)</th>
+                                <th>Jumlah Sawit Netto(Kg)</th>
                                 <th>Harga Pabrik</th>
                                 <th>Omset Penjualan</th>
                                 <th>Nama Pekerja</th>
@@ -67,11 +70,23 @@
                 {
                     data: 'tgl_jual',
                     name: 'tgl_jual',
-                    sortable: false
+                    // sortable: false
                 },
                 {
                     data: 'jumlah',
                     name: 'jumlah'
+                },
+                {
+                    data: 'sortasi',
+                    name: 'sortasi'
+                },
+                {
+                    data: 'potongan',
+                    name: 'potongan'
+                },
+                {
+                    data: 'jumlah_net',
+                    name: 'jumlah_net'
                 },
                 {
                     data: 'harga_pabrik',
