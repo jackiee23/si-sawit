@@ -16,7 +16,7 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!auth()->check() || auth()->user()->jenis_pekerjaan !== 'Admin') {
+        if (!auth()->check() || auth()->user()->jenis !== 'Admin') {
             abort(403);
         }
         return $next($request);

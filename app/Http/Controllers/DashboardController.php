@@ -651,7 +651,7 @@ class DashboardController extends Controller
         } else{
             //date penjualan
             $total_hjual = DB::table('sales')
-                ->select('tgl_jual as tgl_beli', DB::Raw("CAST(SUM(jumlah)as int) as penjualan_sawit"))
+                ->select('tgl_jual as tgl_beli', DB::Raw("CAST(SUM(jumlah_net)as int) as penjualan_sawit"))
                 ->addSelect([
                     'pembelian_sawit' => Purchase::selectRaw('cast(sum(jumlah_sawit)as int)')
                         ->whereColumn('tgl_beli', 'sales.tgl_jual')
@@ -667,7 +667,7 @@ class DashboardController extends Controller
             $total_hbeli = DB::table('purchases')
                 ->select('tgl_beli', DB::Raw("CAST(SUM(jumlah_sawit)as int) as pembelian_sawit",))
                 ->addSelect([
-                    'penjualan_sawit' => Sale::selectRaw('cast(sum(jumlah)as int)')
+                    'penjualan_sawit' => Sale::selectRaw('cast(sum(jumlah_net)as int)')
                         ->whereColumn('tgl_jual', 'purchases.tgl_beli')
                         ->groupBy('purchases.tgl_beli')
                         ->limit(1),
@@ -901,7 +901,7 @@ class DashboardController extends Controller
             return [
                 'umur' => $purchase->umur,
                 'jumlah_ton' => $purchase->total_ton,
-                'total_data' => $purchase->jumlah_data,
+                'total_d' => $purchase->jumlah_data,
                 'ton_hektar' => $purchase->total_ton / $purchase->jumlah_data,
             ];
         });
@@ -998,6 +998,21 @@ class DashboardController extends Controller
             $fuels = Fuel::with('car')
                 ->select("id", DB::raw("harga as harga"), DB::raw("(sum(jumlah_liter))as total_liter"), DB::raw("(sum(harga_total))as total_harga"), DB::raw("(DATE_FORMAT(tgl_pengisian, '%d-%m-%Y')) as my_date"), DB::raw("car_id as car_id"))
                 ->whereBetween('tgl_pengisian', [$request->start_date, $request->end_date])
+                ->orderBy('tgl_pengisian', 'desc')
+                ->groupBy('tgl_pengisian')
+                ->groupBy('car_id');
+        } else if ($request->start_date && $request->end_date && $request->car_id) {
+            $fuels = Fuel::with('car')
+                ->select("id", DB::raw("harga as harga"), DB::raw("(sum(jumlah_liter))as total_liter"), DB::raw("(sum(harga_total))as total_harga"), DB::raw("(DATE_FORMAT(tgl_pengisian, '%d-%m-%Y')) as my_date"), DB::raw("car_id as car_id"))
+                ->whereBetween('tgl_pengisian', [$request->start_date, $request->end_date])
+                ->where('car_id', [$request->car_id])
+                ->orderBy('tgl_pengisian', 'desc')
+                ->groupBy('tgl_pengisian')
+                ->groupBy('car_id');
+        } else if ($request->car_id) {
+            $fuels = Fuel::with('car')
+                ->select("id", DB::raw("harga as harga"), DB::raw("(sum(jumlah_liter))as total_liter"), DB::raw("(sum(harga_total))as total_harga"), DB::raw("(DATE_FORMAT(tgl_pengisian, '%d-%m-%Y')) as my_date"), DB::raw("car_id as car_id"))
+                ->where('car_id', [$request->car_id])
                 ->orderBy('tgl_pengisian', 'desc')
                 ->groupBy('tgl_pengisian')
                 ->groupBy('car_id');

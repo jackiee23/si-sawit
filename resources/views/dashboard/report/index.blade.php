@@ -62,7 +62,7 @@
                     </select>
                     <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                 </div>
-                <div class="mb-3 col-3 kendaraan d-none">
+                <div class="mb-3 col-3 Namakendaraan d-none">
                     <label for="car_id" class="form-label">Nama Kendaraan</label>
                     <select class="form-select form-control selectpicker" data-live-search="true" name="car_id"
                         id="car_id">
@@ -105,7 +105,7 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>Total :</th>
+                                <th>Total</th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -321,6 +321,7 @@
 
         function kendaraan_data() {
             const table = $('#carTable').DataTable({
+                "pageLength": 20,
                 dom: 'Bfrtip',
                 buttons: [
                     'copy', 'csv', 'excel', 'pdf',
@@ -416,6 +417,15 @@
                             return intVal(a) + intVal(b);
                         }, 0);
 
+                        bbmTotal = api
+                        .column(5, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
                         // konsumsiTotal = api
                         // .column(6, {
                         //     page: 'current'
@@ -446,7 +456,8 @@
                     // Update footer
                     // $(api.column(10).footer()).html(pageTotal);
                     $(api.column(3).footer()).html(kebunTotal + ' Kebun');
-                    $(api.column(4).footer()).html(jarakTotal + ' ');
+                    $(api.column(4).footer()).html(jarakTotal + ' Meter');
+                    $(api.column(5).footer()).html(bbmTotal + ' Liter');
                     // $(api.column(6).footer()).html(konsumsiTotal + ' ');
                     // $(api.column(7).footer()).html(numFormat(hargaRate / columnData.count() / 100));
                     $(api.column(6).footer()).html(numFormat(hargaTotal / 100));
@@ -457,6 +468,7 @@
 
         function sawit_data() {
             const table = $('#sawitTable').DataTable({
+                "pageLength": 20,
                 columnDefs: [{
                     "targets": [0, 1, 2, 3, 4,], // your case first column
                     "className": "text-center",
@@ -575,6 +587,7 @@
 
         function spend_data() {
             const table = $('#spendTable').DataTable({
+                "pageLength": 20,
                 dom: 'Bfrtip',
                 buttons: [
                     'copy', 'csv', 'excel', 'pdf',
@@ -722,6 +735,7 @@
 
         function profit_data() {
             const table = $('#profitTable').DataTable({
+                "pageLength": 20,
                 dom: 'Bfrtip',
                 buttons: [
                     'copy', 'csv', 'excel', 'pdf',
@@ -842,6 +856,7 @@
 
         function pemasukan_data() {
             const table = $('#pemasukanTable').DataTable({
+                "pageLength": 20,
                 columnDefs: [{
                     "targets": [0, 1, 2, 3, 4,], // your case first column
                     "className": "text-center",
@@ -874,8 +889,8 @@
                         name: 'tgl_jual',
                     },
                     {
-                        data: 'jumlah',
-                        name: 'jumlah'
+                        data: 'jumlah_net',
+                        name: 'jumlah_net'
                     },
                     {
                         data: 'harga_pabrik',
@@ -950,6 +965,7 @@
 
         function fuel_data() {
             const table = $('#fuelTable').DataTable({
+                "pageLength": 20,
             columnDefs: [{
                     "targets": [0, 1, 2, 3, 4, 5], // your case first column
                     "className": "text-center",
@@ -971,6 +987,7 @@
                         action: 'fetch',
                         start_date: $('#start_date').val(),
                         end_date: $('#end_date').val(),
+                        car_id: $('#car_id').val(),
                     },
                 },
                 columns: [{
@@ -1063,6 +1080,7 @@
 
         function fetch_data() {
             const table = $('#dataTable').DataTable({
+                "pageLength": 20,
                 dom: 'Bfrtip',
                 buttons: [{
                         extend: 'copyHtml5',
@@ -1368,6 +1386,7 @@
                 $('.pemasukan').addClass("d-none");
                 $('.bahan-bakar').addClass("d-none");
                 $('.kendaraan').addClass("d-none");
+                $('.Namakendaraan').addClass("d-none");
                 $('.sawit').addClass("d-none");
                 $('.spend').addClass("d-none");
                 $('.tabel').removeClass("d-none");
@@ -1389,6 +1408,7 @@
                 $('.pemasukan').addClass("d-none");
                 $('.spend').addClass("d-none");
                 $('.kendaraan').addClass("d-none");
+                $('.Namakendaraan').addClass("d-none");
                 $('.bahan-bakar').addClass("d-none");
                 $('.sawit').addClass("d-none");
             } else if ($(this).val() == 3) {
@@ -1398,6 +1418,7 @@
                 $('.sawit').addClass("d-none");
                 $('.spend').addClass("d-none");
                 $('.kendaraan').addClass("d-none");
+                $('.Namakendaraan').removeClass("d-none");
                 $('#car_id').val('default');
                 $('#car_id').selectpicker("refresh");
                 $('#farm_id').val('default');
@@ -1416,6 +1437,7 @@
                 $('.sawit').addClass("d-none");
                 $('.spend').addClass("d-none");
                 $('.kendaraan').addClass("d-none");
+                $('.Namakendaraan').addClass("d-none");
                 $('#car_id').val('default');
                 $('#car_id').selectpicker("refresh");
                 $('#farm_id').val('default');
@@ -1443,6 +1465,7 @@
                 $('#worker_id').selectpicker("refresh");
                 $('.tabel').addClass("d-none");
                 $('.kendaraan').removeClass("d-none");
+                $('.Namakendaraan').removeClass("d-none");
             } else if ($(this).val() == 7) {
                 $('.kebun').addClass("d-none");
                 $('.pekerja').addClass("d-none");
@@ -1458,6 +1481,7 @@
                 $('#worker_id').selectpicker("refresh");
                 $('.tabel').addClass("d-none");
                 $('.kendaraan').addClass("d-none");
+                $('.Namakendaraan').addClass("d-none");
                 $('.sawit').removeClass("d-none");
             } else if ($(this).val() == 8) {
                 $('.kebun').addClass("d-none");
@@ -1473,6 +1497,7 @@
                 $('#worker_id').selectpicker("refresh");
                 $('.tabel').addClass("d-none");
                 $('.kendaraan').addClass("d-none");
+                $('.Namakendaraan').addClass("d-none");
                 $('.profit').addClass("d-none");
                 $('.spend').removeClass("d-none");
             } else if ($(this).val() == 6) {
@@ -1489,6 +1514,7 @@
                 $('#worker_id').selectpicker("refresh");
                 $('.tabel').addClass("d-none");
                 $('.kendaraan').addClass("d-none");
+                $('.Namakendaraan').addClass("d-none");
                 $('.spend').addClass("d-none");
                 $('.profit').removeClass("d-none");
             } else {
@@ -1500,6 +1526,7 @@
                 $('.tabel').addClass("d-none");
                 $('.pemasukan').addClass("d-none");
                 $('.kendaraan').addClass("d-none");
+                $('.Namakendaraan').addClass("d-none");
                 $('.profit').addClass("d-none");
             }
         });

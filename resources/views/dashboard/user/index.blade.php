@@ -45,6 +45,7 @@
         });
 
         const table = $('#dataTable').DataTable({
+            "pageLength": 20,
             processing: true,
             serverSide: true,
             ajax: '{{ route('admindata') }}',

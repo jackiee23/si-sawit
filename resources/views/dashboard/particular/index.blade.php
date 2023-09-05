@@ -151,7 +151,7 @@
                                 <th>Nama Kendaraan</th>
                                 <th>Total Jarak Tempuh</th>
                                 <th>Total Bahan Bakar Mobil Harian</th>
-                                <th>Konsumsi Bahan Bakar (M/liter)</th>
+                                <th>Konsumsi Bahan Bakar (m/L)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -164,7 +164,7 @@
                                 <th></th>
                                 <th>Jarak Tempuh</th>
                                 <th>Liter</th>
-                                <th>M/L</th>
+                                <th>m/L</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -178,7 +178,7 @@
                                 {{-- <th>Nama Pekerja</th> --}}
                                 <th>Umur Kebun</th>
                                 <th>Ton / Hektar</th>
-                                {{-- <th>Tanggal Pengambilan</th> --}}
+                                <th>Jumlah Kebun</th>
                                 {{-- <th>Ketepatan Waktu</th> --}}
                                 {{-- <th>Jumlah Sawit(Kg)</th> --}}
                                 {{-- <th>umur</th> --}}
@@ -190,7 +190,7 @@
                         <tfoot>
                             <tr>
                                 {{-- <th>Total :</th> --}}
-                                {{-- <th></th> --}}
+                                <th></th>
                                 <th></th>
                                 <th></th>
                                 {{-- <th></th> --}}
@@ -216,7 +216,7 @@
                                 {{-- <th>Nama Pekerja</th> --}}
                                 <th>Umur Kebun</th>
                                 <th>Ton / Hektar</th>
-                                {{-- <th>Tanggal Pengambilan</th> --}}
+                                <th>Jumlah Kebun</th>
                                 {{-- <th>Ketepatan Waktu</th> --}}
                                 {{-- <th>Jumlah Sawit(Kg)</th> --}}
                                 {{-- <th>umur</th> --}}
@@ -231,7 +231,7 @@
                                 {{-- <th></th> --}}
                                 <th></th>
                                 <th></th>
-                                {{-- <th></th> --}}
+                                <th></th>
                                 {{-- <th></th> --}}
                                 {{-- <th>Jumlah Sawit(Kg)</th> --}}
                                 {{-- <th>Harga</th> --}}
@@ -436,7 +436,7 @@ myLineChart = new Chart(ctx, {
           padding: 10,
           // Include a dollar sign in the ticks
           callback: function(value, index, values) {
-            return value +' M/L';
+            return value +' m/L';
           }
         },
         gridLines: {
@@ -468,7 +468,7 @@ myLineChart = new Chart(ctx, {
       callbacks: {
         label: function(tooltipItem, chart) {
           var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-          return datasetLabel + ' ' + tooltipItem.yLabel.toFixed(2) +' M/L';
+          return datasetLabel + ' ' + tooltipItem.yLabel.toFixed(2) +' m/L';
         }
       }
     }
@@ -547,9 +547,9 @@ myLineChart = new Chart(ctx, {
                     // Update footer
                     // $(api.column(10).footer()).html(pageTotal);
                     // $(api.column(3).footer()).html(petaniTotal + ' Petani');
-                    $(api.column(5).footer()).html(numFormat(bbmTotal) + ' M/Liter');
+                    $(api.column(5).footer()).html(numFormat(jarakTotal/konsumsiTotal) + ' m/L');
                     $(api.column(4).footer()).html(numFormat(jarakTotal) + ' Liter');
-                    $(api.column(3).footer()).html(numFormat(konsumsiTotal) + ' Meter');
+                    $(api.column(3).footer()).html(numFormat(konsumsiTotal) + ' meter');
                     // $(api.column(7).footer()).html(numFormat(hargaRate / columnData.count() / 100));
                     // $(api.column(7).footer()).html(numFormat(hargaTotal / 100));
 
@@ -616,10 +616,10 @@ myLineChart = new Chart(ctx, {
                         data: 'ton_hektar',
                         name: 'ton_hektar'
                     },
-                    // {
-                    //     data: 'tgl_beli',
-                    //     name: 'tgl_beli'
-                    // },
+                    {
+                        data: 'total_d',
+                        name: 'total_d'
+                    },
                     // {
                     //     data: 'selisih',
                     //     name: 'selisih'
@@ -871,10 +871,10 @@ myLineChart = new Chart(ctx, {
                         data: 'ton_hektar',
                         name: 'ton_hektar'
                     },
-                    // {
-                    //     data: 'tgl_beli',
-                    //     name: 'tgl_beli'
-                    // },
+                    {
+                        data: 'total_data',
+                        name: 'total_data'
+                    },
                     // {
                     //     data: 'selisih',
                     //     name: 'selisih'

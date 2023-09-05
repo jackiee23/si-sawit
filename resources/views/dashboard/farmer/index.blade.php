@@ -54,6 +54,7 @@
         });
 
         const table = $('#dataTable').DataTable({
+            "pageLength": 20,
             dom: 'Bfrtip',
             buttons: [
                 'copy', 'csv', 'excel', 'pdf',
