@@ -606,6 +606,7 @@ class DashboardController extends Controller
                 return $car->jarak_total / $car->jumlah_liter;
             }
             })
+            // ->editColumn('konsumsi', '{{number_format($konsumsi,2,",",".")}}')
             // ->editColumn('perbaikan', 'Rp.{{number_format($perbaikan,2,",",".")}}')
             ->addIndexColumn()
             ->make(true);

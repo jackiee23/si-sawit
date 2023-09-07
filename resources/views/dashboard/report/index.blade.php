@@ -1362,6 +1362,8 @@
 
             $('#carTable').DataTable().destroy();
             kendaraan_data();
+            $('#fuelTable').DataTable().destroy();
+            fuel_data();
         });
 
 
