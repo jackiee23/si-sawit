@@ -18,6 +18,7 @@
                         <option value="1">Laporan Konsumsi BBM</option>
                         <option value="2">Produktivitas Kebun Tanah Gambut</option>
                         <option value="3">Produktivitas Kebun Tanah Keras</option>
+                        <option value="4">Saldo Piutang</option>
 
                     </select>
                 </div>
@@ -31,8 +32,8 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col col-3">
-                    <label for="worker_id" class="form-label">Filter Tanggal</label>
+                <div class="col col-3 tanggal d-none">
+                    <label for="tanggal" class="form-label">Filter Tanggal</label>
                     <div class="col d-flex">
                         <input type="text" class="form-control input-daterange" placeholder="Select Date" readonly />
                         <div class="col">
@@ -245,6 +246,32 @@
                         </tbody>
                     </table>
                 </div>
+
+                <div class="table-responsive tabel_piutang d-none">
+                    <table class="table table-striped table-hover" id="piutangTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Total Uang Dipinjam</th>
+                                <th>Total Uang Dikembalikan</th>
+                                <th>Saldo Piutang</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -252,8 +279,9 @@
     <script>
         $(document).ready(function() {
             kendaraan_data();
-            fetch_data()
-            tanah_data()
+            piutang_data();
+            fetch_data();
+            tanah_data();
             var myBarChart;
             var myBarChart2;
             var myLineChart;
@@ -824,6 +852,173 @@
             });
         };
 
+        function piutang_data() {
+            const table = $('#piutangTable').DataTable({
+                "pageLength": 35,
+                columnDefs: [{
+                    "targets": [0, 1, 2], // your case first column
+                    "className": "text-center",
+                    "width": "4%"
+                }, ],
+                dom: 'Bfrtip',
+                buttons: [{
+                        extend: 'copyHtml5',
+                        exportOptions: {
+                            columns: [0, ':visible']
+                        }
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                ],
+                searching: false,
+                processing: true,
+                order: [
+                    [1, 'desc']
+                ],
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('dataloaner') }}",
+                    data: {
+                        action: 'fetch',
+                        start_date: $('#start_date').val(),
+                        end_date: $('#end_date').val(),
+                    },
+                },
+                columns: [
+                    {
+                        data: 'DT_RowIndex',
+                        name: 'id',
+                    },
+                    // {
+                    //     data: 'worker',
+                    //     name: 'worker.nama',
+                    //     sortable: false
+                    // },
+                    {
+                        data: 'nama',
+                        name: 'nama',
+                        sortable: false
+                    },
+                    {
+                        data: 'total_loan',
+                        name: 'total_loan',
+                        sortable: false
+
+                    },
+                    {
+                        data: 'paid',
+                        name: 'paid',
+                        sortable: false
+
+                    },
+                    {
+                        data: 'saldo',
+                        name: 'saldo'
+                    },
+                    // {
+                    //     data: 'jumlah_sawit',
+                    //     name: 'jumlah_sawit'
+                    // },
+                    // {
+                    //     data: 'umur',
+                    //     name: 'farmer.umur'
+                    // },
+                    // {
+                    //     data: 'harga_total',
+                    //     name: 'harga_total'
+                    // },
+                    // {
+                    //     data: 'car',
+                    //     name: 'car.nama_kendaraan',
+                    //     sortable: false
+                    // },
+                    // {
+                    //     data: 'trip',
+                    //     name: 'trip'
+                    // },
+                ],
+                footerCallback: function(row, data, start, end, display) {
+                    var api = this.api();
+
+                    var columnData = api
+                        .column(1)
+                        .data();
+
+                    var umur2 = api
+                        .column(0)
+                        .data()
+                        .toArray();
+
+                    var ton_hektar2 = api
+                        .column(1)
+                        .data()
+                        .toArray();
+
+                    var numFormat = $.fn.dataTable.render.number('\.', ',', 2, 'Rp.').display
+
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function(i) {
+                        return typeof i === 'string' ? i.replace(/[\Rp.,]/g, '') * 1 : typeof i ===
+                            'number' ? i : 0;
+                    };
+
+                    // Total over this page
+                    // pageTotal = api
+                    //     .column(10, {
+                    //         page: 'current'
+                    //     })
+                    //     .data()
+                    //     .reduce(function(a, b) {
+                    //         return intVal(a) + intVal(b);
+                    //     }, 0);
+
+                    // sawitTotal = api
+                    //     .column(3, {
+                    //         page: 'current'
+                    //     })
+                    //     .data()
+                    //     .reduce(function(a, b) {
+                    //         return intVal(a) + intVal(b);
+                    //     }, 0);
+
+                    // hargaRate = api
+                    //     .column(7, {
+                    //         page: 'current'
+                    //     })
+                    //     .data()
+                    //     .reduce(function(a, b) {
+                    //         return intVal(a) + intVal(b);
+                    //     }, 0);
+
+                    // hargaTotal = api
+                    //     .column(8, {
+                    //         page: 'current'
+                    //     })
+                    //     .data()
+                    //     .reduce(function(a, b) {
+                    //         return intVal(a) + intVal(b);
+                    //     }, 0);
+
+                    // Update footer
+                    // $(api.column(10).footer()).html(pageTotal);
+                    // $(api.column(3).footer()).html(sawitTotal + ' Kg');
+                    // $(api.column(7).footer()).html(numFormat(hargaRate / columnData.count() / 100));
+                    // $(api.column(8).footer()).html(numFormat(hargaTotal / 100));
+
+                },
+            });
+        };
+
         function tanah_data() {
             const table = $('#tanahTable').DataTable({
                 "pageLength": 35,
@@ -1125,6 +1320,9 @@
             } else if ($('#tipe_laporan').val() == 3) {
                 $('#tanahTable').DataTable().destroy();
                 tanah_data();
+            } else if ($('#tipe_laporan').val() == 3) {
+                $('#piutangTable').DataTable().destroy();
+                piutang_data();
             }
         });
 
@@ -1175,18 +1373,32 @@
                 $('.tabel').addClass("d-none");
                 $('.tabel2').addClass("d-none");
                 $('.kendaraan').removeClass("d-none");
+                $('.tabel_piutang').addClass("d-none");
+                $('.tanggal').removeClass("d-none");
             } else if ($(this).val() == 2) {
                 $('.kendaraan').addClass("d-none");
                 $('.tabel2').addClass("d-none");
                 $('.tabel').removeClass("d-none");
+                $('.tabel_piutang').addClass("d-none");
+                $('.tanggal').removeClass("d-none");
             } else if ($(this).val() == 3) {
                 $('.kendaraan').addClass("d-none");
                 $('.tabel').addClass("d-none");
                 $('.tabel2').removeClass("d-none");
-            } else {
+                $('.tabel_piutang').addClass("d-none");
+                $('.tanggal').removeClass("d-none");
+            } else if ($(this).val() == 4) {
                 $('.kendaraan').addClass("d-none");
                 $('.tabel').addClass("d-none");
                 $('.tabel2').addClass("d-none");
+                $('.tabel_piutang').removeClass("d-none");
+                $('.tanggal').addClass("d-none");
+            }else {
+                $('.kendaraan').addClass("d-none");
+                $('.tabel').addClass("d-none");
+                $('.tabel2').addClass("d-none");
+                $('.tabel_piutang').addClass("d-none");
+                $('.tanggal').removeClass("d-none");
             }
         });
 

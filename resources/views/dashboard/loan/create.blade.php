@@ -96,8 +96,8 @@
                         <label for="jenis_pinjaman" class="form-label">Jenis Pinjaman</label>
                         <select class="form-select form-control selectpicker" data-live-search="true" name="jenis_pinjaman" id="jenis_pinjaman">
                             <option value="" selected>Pilih jenis pinjaman</option>
-                            <option value="Admin" {{old('jenis_pinjaman') ? 'selected' : ''}} >Barang</option>
-                            <option value="Worker" {{old('jenis_pinjaman') ? 'selected' : ''}} >Uang</option>
+                            <option value="Barang" {{old('jenis_pinjaman') ? 'selected' : ''}} >Barang</option>
+                            <option value="Uang" {{old('jenis_pinjaman') ? 'selected' : ''}} >Uang</option>
                         </select>
                         @error('jenis_pinjaman')
                             <div class="invalid-feedback">

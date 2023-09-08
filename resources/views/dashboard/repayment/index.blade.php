@@ -22,10 +22,10 @@
                                 <th>No</th>
                                 <th>Nama</th>
                                 <th>Tanggal Pengembalian</th>
-                                <th>Jumlah Pinjaman</th>
+                                {{-- <th>Jumlah Pinjaman</th> --}}
                                 <th>Jumlah Yang Dikembalikan</th>
                                 <th>Jenis</th>
-                                <th>Status</th>
+                                {{-- <th>Status</th> --}}
                                 <th>Opsi</th>
                             </tr>
                         </thead>
@@ -72,10 +72,10 @@
                     data: 'tgl',
                     name: 'tgl'
                 },
-                {
-                    data: 'hutang',
-                    name: 'loan.nilai'
-                },
+                // {
+                //     data: 'hutang',
+                //     name: 'loan.nilai'
+                // },
                 {
                     data: 'nilai',
                     name: 'nilai'
@@ -85,11 +85,11 @@
                     name: 'jenis_pinjaman',
                     sortable: false
                 },
-                {
-                    data: 'status',
-                    name: 'status',
-                    sortable: false
-                },
+                // {
+                //     data: 'status',
+                //     name: 'status',
+                //     sortable: false
+                // },
                 {
                     data: 'action',
                     name: 'action',
@@ -98,14 +98,14 @@
                 }
             ],
             columnDefs: [{
-                targets: [6],
-                render: function(data, type, row) {
-                    if(data == 'LUNAS') {
-                        return '<h5><span class="badge bg-success text-light">'+data+'</span></h5>'
-                    } else {
-                        return '<h5><span class="badge bg-warning text-light">'+data+'</span></h5>'
-                    }
-                }
+                // targets: [6],
+                // render: function(data, type, row) {
+                //     if(data == 'LUNAS') {
+                //         return '<h5><span class="badge bg-success text-light">'+data+'</span></h5>'
+                //     } else {
+                //         return '<h5><span class="badge bg-warning text-light">'+data+'</span></h5>'
+                //     }
+                // }
             }],
         });
 

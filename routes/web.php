@@ -59,6 +59,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/dashboard/petrolday', [DashboardController::class, 'petrolday'])->name('petrolday');
     Route::get('/dashboard/gambutdata', [DashboardController::class, 'gambutdata'])->name('gambutdata');
     Route::get('/dashboard/tanahdata', [DashboardController::class, 'tanahdata'])->name('tanahdata');
+    Route::get('/dashboard/dataloaner', [DashboardController::class, 'dataloaner'])->name('dataloaner');
 
 
     //farmers

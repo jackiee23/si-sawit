@@ -84,6 +84,16 @@
                             @enderror
                     </div>
                     <div class="mb-3">
+                        <label for="umur" class="form-label">Tahun Tanam</label>
+                        <input type="date" class="form-control @error('umur') is-invalid @enderror" id="umur"
+                            name="umur" value="{{ old('umur') }}">
+                        @error('umur')
+                            <div class="invalid-feedback">
+                                Tidak boleh di kosongkan.
+                            </div>
+                        @enderror
+                    </div>
+                    {{-- <div class="mb-3">
                         <label for="umur" class="form-label">Umur Tanaman Sawit</label>
                         <input type="text" class="form-control @error('umur') is-invalid @enderror" id="umur" name="umur" value="{{old('umur')}} "
                             placeholder="Masukkan Umur Kebun">
@@ -92,7 +102,7 @@
                                 Tidak boleh di kosongkan.
                             </div>
                             @enderror
-                    </div>
+                    </div> --}}
                     <div class="mb-3">
                         <label for="jenis_tanah" class="form-label">Jenis Tanah</label>
                         <select class="form-select form-control selectpicker" data-live-search="true" name="jenis_tanah" id="jenis_tanah">

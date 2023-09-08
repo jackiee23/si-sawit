@@ -10,7 +10,7 @@ class Loan extends Model
     use HasFactory;
     protected $guarded=['id'];
 
-    public function repayments()
+    public function repayment()
     {
         return $this->hasMany(Repayment::class);
     }

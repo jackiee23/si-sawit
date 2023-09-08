@@ -57,7 +57,7 @@
                     <div class="mb-3">
                         <label for="nik" class="form-label">NIK Peminjam</label>
                         <input type="text" class="form-control @error('nik') is-invalid @enderror" id="nik"
-                            name="nik" placeholder="{{$loan->nik}}" value="{{old('nik') == 1 ? $loan->nik : old('nik')}}" readonly>
+                            name="nik" placeholder="{{$loan->nik}}" value="{{old('nik',$loan->nik)}}" readonly>
                             @error('nik')
                             <div class="invalid-feedback">
                                 Tidak boleh di kosongkan.
@@ -86,13 +86,17 @@
                     </div>
                     <div class="mb-3">
                         <label for="jenis_pinjaman" class="form-label">Jenis Pinjaman</label>
-                        <input type="text" class="form-control @error('jenis_pinjaman') is-invalid @enderror" id="jenis_pinjaman" name="jenis_pinjaman" value="{{old('jenis_pinjaman', $loan->jenis_pinjaman)}} "
-                            placeholder="Masukkan Jenis Pinjaman">
-                            @error('jenis_pinjaman')
+                        <select class="form-select form-control selectpicker" data-live-search="true" name="jenis_pinjaman" id="jenis_pinjaman">
+                            <option value="" selected>Pilih jenis pinjaman</option>
+                            <option value="{{$loan->jenis_pinjaman}}" selected>{{$loan->jenis_pinjaman}}</option>
+                            <option value="Barang" {{old('jenis_pinjaman') ? 'selected' : ''}} >Barang</option>
+                            <option value="Uang" {{old('jenis_pinjaman') ? 'selected' : ''}} >Uang</option>
+                        </select>
+                        @error('jenis_pinjaman')
                             <div class="invalid-feedback">
                                 Tidak boleh di kosongkan.
                             </div>
-                            @enderror
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label for="nilai" class="form-label">Jumlah Pinjaman</label>

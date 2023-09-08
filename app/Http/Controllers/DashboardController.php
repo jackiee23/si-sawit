@@ -91,6 +91,23 @@ class DashboardController extends Controller
         ->whereMonth('tgl_pengisian', now())
         ->first();
 
+        $repayments = Loan::with('repayment')
+            ->join('repayments', 'loans.id', '=', 'repayments.loan_id')
+            ->select('loans.nik', DB::raw("SUM(loans.nilai) as total_loan"))
+            ->where('loans.jenis_pinjaman', 'Uang')
+            ->addSelect([
+                'paid' => Repayment::selectRaw('sum(nilai)')
+                    ->where('jenis_pinjaman', 'Uang')
+                    ->whereColumn('loan_nik', 'loans.nik')
+                    ->groupBy('loans.nik')
+                    ->limit(1),
+            ])
+            // ->where('repayments.jenis_pinjaman', 'Uang')
+            ->groupBy('loans.nik')
+            ->get();
+
+        // dd($repayments);
+
         //pbahan bakar hari ini
         $bensin2 = DB::table('fuels')
             ->selectRaw("CAST(SUM(harga_total)as int) as bensin")
@@ -119,10 +136,6 @@ class DashboardController extends Controller
         //     ->whereYear('tgl_beli', now())
         //     ->first();
 
-        //total admin
-        $total_admin = DB::table('admins')
-            ->selectRaw("COUNT(id) as total_admin")
-            ->first();
 
         //total pekerja
         $total_pekerja = DB::table('workers')
@@ -791,18 +804,42 @@ class DashboardController extends Controller
             ->addColumn('loan', function (Repayment $repayment) {
                 return $repayment->loan->nama;
             })
-            ->addColumn('hutang', function (Repayment $repayment) {
-                return $repayment->loan->nilai;
-            })
+            // ->addColumn('hutang', function (Repayment $repayment) {
+            //     return $repayment->loan->nilai;
+            // })
             ->addColumn('jenis', function (Repayment $repayment) {
                 return $repayment->loan->jenis_pinjaman;
             })
-            ->addColumn('status', function (Repayment $repayment) {
-                if($repayment->loan->nilai <= $repayment->nilai) {
-                    return 'LUNAS';
-                } else {
-                    return 'BELUM LUNAS';
-                }
+            // ->addColumn('status', function (Repayment $repayment) {
+            //     if($repayment->loan->nilai <= $repayment->nilai) {
+            //         return 'LUNAS';
+            //     } else {
+            //         return 'BELUM LUNAS';
+            //     }
+            // })
+            ->addIndexColumn()
+            ->make(true);
+    }
+
+    public function dataloaner() {
+        $loaner = Loan::with('repayment')
+            // ->join('repayments', 'loans.id', '=', 'repayments.loan_id')
+            ->select('nik', 'nama', DB::raw("SUM(nilai) as total_loan"))
+            ->where('loans.jenis_pinjaman', 'Uang')
+            ->addSelect([
+                'paid' => Repayment::selectRaw('sum(nilai)')
+                    ->where('jenis_pinjaman', 'Uang')
+                    ->whereColumn('loan_nik', 'loans.nik')
+                    ->groupBy('loans.nik')
+                    ->limit(1),
+            ])
+            // ->where('repayments.jenis_pinjaman', 'Uang')
+            ->groupBy('nik')
+            ->get();
+
+        return Datatables::of($loaner)
+            ->addColumn('saldo', function ($loaner) {
+                return $loaner->paid - $loaner->total_loan;
             })
             ->addIndexColumn()
             ->make(true);
