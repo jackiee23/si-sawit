@@ -50,11 +50,11 @@
                         <!-- <div class="form-text">We'll never share your email with anyone else.</div> -->
                     </div>
                     <div class="mb-3">
-                        <label for="jenis" class="form-label">Jenis Tanah</label>
+                        <label for="jenis" class="form-label">Jenis Pekerjaan</label>
                         <select class="form-select form-control selectpicker" data-live-search="true" name="jenis" id="jenis">
                             <option value="{{$admin->jenis}}" selected>{{$admin->jenis}}</option>
-                            <option value="Tanah Keras" {{old('jenis') ? 'selected' : ''}} >Tanah Keras</option>
-                            <option value="Gambut" {{old('jenis') ? 'selected' : ''}} >Gambut</option>
+                            <option value="Admin" {{old('jenis') ? 'selected' : ''}} >Admin</option>
+                            <option value="Worker" {{old('jenis') ? 'selected' : ''}} >Worker</option>
                         </select>
                         @error('jenis')
                             <div class="invalid-feedback">

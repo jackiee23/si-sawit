@@ -174,7 +174,7 @@
                     <table class="table table-striped table-hover" id="gambutTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>No</th>
+                                {{-- <th>No</th> --}}
                                 {{-- <th>Nama Pekerja</th> --}}
                                 <th>Umur Kebun</th>
                                 <th>Ton / Hektar</th>
@@ -212,7 +212,7 @@
                     <table class="table table-striped table-hover" id="tanahTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>No</th>
+                                {{-- <th>No</th> --}}
                                 {{-- <th>Nama Pekerja</th> --}}
                                 <th>Umur Kebun</th>
                                 <th>Ton / Hektar</th>
@@ -267,7 +267,7 @@
 
         function kendaraan_data() {
             const table = $('#carTable').DataTable({
-                "pageLength": 20,
+                "pageLength": 100,
                 dom: 'Bfrtip',
                 buttons: [
                     'copy', 'csv', 'excel', 'pdf',
@@ -605,10 +605,11 @@
                         end_date: $('#end_date').val(),
                     },
                 },
-                columns: [{
-                        data: 'DT_RowIndex',
-                        name: 'id',
-                    },
+                columns: [
+                    // {
+                    //     data: 'DT_RowIndex',
+                    //     name: 'id',
+                    // },
                     // {
                     //     data: 'worker',
                     //     name: 'worker.nama',
@@ -621,11 +622,15 @@
                     },
                     {
                         data: 'ton_hektar',
-                        name: 'ton_hektar'
+                        name: 'ton_hektar',
+                        sortable: false
+
                     },
                     {
                         data: 'total_d',
-                        name: 'total_d'
+                        name: 'total_d',
+                        sortable: false
+
                     },
                     // {
                     //     data: 'selisih',
@@ -670,12 +675,12 @@
                     };
 
                     var umur_kebun = api
-                        .column(1)
+                        .column(0)
                         .data()
                         .toArray();
 
                     var ton_hektar = api
-                        .column(2)
+                        .column(1)
                         .data()
                         .toArray();
 
@@ -861,10 +866,11 @@
                         end_date: $('#end_date').val(),
                     },
                 },
-                columns: [{
-                        data: 'DT_RowIndex',
-                        name: 'id',
-                    },
+                columns: [
+                    // {
+                    //     data: 'DT_RowIndex',
+                    //     name: 'id',
+                    // },
                     // {
                     //     data: 'worker',
                     //     name: 'worker.nama',
@@ -877,11 +883,15 @@
                     },
                     {
                         data: 'ton_hektar',
-                        name: 'ton_hektar'
+                        name: 'ton_hektar',
+                        sortable: false
+
                     },
                     {
                         data: 'total_data',
-                        name: 'total_data'
+                        name: 'total_data',
+                        sortable: false
+
                     },
                     // {
                     //     data: 'selisih',
@@ -917,12 +927,12 @@
                         .data();
 
                     var umur2 = api
-                        .column(1)
+                        .column(0)
                         .data()
                         .toArray();
 
                     var ton_hektar2 = api
-                        .column(2)
+                        .column(1)
                         .data()
                         .toArray();
 

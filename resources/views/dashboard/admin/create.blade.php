@@ -44,7 +44,7 @@
                     <div class="mb-3">
                         <label for="jenis" class="form-label">Jenis Pekerjaan</label>
                         <select class="form-select form-control selectpicker" data-live-search="true" name="jenis" id="jenis">
-                            <option value="" selected>Pilih jenis tanah</option>
+                            <option value="" selected>Pilih jenis pekerjaan</option>
                             <option value="Admin" {{old('jenis') ? 'selected' : ''}} >Admin</option>
                             <option value="Worker" {{old('jenis') ? 'selected' : ''}} >Worker</option>
                         </select>

@@ -82,7 +82,7 @@
                             </div>
                             @enderror
                     </div>
-                    <div class="mb-3">
+                    {{-- <div class="mb-3">
                         <label for="jenis_pinjaman" class="form-label">Jenis Pinjaman</label>
                         <input type="text" class="form-control @error('jenis_pinjaman') is-invalid @enderror" id="jenis_pinjaman" name="jenis_pinjaman" value="{{old('jenis_pinjaman')}} "
                             placeholder="Masukkan Jenis Pinjaman">
@@ -91,6 +91,19 @@
                                 Tidak boleh di kosongkan.
                             </div>
                             @enderror
+                    </div> --}}
+                    <div class="mb-3">
+                        <label for="jenis_pinjaman" class="form-label">Jenis Pinjaman</label>
+                        <select class="form-select form-control selectpicker" data-live-search="true" name="jenis_pinjaman" id="jenis_pinjaman">
+                            <option value="" selected>Pilih jenis pinjaman</option>
+                            <option value="Admin" {{old('jenis_pinjaman') ? 'selected' : ''}} >Barang</option>
+                            <option value="Worker" {{old('jenis_pinjaman') ? 'selected' : ''}} >Uang</option>
+                        </select>
+                        @error('jenis_pinjaman')
+                            <div class="invalid-feedback">
+                                Tidak boleh di kosongkan.
+                            </div>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label for="nilai" class="form-label">Jumlah Pinjaman</label>

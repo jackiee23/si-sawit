@@ -82,7 +82,7 @@
             <li class="nav-item {{ ($title === "Dashboard" ? 'active' : '') }} ">
                 <a class="nav-link" href="/dashboard">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                    <span>Dashboard | Ringkasan Usaha</span></a>
             </li>
 
             <hr class="sidebar-divider my-0">
@@ -99,11 +99,13 @@
                         <h6 class="collapse-header">Dataku :</h6>
                         @can('isadmin')
                         <a class="collapse-item {{ ($title === "Admin" ? 'active' : '') }}" href="/dashboard/user">Admin</a>
-                        <a class="collapse-item {{ ($title === "Kendaraan" ? 'active' : '') }}" href="/dashboard/car">Kendaraan</a>
                         <a class="collapse-item {{ ($title === "Pekerja" ? 'active' : '') }}" href="/dashboard/worker">Pekerja</a>
                         @endcan
                         <a class="collapse-item {{ ($title === "Petani" ? 'active' : '') }}" href="/dashboard/farmer">Petani</a>
                         <a class="collapse-item {{ ($title === "Kebun" ? 'active' : '') }}" href="/dashboard/farm">Kebun</a>
+                        @can('isadmin')
+                        <a class="collapse-item {{ ($title === "Kendaraan" ? 'active' : '') }}" href="/dashboard/car">Kendaraan</a>
+                        @endcan
                         <a class="collapse-item {{ ($title === "Pemeliharaan" ? 'active' : '') }}" href="/dashboard/type">Pemeliharaan & Perbaikan   </a>
                     </div>
                 </div>
@@ -178,9 +180,10 @@
             <div id="content">
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
+                    <h4>Sistem Pencatatan Agribisnis Kelapa Sawit</h4>
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
+
 
                         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
                         <li class="nav-item dropdown no-arrow d-sm-none">
