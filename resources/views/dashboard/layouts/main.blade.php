@@ -21,6 +21,7 @@
 
     <link rel="stylesheet" href="{{asset('bselect/css/bootstrap-select.css')}}">
     <link href="{{asset('daterange/daterangepicker.css')}}" rel="stylesheet" />
+    <link href="{{asset('daterange/yearpicker.css')}}" rel="stylesheet" />
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
@@ -37,6 +38,7 @@
 
         <!-- daterange filter plugins -->
     <script src="{{asset('daterange/moment.min.js')}}"></script>
+    <script src="{{asset('daterange/yearpicker.js')}}"></script>
     <script src="{{asset('daterange/daterangepicker.min.js')}}"></script>
 
     <!-- select2 -->

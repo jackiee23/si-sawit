@@ -774,6 +774,12 @@ class DashboardController extends Controller
             ->addColumn('nama_petani', function (Farm $farm) {
                 return $farm->farmer->nama;
             })
+            ->addColumn('umur', function (Farm $farm) {
+                $year = date("Y");
+                $umur = ($farm->umur);
+                $diff = $year-$umur;
+                return $diff;
+            })
             ->addIndexColumn()
             ->make(true);
     }
@@ -936,8 +942,11 @@ class DashboardController extends Controller
 
 
         $data = $purchases->map(function($purchase) {
+            $year = date("Y");
+            $umur = ($purchase->umur);
+            $diff = $year - $umur;
             return [
-                'umur' => $purchase->umur,
+                'umur' => $diff,
                 'jumlah_ton' => $purchase->total_ton,
                 'total_d' => $purchase->jumlah_data,
                 'ton_hektar' => $purchase->total_ton / $purchase->jumlah_data,
@@ -988,8 +997,11 @@ class DashboardController extends Controller
 
 
         $data = $purchases->map(function ($purchase) {
+            $year = date("Y");
+            $umur = ($purchase->umur);
+            $diff = $year - $umur;
             return [
-                'umur' => $purchase->umur,
+                'umur' => $diff,
                 'jumlah_ton' => $purchase->total_ton,
                 'total_data' => $purchase->jumlah_data,
                 'ton_hektar' => $purchase->total_ton / $purchase->jumlah_data,

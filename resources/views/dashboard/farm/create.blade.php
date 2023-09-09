@@ -13,19 +13,21 @@
                     <div class="mb-3">
                         <label for="inputnama" class="form-label">Nama Kebun</label>
                         <input type="text" class="form-control @error('nama_kebun') is-invalid @enderror" id="inputnama"
-                            name="nama_kebun" placeholder="Masukkan Nama Kebun" value="{{old('nama_kebun')}} ">
-                            @error('nama_kebun')
+                            name="nama_kebun" placeholder="Masukkan Nama Kebun" value="{{ old('nama_kebun') }} ">
+                        @error('nama_kebun')
                             <div class="invalid-feedback">
                                 Tidak boleh di kosongkan.
                             </div>
-                            @enderror
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label for="farmer_id" class="form-label">Nama Petani</label>
-                        <select class="form-select form-control selectpicker" data-live-search="true" name="farmer_id" id="farmer_id">
+                        <select class="form-select form-control selectpicker" data-live-search="true" name="farmer_id"
+                            id="farmer_id">
                             <option value="" selected>Pilih nama petani</option>
                             @foreach ($farmer as $farmer)
-                            <option value="{{$farmer->id}}" {{old('farmer_id') == $farmer->id ? 'selected' : ''}} >{{$farmer->nama}}</option>
+                                <option value="{{ $farmer->id }}" {{ old('farmer_id') == $farmer->id ? 'selected' : '' }}>
+                                    {{ $farmer->nama }}</option>
                             @endforeach
                         </select>
                         @error('farmer_id')
@@ -37,12 +39,12 @@
                     <div class="mb-3">
                         <label for="nik" class="form-label">NIK Petani</label>
                         <input type="text" class="form-control @error('nik') is-invalid @enderror" id="nik"
-                            name="nik" placeholder="NIK Petani" value="{{old('nik')}}" readonly>
-                            @error('nik')
+                            name="nik" placeholder="NIK Petani" value="{{ old('nik') }}" readonly>
+                        @error('nik')
                             <div class="invalid-feedback">
                                 Tidak boleh di kosongkan.
                             </div>
-                            @enderror
+                        @enderror
                     </div>
                     {{-- <div class="mb-3">
                         <label for="alamat" class="form-label">Alamat</label>
@@ -65,28 +67,29 @@
                     </div> --}}
                     <div class="mb-3">
                         <label for="luas" class="form-label">Luas Kebun (Ha)</label>
-                        <input type="text" class="form-control @error('luas') is-invalid @enderror" id="luas" name="luas" value="{{old('luas')}} "
-                            placeholder="Masukkan Luas Kebun">
-                            @error('luas')
+                        <input type="text" class="form-control @error('luas') is-invalid @enderror" id="luas"
+                            name="luas" value="{{ old('luas') }} " placeholder="Masukkan Luas Kebun">
+                        @error('luas')
                             <div class="invalid-feedback">
                                 Tidak boleh di kosongkan.
                             </div>
-                            @enderror
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label for="jarak" class="form-label">Jarak TPH ke Kebun (m)</label>
-                        <input type="text" class="form-control @error('jarak') is-invalid @enderror" id="jarak" name="jarak" value="{{old('jarak')}} "
-                            placeholder="Masukkan Jarak">
-                            @error('jarak')
+                        <input type="text" class="form-control @error('jarak') is-invalid @enderror" id="jarak"
+                            name="jarak" value="{{ old('jarak') }} " placeholder="Masukkan Jarak">
+                        @error('jarak')
                             <div class="invalid-feedback">
                                 Tidak boleh di kosongkan.
                             </div>
-                            @enderror
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label for="umur" class="form-label">Tahun Tanam</label>
-                        <input type="date" class="form-control @error('umur') is-invalid @enderror" id="umur"
-                            name="umur" value="{{ old('umur') }}">
+                        <input type="text" class="yearpicker form-control
+                        @error('umur') is-invalid @enderror"
+                            id="umur" name="umur" value="{{ old('umur') }}"autocomplete="off">
                         @error('umur')
                             <div class="invalid-feedback">
                                 Tidak boleh di kosongkan.
@@ -105,10 +108,11 @@
                     </div> --}}
                     <div class="mb-3">
                         <label for="jenis_tanah" class="form-label">Jenis Tanah</label>
-                        <select class="form-select form-control selectpicker" data-live-search="true" name="jenis_tanah" id="jenis_tanah">
+                        <select class="form-select form-control selectpicker" data-live-search="true" name="jenis_tanah"
+                            id="jenis_tanah">
                             <option value="" selected>Pilih jenis tanah</option>
-                            <option value="Tanah Keras" {{old('jenis_tanah') ? 'selected' : ''}} >Tanah Keras</option>
-                            <option value="Gambut" {{old('jenis_tanah') ? 'selected' : ''}} >Gambut</option>
+                            <option value="Tanah Keras" {{ old('jenis_tanah') ? 'selected' : '' }}>Tanah Keras</option>
+                            <option value="Gambut" {{ old('jenis_tanah') ? 'selected' : '' }}>Gambut</option>
                         </select>
                         @error('jenis_tanah')
                             <div class="invalid-feedback">
@@ -124,8 +128,12 @@
     <!-- /.container-fluid -->
 
     <script>
-                $(document).ready(function() {
-                    $.ajaxSetup({
+        $(document).ready(function() {
+            $(".yearpicker").yearpicker({
+                startYear: new Date().getFullYear() - 10,
+                endYear: new Date().getFullYear() + 10,
+            });
+            $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
@@ -133,23 +141,25 @@
         });
 
 
-            $("#farmer_id").change(function(e){
-    // alert($(this).val());
-    var farmer_id = $(this).val();
+        $("#farmer_id").change(function(e) {
+            // alert($(this).val());
+            var farmer_id = $(this).val();
 
-    $.ajax({
-        type: "POST",
-        url: "{{route('getfarmer')}}",
-        data: {'id' : farmer_id},
-        dataType: 'json',
-        success : function(data) {
-            $('#nik').val(data.nik);
-            $('#nama').val(data.nama);
-        },
-        error: function(response) {
-            alert(response.responseJSON.message);
-        }
-    });
-});
+            $.ajax({
+                type: "POST",
+                url: "{{ route('getfarmer') }}",
+                data: {
+                    'id': farmer_id
+                },
+                dataType: 'json',
+                success: function(data) {
+                    $('#nik').val(data.nik);
+                    $('#nama').val(data.nama);
+                },
+                error: function(response) {
+                    alert(response.responseJSON.message);
+                }
+            });
+        });
     </script>
 @endsection
